@@ -112,71 +112,53 @@ function render() {
 
 function renderDashboard() {
   const current = currentRows();
-  const week = Math.max(...DATA.matchups.filter(x => x.season === 2026 && x.playoff_tier_type === "NONE" && x.winner !== "UNDECIDED").map(x => x.matchup_period_id));
-  const career = DATA.advanced_stats.career.filter(x => x.seasons >= 3).sort((a,b) => b.actual_win_pct - a.actual_win_pct).slice(0,5);
-  const champs = Object.values(DATA.champCounts).sort((a,b) => b.count - a.count || a.name.localeCompare(b.name));
-  const topPF = [...DATA.advanced_stats.season].sort((a,b) => b.points_for - a.points_for).slice(0,5);
+  const completed2026 = DATA.matchups.filter(x => x.season === 2026 && x.playoff_tier_type === "NONE" && x.winner !== "UNDECIDED");
+  const week = completed2026.length ? Math.max(...completed2026.map(x => x.matchup_period_id)) : 0;
 
-  $("#app").innerHTML = `
-    <section class="hero">
-      <div class="hero-grid">
-        <div>
-          <div class="hero-kicker">The archive</div>
-          <h1>15 seasons of league history.<br>One place to settle the arguments.</h1>
-          <p>Championships, owner careers, H2H history, draft records and advanced analytics from 2011 through the current 2026 season.</p>
-        </div>
-        <div class="hero-side">
-          <div class="hero-big">2026</div>
-          <div class="hero-label">CURRENT SEASON · WEEK ${week}</div>
-          <div style="margin-top:18px;color:rgba(255,255,255,.72);font-size:13px">${current[0] ? `<strong>${esc(personName(current[0].person_id))}</strong> is currently 2–0.` : "Current standings loading."}</div>
-        </div>
-      </div>
-    </section>
+  const historicalCareer = DATA.advanced_stats.career.filter(x => x.seasons >= 3);
+  const career = [...historicalCareer].sort((a,b) => b.actual_win_pct - a.actual_win_pct).slice(0,5);
+  const champs = Object.entries(DATA.champCounts).map(([person_id,v]) => ({person_id,...v})).sort((a,b) => b.count-a.count || a.name.localeCompare(b.name));
+  const topPF = [...DATA.advanced_stats.season].filter(x => Number(x.season) <= 2025).sort((a,b) => b.points_for-a.points_for).slice(0,5);
 
-    <div class="stats-grid">
-      <div class="stat-card"><div class="stat-label">OWNERS</div><div class="stat-value">${DATA.people.length}</div><div class="stat-meta">canonical league identities</div></div>
-      <div class="stat-card"><div class="stat-label">FRANCHISES</div><div class="stat-value">${new Set(DATA.teams.map(x => x.team_id)).size}</div><div class="stat-meta">ESPN team histories</div></div>
-      <div class="stat-card"><div class="stat-label">MATCHUPS</div><div class="stat-value">${fmt(DATA.matchups.length)}</div><div class="stat-meta">2011–2026 collected</div></div>
-      <div class="stat-card"><div class="stat-label">DRAFT PICKS</div><div class="stat-value">${fmt(DATA.draft_picks.length)}</div><div class="stat-meta">complete draft archive</div></div>
-    </div>
+  const currentLeader = current[0];
+  const currentScoring = [...current].sort((a,b)=>b.points_for-a.points_for)[0];
+  const currentLowScoring = [...current].sort((a,b)=>a.points_for-b.points_for)[0];
+  const defending = DATA.champions[DATA.champions.length-1];
+  const allTimeChamp = champs[0];
 
-    <div class="grid-2">
-      <section class="card">
-        <div class="card-head"><div><h2>2026 Standings</h2><div class="subtle">Through Week ${week}</div></div><a class="link" href="#seasons">Season archive →</a></div>
-        <div class="table-wrap"><table><thead><tr><th>#</th><th>Owner</th><th>Record</th><th>PF</th><th>PA</th></tr></thead><tbody>
-          ${current.map((x,i) => `<tr class="clickable" onclick="location.hash='owner/${encodeURIComponent(x.person_id)}'">
-            <td class="rank">${i+1}</td><td><div class="owner-link">${esc(personName(x.person_id))}</div><div class="team-name">${esc(teamForSeason(2026,x.team_id)?.team_name || '')}</div></td>
-            <td class="record">${x.wins}-${x.losses}${x.ties ? `-${x.ties}` : ''}</td><td>${fmt(x.points_for,2)}</td><td>${fmt(x.points_against,2)}</td>
-          </tr>`).join("")}
-        </tbody></table></div>
-      </section>
+  let recentGames = completed2026.slice().sort((a,b)=>b.matchup_period_id-a.matchup_period_id || b.matchup_id-a.matchup_id).slice(0,6);
+  if (!recentGames.length) recentGames = historicalCareer.length ? [] : [];
 
-      <section class="card">
-        <div class="card-head"><div><h2>Championships</h2><div class="subtle">2011–2025 decided seasons</div></div><a class="link" href="#records">All records →</a></div>
-        <div class="card-body">
-          ${champs.slice(0,8).map((x,i) => `<div class="champ-row"><div class="trophy">🏆</div><div class="champ-name"><a class="owner-link" href="#owner/${encodeURIComponent(Object.keys(DATA.champCounts).find(k => DATA.champCounts[k]===x) || '')}">${esc(x.name)}</a><div class="champ-years">${x.years.join(" · ")}</div></div><div class="champ-count">${x.count}</div></div>`).join("")}
-        </div>
-      </section>
-    </div>
+  const historicalMatchups = DATA.matchups.filter(x=>Number(x.season)<=2025 && x.away_team_id!=null && x.winner!=="UNDECIDED");
+  let biggestBlowout = null, highestScore = null;
+  for (const m of historicalMatchups) {
+    const margin=Math.abs((m.home_score||0)-(m.away_score||0));
+    if(!biggestBlowout || margin>biggestBlowout.margin) biggestBlowout={...m,margin};
+    for(const side of ["home","away"]){
+      const score=side==="home"?m.home_score:m.away_score;
+      if(score!=null && (!highestScore || score>highestScore.score)) highestScore={...m,side,score};
+    }
+  }
 
-    <div class="grid-2" style="margin-top:18px">
-      <section class="card">
-        <div class="card-head"><div><h2>Best Career Win %</h2><div class="subtle">Minimum 3 seasons</div></div><a class="link" href="#owners">All owners →</a></div>
-        <div class="table-wrap"><table><thead><tr><th>Owner</th><th>Seasons</th><th>Record</th><th>Win %</th></tr></thead><tbody>
-          ${career.map((x,i) => `<tr class="clickable" onclick="location.hash='owner/${encodeURIComponent(x.person_id)}'"><td><span class="rank">${i+1}</span> <span class="owner-link">${esc(x.person_name)}</span></td><td>${x.seasons}</td><td>${x.actual_wins}-${x.actual_losses}${x.actual_ties ? `-${x.actual_ties}` : ''}</td><td class="positive">${pct(x.actual_win_pct)}</td></tr>`).join("")}
-        </tbody></table></div>
-      </section>
+  const currentRowsHtml = current.map((x,i) => "<tr class=\"clickable\" onclick=\"location.hash='owner/"+encodeURIComponent(x.person_id)+"\"><td class=\"rank\">"+(i+1)+"</td><td><div class=\"owner-link\">"+esc(personName(x.person_id))+"</div><div class=\"team-name\">"+esc(teamForSeason(2026,x.team_id)?.team_name||"")+"</div></td><td class=\"record\">"+x.wins+"-"+x.losses+(x.ties?"-"+x.ties:"")+"</td><td>"+fmt(x.points_for,2)+"</td><td>"+fmt(x.points_against,2)+"</td></tr>").join("");
 
-      <section class="card">
-        <div class="card-head"><div><h2>Single-Season Point Leaders</h2><div class="subtle">Regular season points for</div></div><a class="link" href="#records">More records →</a></div>
-        <div class="table-wrap"><table><thead><tr><th>Season</th><th>Owner</th><th>PF</th><th>PPG</th></tr></thead><tbody>
-          ${topPF.map(x => `<tr><td>${x.season}</td><td class="owner-link">${esc(x.person_name)}</td><td>${fmt(x.points_for,2)}</td><td>${fmt(x.points_per_game,2)}</td></tr>`).join("")}
-        </tbody></table></div>
-      </section>
-    </div>
-  `;
+  const recentHtml = recentGames.map(m => {
+    const hw=m.winner==="HOME", winner=hw?m.home_person_id:m.away_person_id;
+    return "<div class=\"champ-row\"><div class=\"trophy\">⚔</div><div class=\"champ-name\"><strong>"+esc(personName(m.home_person_id))+" vs "+esc(personName(m.away_person_id))+"</strong><div class=\"champ-years\">Week "+m.matchup_period_id+" · "+fmt(m.home_score,2)+"–"+fmt(m.away_score,2)+"</div></div><div class=\"positive\">"+esc(personName(winner))+"</div></div>";
+  }).join("");
+
+  const champHtml = champs.slice(0,6).map(x => "<div class=\"champ-row\"><div class=\"trophy\">🏆</div><div class=\"champ-name\"><a class=\"owner-link\" href=\"#owner/"+encodeURIComponent(x.person_id)+"\">"+esc(x.name)+"</a><div class=\"champ-years\">"+x.years.join(" · ")+"</div></div><div class=\"champ-count\">"+x.count+"</div></div>").join("");
+
+  $("#app").innerHTML =
+    "<section class=\"hero\"><div class=\"hero-grid\"><div><div class=\"hero-kicker\">DMV Fantasy Football · League HQ</div><h1>15 seasons of history.<br>One place to settle the arguments.</h1><p>Championships, owner careers, H2H history, draft records and advanced analytics from 2011 through the current 2026 season.</p></div><div class=\"hero-side\"><div class=\"hero-big\">2026</div><div class=\"hero-label\">CURRENT SEASON · WEEK "+week+"</div><div style=\"margin-top:18px;color:rgba(255,255,255,.72);font-size:13px\">"+(currentLeader?"<strong>"+esc(personName(currentLeader.person_id))+"</strong> leads at "+currentLeader.wins+"–"+currentLeader.losses+".":"Season data loading.")+"</div></div></div></section>"+
+    "<div class=\"stats-grid\"><div class=\"stat-card\"><div class=\"stat-label\">CURRENT LEADER</div><div class=\"stat-value\">"+esc(currentLeader?personName(currentLeader.person_id):"—")+"</div><div class=\"stat-meta\">"+(currentLeader?currentLeader.wins+"–"+currentLeader.losses+" through Week "+week:"—")+"</div></div><div class=\"stat-card\"><div class=\"stat-label\">DEFENDING CHAMPION</div><div class=\"stat-value\">"+esc(defending?.person_name||"—")+"</div><div class=\"stat-meta\">"+(defending?defending.season+" champion":"—")+"</div></div><div class=\"stat-card\"><div class=\"stat-label\">ALL-TIME TITLES</div><div class=\"stat-value\">"+(allTimeChamp?.count||0)+"</div><div class=\"stat-meta\">"+esc(allTimeChamp?.name||"—")+" leads the league</div></div><div class=\"stat-card\"><div class=\"stat-label\">DRAFT PICKS</div><div class=\"stat-value\">"+fmt(DATA.draft_picks.length)+"</div><div class=\"stat-meta\">Complete draft archive</div></div></div>"+
+    "<div class=\"grid-2\"><section class=\"card\"><div class=\"card-head\"><div><h2>2026 Standings</h2><div class=\"subtle\">Through Week "+week+"</div></div><a class=\"link\" href=\"#seasons\">Season archive →</a></div><div class=\"table-wrap\"><table><thead><tr><th>#</th><th>Owner</th><th>Record</th><th>PF</th><th>PA</th></tr></thead><tbody>"+currentRowsHtml+"</tbody></table></div></section>"+
+    "<section class=\"card\"><div class=\"card-head\"><div><h2>2026 Scoring Race</h2><div class=\"subtle\">Points for through Week "+week+"</div></div><a class=\"link\" href=\"#matchups\">Matchups →</a></div><div class=\"card-body\"><div class=\"pulse-card\"><div class=\"pulse-kicker\">LEADING SCORER</div><div class=\"pulse-value\">"+esc(currentScoring?personName(currentScoring.person_id):"—")+"</div><div class=\"pulse-meta\">"+(currentScoring?fmt(currentScoring.points_for,2)+" points":"—")+"</div></div><div class=\"pulse-card\" style=\"margin-top:10px\"><div class=\"pulse-kicker\">LOWEST CURRENT SCORE</div><div class=\"pulse-value\">"+esc(currentLowScoring?personName(currentLowScoring.person_id):"—")+"</div><div class=\"pulse-meta\">"+(currentLowScoring?fmt(currentLowScoring.points_for,2)+" points":"—")+"</div></div></div></section></div>"+
+    "<div class=\"grid-2\" style=\"margin-top:18px\"><section class=\"card\"><div class=\"card-head\"><div><h2>Recent 2026 Results</h2><div class=\"subtle\">Latest completed games</div></div><a class=\"link\" href=\"#matchups\">Full archive →</a></div><div class=\"card-body\">"+(recentHtml||"<div class=\"empty\">No completed games yet.</div>")+"</div></section>"+
+    "<section class=\"card\"><div class=\"card-head\"><div><h2>Championship Race</h2><div class=\"subtle\">2011–2025 decided seasons</div></div><a class=\"link\" href=\"#records\">Records →</a></div><div class=\"card-body\">"+champHtml+"</div></section></div>"+
+    "<div class=\"grid-2\" style=\"margin-top:18px\"><section class=\"card\"><div class=\"card-head\"><div><h2>Career Win % Leaders</h2><div class=\"subtle\">Minimum 3 seasons</div></div><a class=\"link\" href=\"#owners\">All owners →</a></div><div class=\"table-wrap\"><table><thead><tr><th>Owner</th><th>Seasons</th><th>Record</th><th>Win %</th></tr></thead><tbody>"+career.map((x,i)=>"<tr class=\"clickable\" onclick=\"location.hash='owner/"+encodeURIComponent(x.person_id)+"\"><td><span class=\"rank\">"+(i+1)+"</span> <span class=\"owner-link\">"+esc(x.person_name)+"</span></td><td>"+x.seasons+"</td><td>"+x.actual_wins+"-"+x.actual_losses+(x.actual_ties?"-"+x.actual_ties:"")+"</td><td class=\"positive\">"+pct(x.actual_win_pct)+"</td></tr>").join("")+"</tbody></table></div></section>"+
+    "<section class=\"card\"><div class=\"card-head\"><div><h2>League History Nuggets</h2><div class=\"subtle\">The numbers worth remembering</div></div><a class=\"link\" href=\"#records\">More records →</a></div><div class=\"card-body\"><div class=\"champ-row\"><div class=\"trophy\">💥</div><div class=\"champ-name\"><strong>Biggest blowout</strong><div class=\"champ-years\">"+(biggestBlowout?fmt(biggestBlowout.margin,2)+" points · "+biggestBlowout.season+" · "+personName(biggestBlowout.home_person_id)+" vs "+personName(biggestBlowout.away_person_id):"—")+"</div></div></div><div class=\"champ-row\"><div class=\"trophy\">🔥</div><div class=\"champ-name\"><strong>Highest single-game score</strong><div class=\"champ-years\">"+(highestScore?fmt(highestScore.score,2)+" · "+personName(highestScore.side==="home"?highestScore.home_person_id:highestScore.away_person_id)+" · "+highestScore.season:"—")+"</div></div></div><div class=\"champ-row\"><div class=\"trophy\">👥</div><div class=\"champ-name\"><strong>Canonical owners</strong><div class=\"champ-years\">"+DATA.people.length+" identities across the league archive</div></div></div></div></section></div>";
 }
-
 function renderSeasons() {
   const rows = [];
   for (let season=2025; season>=2011; season--) {
