@@ -499,28 +499,121 @@ function rivalryRows() {
     if (m.winner === "UNDECIDED" || m.away_team_id == null || !m.home_person_id || !m.away_person_id) continue;
     const ids = [m.home_person_id, m.away_person_id].sort();
     const key = ids.join("|");
-    pairs[key] ??= {a:ids[0],b:ids[1],games:0,aWins:0,bWins:0,ties:0,playoffs:0,last:0};
-    const p=pairs[key]; p.games++; p.last=Math.max(p.last,m.season);
-    if(m.playoff_tier_type!=="NONE") p.playoffs++;
-    if(m.winner==="TIE") p.ties++;
-    else { const w=m.winner==="HOME"?m.home_person_id:m.away_person_id; if(w===p.a)p.aWins++;else p.bWins++; }
+    pairs[key] ??= {
+      a:ids[0], b:ids[1], games:0, aWins:0, bWins:0, ties:0,
+      playoffs:0, playoffWinsA:0, playoffWinsB:0, last:0,
+      pointsA:0, pointsB:0, biggestMargin:0, biggestGame:null,
+      currentRunOwner:null, currentRun:0
+    };
+    const p=pairs[key];
+    p.games++;
+    p.last=Math.max(p.last,m.season);
+    const aHome=m.home_person_id===p.a;
+    const sa=aHome?m.home_score:m.away_score;
+    const sb=aHome?m.away_score:m.home_score;
+    p.pointsA+=sa||0; p.pointsB+=sb||0;
+    const playoff=m.playoff_tier_type!=="NONE";
+    if(playoff) p.playoffs++;
+    const margin=Math.abs((sa||0)-(sb||0));
+    if(margin>p.biggestMargin){p.biggestMargin=margin;p.biggestGame=m;}
+    if(m.winner==="TIE"){p.ties++;p.currentRunOwner=null;p.currentRun=0;}
+    else {
+      const winner=m.winner==="HOME"?m.home_person_id:m.away_person_id;
+      if(winner===p.a){p.aWins++;if(playoff)p.playoffWinsA++;}
+      else {p.bWins++;if(playoff)p.playoffWinsB++;}
+    }
   }
-  return Object.values(pairs).sort((a,b)=>(b.games+b.playoffs*2-Math.abs(b.aWins-b.bWins))-(a.games+a.playoffs*2-Math.abs(a.aWins-a.bWins)));
+  return Object.values(pairs).map(p=>{
+    const competitive = Math.min(p.aWins,p.bWins);
+    const balance = p.games ? competitive / p.games : 0;
+    const intensity = p.games + p.playoffs*2 + balance*8;
+    return {...p, balance, intensity};
+  }).sort((a,b)=>b.intensity-a.intensity);
 }
 
 function renderRivalries() {
   const rows=rivalryRows();
-  $("#app").innerHTML='<div class="page-head"><div><div class="eyebrow">Head to head</div><h1>Rivalries</h1><p>The owner matchups with the deepest history and biggest stakes.</p></div></div><section class="rivalry-hero"><div><div class="hero-kicker">Rivalry board</div><h2>'+rows.length+' owner pairings</h2><p>Meetings, playoff appearances and competitive balance shape the ranking.</p></div><div class="rivalry-count">'+rows.length+'</div></section><div class="rivalry-grid">'+rows.slice(0,12).map((r,i)=>'<article class="rivalry-card" onclick="location.hash=\'rivalry/'+encodeURIComponent(r.a)+'/'+encodeURIComponent(r.b)+'\'"><div class="rivalry-rank">#'+(i+1)+'</div><div class="rivalry-names"><strong>'+esc(personName(r.a))+'</strong><span>vs.</span><strong>'+esc(personName(r.b))+'</strong></div><div class="rivalry-record"><b>'+r.aWins+'-'+r.bWins+(r.ties?' - '+r.ties:'')+'</b><span>'+r.games+' meetings</span></div><div class="rivalry-meta"><span>'+r.playoffs+' playoff'+(r.playoffs===1?'':'s')+'</span><span>Last '+r.last+'</span></div></article>').join('')+'</div>';
+  const active=rows.filter(r=>r.games>=5);
+  const mostMeetings=[...rows].sort((a,b)=>b.games-a.games)[0];
+  const mostPlayoffs=[...rows].sort((a,b)=>b.playoffs-a.playoffs)[0];
+  const closest=active.slice().sort((a,b)=>b.balance-a.balance || b.games-a.games)[0];
+  const mostOneSided=active.slice().sort((a,b)=>Math.abs(b.aWins-b.bWins)-Math.abs(a.aWins-a.bWins))[0];
+
+  const card=(label,value,meta)=>'<div class="pulse-card"><div class="pulse-kicker">'+esc(label)+'</div><div class="pulse-value">'+esc(String(value))+'</div><div class="pulse-meta">'+esc(meta)+'</div></div>';
+
+  $("#app").innerHTML=
+    '<div class="page-head"><div><div class="eyebrow">Head to head</div><h1>Rivalries</h1><p>The owner matchups with the deepest history, biggest stakes and most competitive balance.</p></div></div>'+
+    '<div class="pulse-grid">'+
+      card("MOST MEETINGS",mostMeetings?.games||0,mostMeetings?personName(mostMeetings.a)+" vs "+personName(mostMeetings.b):"—")+
+      card("MOST PLAYOFF MEETINGS",mostPlayoffs?.playoffs||0,mostPlayoffs?personName(mostPlayoffs.a)+" vs "+personName(mostPlayoffs.b):"—")+
+      card("CLOSEST LONG-TERM RIVALRY",closest?personName(closest.a)+" vs "+personName(closest.b):"—",closest?closest.games+" meetings · "+closest.aWins+"–"+closest.bWins+(closest.ties?"–"+closest.ties:""):"—")+
+      card("MOST ONE-SIDED",mostOneSided?personName(mostOneSided.a)+" vs "+personName(mostOneSided.b):"—",mostOneSided?mostOneSided.aWins+"–"+mostOneSided.bWins+" across "+mostOneSided.games+" games":"—")+
+    '</div>'+
+    '<section class="rivalry-hero"><div><div class="hero-kicker">Rivalry board</div><h2>'+active.length+' established rivalries</h2><p>Ranked by history, playoff intensity and competitive balance. Minimum five meetings.</p></div><div class="rivalry-count">'+active.length+'</div></section>'+
+    '<div class="rivalry-grid">'+active.slice(0,15).map((r,i)=>
+      '<article class="rivalry-card" onclick="location.hash=\'rivalry/'+encodeURIComponent(r.a)+'/'+encodeURIComponent(r.b)+'\'">'+
+      '<div class="rivalry-rank">#'+(i+1)+' · '+r.playoffs+' PLAYOFF'+(r.playoffs===1?'':'S')+'</div>'+
+      '<div class="rivalry-names"><strong>'+esc(personName(r.a))+'</strong><span>vs.</span><strong>'+esc(personName(r.b))+'</strong></div>'+
+      '<div class="rivalry-record"><b>'+r.aWins+'-'+r.bWins+(r.ties?' - '+r.ties:'')+'</b><span>'+r.games+' meetings</span></div>'+
+      '<div class="rivalry-meta"><span>Pts '+fmt(r.pointsA,0)+'–'+fmt(r.pointsB,0)+'</span><span>Last '+r.last+'</span></div>'+
+      '</article>').join('')+
+    '</div>';
 }
 
 function renderRivalry(a,b) {
-  const rows=DATA.matchups.filter(m=>m.winner!=="UNDECIDED"&&m.away_team_id!=null&&((m.home_person_id===a&&m.away_person_id===b)||(m.home_person_id===b&&m.away_person_id===a))).sort((x,y)=>y.season-x.season||y.matchup_period_id-x.matchup_period_id);
+  const rows=DATA.matchups.filter(m=>m.winner!=="UNDECIDED"&&m.away_team_id!=null&&((m.home_person_id===a&&m.away_person_id===b)||(m.home_person_id===b&&m.away_person_id===a))).sort((x,y)=>x.season-y.season||x.matchup_period_id-y.matchup_period_id);
   if(!rows.length){$("#app").innerHTML='<div class="empty">Rivalry not found.</div>';return;}
-  let aw=0,bw=0,t=0,ap=0,bp=0;
-  rows.forEach(m=>{const ah=m.home_person_id===a,sa=ah?m.home_score:m.away_score,sb=ah?m.away_score:m.home_score;ap+=sa||0;bp+=sb||0;if(m.winner==="TIE")t++;else if((m.winner==="HOME"&&m.home_person_id===a)||(m.winner==="AWAY"&&m.away_person_id===a))aw++;else bw++;});
-  $("#app").innerHTML='<div class="page-head"><div><div class="eyebrow">Rivalry</div><h1>'+esc(personName(a))+' <span style="color:var(--muted)">vs.</span> '+esc(personName(b))+'</h1><p>'+rows.length+' meetings · '+rows.filter(x=>x.playoff_tier_type!=="NONE").length+' playoff meetings</p></div><a class="badge" href="#rivalries">← Rivalries</a></div><div class="stats-grid"><div class="stat-card"><div class="stat-label">'+esc(personName(a))+'</div><div class="stat-value">'+aw+'</div><div class="stat-meta">wins</div></div><div class="stat-card"><div class="stat-label">'+esc(personName(b))+'</div><div class="stat-value">'+bw+'</div><div class="stat-meta">wins</div></div><div class="stat-card"><div class="stat-label">MEETINGS</div><div class="stat-value">'+rows.length+'</div><div class="stat-meta">'+t+' ties</div></div><div class="stat-card"><div class="stat-label">AVG SCORE</div><div class="stat-value">'+fmt(ap/rows.length,1)+'–'+fmt(bp/rows.length,1)+'</div><div class="stat-meta">'+esc(personName(a))+' perspective</div></div></div><section class="card"><div class="card-head"><h2>Matchup History</h2></div><div class="table-wrap"><table><thead><tr><th>Season</th><th>Week</th><th>Type</th><th>'+esc(personName(a))+'</th><th>'+esc(personName(b))+'</th><th>Result</th></tr></thead><tbody>'+rows.map(m=>{const ah=m.home_person_id===a,sa=ah?m.home_score:m.away_score,sb=ah?m.away_score:m.home_score;const res=m.winner==="TIE"?"T":((m.winner==="HOME"&&m.home_person_id===a)||(m.winner==="AWAY"&&m.away_person_id===a))?"W":"L";return '<tr><td>'+m.season+'</td><td>'+m.matchup_period_id+'</td><td><span class="badge">'+(m.playoff_tier_type==="NONE"?"REGULAR":"PLAYOFF")+'</span></td><td>'+fmt(sa,2)+'</td><td>'+fmt(sb,2)+'</td><td class="'+(res==="W"?"positive":res==="L"?"negative":"")+'">'+res+'</td></tr>';}).join('')+'</tbody></table></div></section>';
-}
 
+  let aw=0,bw=0,t=0,ap=0,bp=0,playoffGames=0,playoffAw=0,playoffBw=0,biggestWin=null,closest=null;
+  rows.forEach(m=>{
+    const ah=m.home_person_id===a,sa=ah?m.home_score:m.away_score,sb=ah?m.away_score:m.home_score;
+    ap+=sa||0; bp+=sb||0;
+    const margin=Math.abs((sa||0)-(sb||0));
+    if(!biggestWin||margin>biggestWin.margin) biggestWin={m,margin,sa,sb};
+    if(!closest||margin<closest.margin) closest={m,margin,sa,sb};
+    const isPlayoff=m.playoff_tier_type!=="NONE";
+    if(isPlayoff) playoffGames++;
+    if(m.winner==="TIE") t++;
+    else {
+      const aWon=(m.winner==="HOME"&&m.home_person_id===a)||(m.winner==="AWAY"&&m.away_person_id===a);
+      if(aWon){aw++;if(isPlayoff)playoffAw++;}else{bw++;if(isPlayoff)playoffBw++;}
+    }
+  });
+
+  const games=rows.length;
+  const avgA=ap/games, avgB=bp/games;
+  const recordEdge=Math.abs(aw-bw);
+  const competitive=recordEdge<=1;
+  const latest=rows[rows.length-1];
+
+  $("#app").innerHTML=
+    '<div class="page-head"><div><div class="eyebrow">Rivalry</div><h1>'+esc(personName(a))+' <span style="color:var(--muted)">vs.</span> '+esc(personName(b))+'</h1><p>'+games+' meetings · '+playoffGames+' playoff meetings · last played '+latest.season+'</p></div><a class="badge" href="#rivalries">← Rivalries</a></div>'+
+    '<div class="pulse-grid">'+
+      '<div class="pulse-card"><div class="pulse-kicker">'+esc(personName(a))+'</div><div class="pulse-value">'+aw+'–'+bw+'</div><div class="pulse-meta">'+playoffAw+' playoff wins</div></div>'+
+      '<div class="pulse-card"><div class="pulse-kicker">'+esc(personName(b))+'</div><div class="pulse-value">'+bw+'–'+aw+'</div><div class="pulse-meta">'+playoffBw+' playoff wins</div></div>'+
+      '<div class="pulse-card"><div class="pulse-kicker">AVERAGE SCORE</div><div class="pulse-value">'+fmt(avgA,1)+'–'+fmt(avgB,1)+'</div><div class="pulse-meta">'+esc(personName(a))+' perspective</div></div>'+
+      '<div class="pulse-card"><div class="pulse-kicker">COMPETITION</div><div class="pulse-value">'+(competitive?"Nail-biter":"Lopsided")+'</div><div class="pulse-meta">'+recordEdge+' win'+(recordEdge===1?'':'s')+' separates them</div></div>'+
+    '</div>'+
+    '<div class="grid-2">'+
+      '<section class="card"><div class="card-head"><h2>Rivalry Snapshot</h2></div><div class="card-body">'+
+        '<div class="champ-row"><div class="trophy">⚔</div><div class="champ-name"><strong>Regular-season record</strong><div class="champ-years">'+(aw-playoffAw)+'–'+(bw-playoffBw)+'</div></div></div>'+
+        '<div class="champ-row"><div class="trophy">🏆</div><div class="champ-name"><strong>Playoff record</strong><div class="champ-years">'+playoffAw+'–'+playoffBw+(playoffGames-(playoffAw+playoffBw)?'–'+(playoffGames-playoffAw-playoffBw):'')+'</div></div></div>'+
+        '<div class="champ-row"><div class="trophy">💥</div><div class="champ-name"><strong>Biggest margin</strong><div class="champ-years">'+fmt(biggestWin.margin,2)+' · '+biggestWin.m.season+' Week '+biggestWin.m.matchup_period_id+'</div></div></div>'+
+        '<div class="champ-row"><div class="trophy">🎯</div><div class="champ-name"><strong>Closest game</strong><div class="champ-years">'+fmt(closest.margin,2)+' · '+closest.m.season+' Week '+closest.m.matchup_period_id+'</div></div></div>'+
+      '</div></section>'+
+      '<section class="card"><div class="card-head"><h2>Scoring Battle</h2></div><div class="card-body">'+
+        '<div class="stat-card"><div class="stat-label">'+esc(personName(a))+' POINTS</div><div class="stat-value">'+fmt(ap,1)+'</div></div>'+
+        '<div class="stat-card" style="margin-top:10px"><div class="stat-label">'+esc(personName(b))+' POINTS</div><div class="stat-value">'+fmt(bp,1)+'</div></div>'+
+      '</div></section>'+
+    '</div>'+
+    '<section class="card" style="margin-top:18px"><div class="card-head"><h2>Matchup History</h2><div class="subtle">Oldest → newest</div></div><div class="table-wrap"><table><thead><tr><th>Season</th><th>Week</th><th>Type</th><th>'+esc(personName(a))+'</th><th>'+esc(personName(b))+'</th><th>Result</th></tr></thead><tbody>'+
+    rows.slice().reverse().map(m=>{
+      const ah=m.home_person_id===a,sa=ah?m.home_score:m.away_score,sb=ah?m.away_score:m.home_score;
+      const res=m.winner==="TIE"?"T":((m.winner==="HOME"&&m.home_person_id===a)||(m.winner==="AWAY"&&m.away_person_id===a))?"W":"L";
+      return '<tr><td>'+m.season+'</td><td>'+m.matchup_period_id+'</td><td><span class="badge">'+(m.playoff_tier_type==="NONE"?"REGULAR":"PLAYOFF")+'</span></td><td>'+fmt(sa,2)+'</td><td>'+fmt(sb,2)+'</td><td class="'+(res==="W"?"positive":res==="L"?"negative":"")+'">'+res+'</td></tr>';
+    }).join('')+
+    '</tbody></table></div></section>';
+}
 function renderMatchups() {
   const historical = DATA.matchups.filter(x => Number(x.season) <= 2025 && x.away_team_id != null && x.winner !== "UNDECIDED");
   const current = DATA.matchups.filter(x => Number(x.season) === 2026 && x.away_team_id != null && x.winner !== "UNDECIDED");
