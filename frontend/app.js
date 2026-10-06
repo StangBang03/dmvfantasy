@@ -411,11 +411,11 @@ function renderAnalytics() {
     '<div class="pulse-card"><div class="pulse-kicker">'+esc(label)+'</div><div class="pulse-value">'+esc(String(value))+'</div><div class="pulse-meta">'+esc(name)+' · '+esc(meta)+'</div></div>';
 
   const luckRows = seasonRows.slice(0,8).map(x =>
-    '<tr class="clickable" onclick="location.hash=\\'owner/'+encodeURIComponent(x.person_id)+'\\"><td>'+x.season+'</td><td>'+esc(x.person_name)+'</td><td class="positive">+'+fmt(x.schedule_luck,1)+'</td><td>'+fmt(x.actual_wins + 0.5*x.actual_ties,1)+'</td><td>'+fmt(x.expected_wins,1)+'</td></tr>'
+    '<tr class="clickable" onclick="location.hash=\'owner/'+encodeURIComponent(x.person_id)+'\\"><td>'+x.season+'</td><td>'+esc(x.person_name)+'</td><td class="positive">+'+fmt(x.schedule_luck,1)+'</td><td>'+fmt(x.actual_wins + 0.5*x.actual_ties,1)+'</td><td>'+fmt(x.expected_wins,1)+'</td></tr>'
   ).join("");
 
   const toughRows = [...historical].sort((a,b)=>b.opponent_points_per_game-a.opponent_points_per_game).slice(0,8).map(x =>
-    '<tr class="clickable" onclick="location.hash=\\'owner/'+encodeURIComponent(x.person_id)+'\\"><td>'+x.season+'</td><td>'+esc(x.person_name)+'</td><td>'+fmt(x.opponent_points_per_game,1)+'</td><td>'+fmt(x.actual_win_pct,3*100)+'%</td><td>'+fmt(x.all_play_win_pct,3*100)+'%</td></tr>'
+    '<tr class="clickable" onclick="location.hash=\'owner/'+encodeURIComponent(x.person_id)+'\\"><td>'+x.season+'</td><td>'+esc(x.person_name)+'</td><td>'+fmt(x.opponent_points_per_game,1)+'</td><td>'+fmt(x.actual_win_pct,3*100)+'%</td><td>'+fmt(x.all_play_win_pct,3*100)+'%</td></tr>'
   ).join("");
 
   const consistency = [...career].sort((a,b)=>a.score_std_dev-b.score_std_dev).slice(0,8);
