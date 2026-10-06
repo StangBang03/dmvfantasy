@@ -282,6 +282,11 @@ function renderRecords() {
       if(score!=null && (!highestScore || score>highestScore.score)) highestScore={...m,side,score};
     }
   }
+  const pairMap={};
+  for(const m of DATA.matchups){ if(m.winner==='UNDECIDED' || m.away_team_id==null) continue; const ids=[m.home_person_id,m.away_person_id].sort().join('|'); pairMap[ids] ??= {games:0,combined:0,a:m.home_person_id,b:m.away_person_id}; pairMap[ids].games++; pairMap[ids].combined += (m.home_score||0)+(m.away_score||0); }
+  const pairRows=Object.values(pairMap);
+  const mostMeetings=pairRows.sort((a,b)=>b.games-a.games)[0];
+  const mostCombined=[...pairRows].sort((a,b)=>b.combined-a.combined)[0];
   const recordCards=[
     ['Most points in a season',fmt(bestSeason.points_for,2),bestSeason.person_name,`${bestSeason.season} · ${fmt(bestSeason.points_per_game,2)} PPG`],
     ['Best season PPG',fmt(bestPPG.points_per_game,2),bestPPG.person_name,`${bestPPG.season} · ${fmt(bestPPG.points_for,2)} PF`],
