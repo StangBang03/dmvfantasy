@@ -318,8 +318,7 @@ function renderDraft() {
   const slotRows=qualified.map(r=>'<tr><td class="owner-link">'+esc(r.person_name)+'</td><td>'+r.first_round_picks+'</td><td>'+fmt(r.avg_first_round_pick,1)+'</td><td>'+fmt(r.first_round_pick_std_dev,1)+'</td><td>'+r.best_first_round_pick+'</td><td>'+r.worst_first_round_pick+'</td></tr>').join('');
   const recentRows=recent.map(d=>'<tr><td><strong>'+d.overall_pick+'</strong></td><td class="owner-link">'+esc(personName(d.person_id))+'</td><td>'+d.round+'</td></tr>').join('');
 
-  $("#app").innerHTML='
-    <div class="page-head"><div><div class="eyebrow">Draft room</div><h1>Draft History</h1><p>Who actually got the premium draft slots — and how often?</p></div></div>'+
+  $("#app").innerHTML='<div class="page-head"><div><div class="eyebrow">Draft room</div><h1>Draft History</h1><p>Who actually got the premium draft slots — and how often?</p></div></div>'+
     '<div class="pulse-grid">'+
       '<div class="pulse-card"><div class="pulse-kicker">BEST AVG 1ST-ROUND SLOT</div><div class="pulse-value">'+esc(topAvg?.person_name||"—")+'</div><div class="pulse-meta">'+(topAvg ? "Pick "+fmt(topAvg.avg_first_round_pick,1)+" across "+topAvg.first_round_picks+" drafts" : "—")+'</div></div>'+
       '<div class="pulse-card"><div class="pulse-kicker">MOST #1 OVERALL PICKS</div><div class="pulse-value">'+esc(top1?.person_name||"—")+'</div><div class="pulse-meta">'+(top1?.first_overall_picks||0)+' times at pick 1</div></div>'+
