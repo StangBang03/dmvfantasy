@@ -143,8 +143,9 @@ function renderDashboard() {
   const currentRowsHtml = current.map((x,i) => "<tr class=\"clickable\" onclick=\"location.hash='owner/"+encodeURIComponent(x.person_id)+"\"><td class=\"rank\">"+(i+1)+"</td><td><div class=\"owner-link\">"+esc(personName(x.person_id))+"</div><div class=\"team-name\">"+esc(teamForSeason(2026,x.team_id)?.team_name||"")+"</div></td><td class=\"record\">"+x.wins+"-"+x.losses+(x.ties?"-"+x.ties:"")+"</td><td>"+fmt(x.points_for,2)+"</td><td>"+fmt(x.points_against,2)+"</td></tr>").join("");
 
   const recentHtml = recentGames.map(m => {
-    const hw=m.winner==="HOME", winner=hw?m.home_person_id:m.away_person_id;
-    return "<div class=\"champ-row\"><div class=\"trophy\">⚔</div><div class=\"champ-name\"><strong>"+esc(personName(m.home_person_id))+" vs "+esc(personName(m.away_person_id))+"</strong><div class=\"champ-years\">Week "+m.matchup_period_id+" · "+fmt(m.home_score,2)+"–"+fmt(m.away_score,2)+"</div></div><div class=\"positive\">"+esc(personName(winner))+"</div></div>";
+    const tie=m.winner==="TIE", hw=m.winner==="HOME", winner=tie?null:(hw?m.home_person_id:m.away_person_id);
+    const result=tie?"TIE":esc(personName(winner));
+    return "<div class=\"champ-row\"><div class=\"trophy\">⚔</div><div class=\"champ-name\"><strong>"+esc(personName(m.home_person_id))+" vs "+esc(personName(m.away_person_id))+"</strong><div class=\"champ-years\">Week "+m.matchup_period_id+" · "+fmt(m.home_score,2)+"–"+fmt(m.away_score,2)+"</div></div><div class=\""+(tie?"":"positive")+"\">"+result+"</div></div>";
   }).join("");
 
   const champHtml = champs.slice(0,6).map(x => "<div class=\"champ-row\"><div class=\"trophy\">🏆</div><div class=\"champ-name\"><a class=\"owner-link\" href=\"#owner/"+encodeURIComponent(x.person_id)+"\">"+esc(x.name)+"</a><div class=\"champ-years\">"+x.years.join(" · ")+"</div></div><div class=\"champ-count\">"+x.count+"</div></div>").join("");
