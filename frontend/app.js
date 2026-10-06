@@ -39,6 +39,7 @@ async function loadData() {
     draft_picks: ["data/processed/draft_picks.json", "data/draft_picks.json"],
     standings: ["data/processed/standings.json", "data/standings.json"],
     seasons: ["data/processed/seasons.json", "data/seasons.json"],
+    draft_analytics: ["data/analytics/draft_analytics.json", "data/draft_analytics.json"],
   };
   const names = Object.keys(sources);
   const vals = await Promise.all(names.map(n => loadOne(sources[n])));
@@ -303,16 +304,43 @@ function renderRecords() {
 }
 
 function renderDraft() {
-  const byOwner={};
-  for(const d of DATA.draft_picks.filter(x=>x.season<=2025)){
-    byOwner[d.person_id] ??= [];
-    byOwner[d.person_id].push(d);
-  }
-  const rows=Object.entries(byOwner).map(([pid,picks])=>({pid,name:personName(pid),picks:picks.length,avg:picks.reduce((s,x)=>s+x.overall_pick,0)/picks.length,first:picks.filter(x=>x.round===1).length})).sort((a,b)=>a.avg-b.avg);
-  const recent=DATA.draft_picks.filter(x=>x.season===2026).sort((a,b)=>a.overall_pick-b.overall_pick).slice(0,24);
-  $("#app").innerHTML=`<div class="page-head"><div><div class="eyebrow">Draft room</div><h1>Draft History</h1><p>Complete draft order from 2011 through 2026. Player names will get a richer layer once player metadata is wired in.</p></div></div><div class="grid-2"><section class="card"><div class="card-head"><h2>Draft Position by Owner</h2></div><div class="table-wrap"><table><thead><tr><th>Owner</th><th>Picks</th><th>Avg Pick</th><th>1st Round</th></tr></thead><tbody>${rows.map(r=>`<tr class="clickable" onclick="location.hash='owner/${encodeURIComponent(r.pid)}'"><td class="owner-link">${esc(r.name)}</td><td>${r.picks}</td><td>${fmt(r.avg,1)}</td><td>${r.first}</td></tr>`).join('')}</tbody></table></div></section><section class="card"><div class="card-head"><div><h2>2026 Draft</h2><div class="subtle">First 24 picks</div></div></div><div class="table-wrap"><table><thead><tr><th>Pick</th><th>Owner</th><th>Round</th></tr></thead><tbody>${recent.map(d=>`<tr><td><strong>${d.overall_pick}</strong></td><td class="owner-link">${esc(personName(d.person_id))}</td><td>${d.round}</td></tr>`).join('')}</tbody></table></div></section></div>`;
-}
+  const a=DATA.draft_analytics;
+  const career=(a.career||[]).slice().sort((x,y)=>y.draft_picks-x.draft_picks);
+  const slots=(a.slot_profile||[]).slice().sort((x,y)=>x.avg_first_pick-y.avg_first_pick);
+  const repeat=(a.most_repeat_player_targets||[]).slice(0,8);
+  const recent=DATA.draft_picks.filter(x=>x.season===2026).sort((x,y)=>x.overall_pick-y.overall_pick).slice(0,24);
+  const top=career[0], early=(a.most_early_round_picks||[])[0], keeper=(a.most_keepers||[])[0];
 
+  $("#app").innerHTML=`
+    <div class="page-head"><div><div class="eyebrow">Draft room</div><h1>Draft History</h1><p>2,816 picks across 16 seasons — now with the deeper draft-room numbers behind them.</p></div></div>
+    <div class="pulse-grid">
+      <div class="pulse-card"><div class="pulse-kicker">MOST DRAFT PICKS</div><div class="pulse-value">${esc(top.person_name)}</div><div class="pulse-meta">${fmt(top.draft_picks)} picks across ${top.seasons} seasons</div></div>
+      <div class="pulse-card"><div class="pulse-kicker">MOST EARLY PICKS</div><div class="pulse-value">${esc(early.person_name)}</div><div class="pulse-meta">${early.early_round_picks_1_3} picks in rounds 1–3</div></div>
+      <div class="pulse-card"><div class="pulse-kicker">MOST KEEPERS</div><div class="pulse-value">${esc(keeper.person_name)}</div><div class="pulse-meta">${keeper.keepers} keeper selections</div></div>
+    </div>
+    <div class="grid-2">
+      <section class="card"><div class="card-head"><div><h2>Owner Draft Footprint</h2><div class="subtle">Historical drafts, 2011–2025</div></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Owner</th><th>Seasons</th><th>Picks</th><th>Avg Pick</th><th>Early</th><th>Keepers</th></tr></thead><tbody>
+        ${career.map(r=>`<tr class="clickable" onclick="location.hash='owner/${encodeURIComponent(r.person_id)}'"><td class="owner-link">${esc(r.person_name)}</td><td>${r.seasons}</td><td>${r.draft_picks}</td><td>${fmt(r.avg_overall_pick,1)}</td><td>${r.early_round_picks_1_3}</td><td>${r.keepers}</td></tr>`).join("")}
+        </tbody></table></div>
+      </section>
+      <section class="card"><div class="card-head"><div><h2>Most Repeated Targets</h2><div class="subtle">Owners who drafted the same player across multiple seasons</div></div></div>
+        <div class="rank-list">${repeat.map((r,i)=>`<div class="rank-row"><span class="rank-num">0${i+1}</span><div class="rank-main"><strong>${esc(r.person_name)}</strong><small>repeat player targets</small></div><b>${r.repeat_player_targets}</b></div>`).join("")}</div>
+      </section>
+    </div>
+    <div class="grid-2">
+      <section class="card"><div class="card-head"><div><h2>Draft Slot Profile</h2><div class="subtle">Average first pick and consistency by owner</div></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Owner</th><th>Drafts</th><th>Avg 1st Pick</th><th>Slot σ</th></tr></thead><tbody>
+        ${slots.map(r=>`<tr><td class="owner-link">${esc(r.person_name)}</td><td>${r.drafts}</td><td>${fmt(r.avg_first_pick,1)}</td><td>${fmt(r.first_pick_std_dev,1)}</td></tr>`).join("")}
+        </tbody></table></div>
+      </section>
+      <section class="card"><div class="card-head"><div><h2>2026 Draft</h2><div class="subtle">First 24 picks</div></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Pick</th><th>Owner</th><th>Round</th></tr></thead><tbody>
+        ${recent.map(d=>`<tr><td><strong>${d.overall_pick}</strong></td><td class="owner-link">${esc(personName(d.person_id))}</td><td>${d.round}</td></tr>`).join("")}
+        </tbody></table></div>
+      </section>
+    </div>`;
+}
 
 function rivalryRows() {
   const pairs = {};
