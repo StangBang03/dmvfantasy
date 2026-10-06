@@ -163,19 +163,65 @@ function renderSeasons() {
   const rows = [];
   for (let season=2025; season>=2011; season--) {
     const seasonTeams = DATA.teams.filter(x => x.season === season);
-    const games = DATA.matchups.filter(x => x.season === season && x.playoff_tier_type === "NONE");
+    const standings = DATA.standings.filter(x => x.season === season);
+    const games = DATA.matchups.filter(x => x.season === season && x.away_team_id != null && x.winner !== "UNDECIDED");
+    const regularGames = games.filter(x => x.playoff_tier_type === "NONE");
     const champ = DATA.champions.find(x => x.season === season);
-    rows.push({season, teams: seasonTeams.length, games: games.length, champ});
+    const oneSeed = seasonTeams.find(x => x.playoff_seed === 1);
+    const bestRecord = standings.slice().sort((a,b) => {
+      const aw = (a.wins || 0) + (a.ties || 0) * 0.5;
+      const bw = (b.wins || 0) + (b.ties || 0) * 0.5;
+      return bw-aw || (b.points_for || 0)-(a.points_for || 0);
+    })[0];
+    const topScorer = standings.slice().sort((a,b) => (b.points_for || 0)-(a.points_for || 0))[0];
+    rows.push({season, teams: seasonTeams.length, games: regularGames.length, completed: games.length, champ, oneSeed, bestRecord, topScorer});
   }
-  $("#app").innerHTML = `
-    <div class="page-head"><div><div class="eyebrow">Archive</div><h1>Seasons</h1><p>Every completed season, its champion and the size of the league.</p></div></div>
-    <section class="card"><div class="table-wrap"><table><thead><tr><th>Season</th><th>Teams</th><th>Matchups</th><th>Champion</th><th>Final</th></tr></thead><tbody>
-      ${rows.map(x => `<tr class="clickable" onclick="location.hash='season/${x.season}'"><td><strong>${x.season}</strong></td><td>${x.teams}</td><td>${x.games}</td><td class="owner-link">${esc(x.champ?.person_name || '—')}</td><td>${x.champ ? `${fmt(x.champ.score,2)} pts` : '—'}</td></tr>`).join("")}
-    </tbody></table></div></section>
-    <div class="card" style="margin-top:18px"><div class="card-head"><h2>2026</h2><span class="badge">IN PROGRESS</span></div><div class="card-body"><p class="subtle">The current season is intentionally excluded from historical records and championship totals until it is complete.</p></div></div>
-  `;
-}
 
+  const latest = rows[0];
+  const allTimeTeams = DATA.teams.filter(x => Number(x.season) <= 2025);
+  const uniqueOwners = new Set(allTimeTeams.map(x => x.person_id)).size;
+  const largestSeason = rows.slice().sort((a,b)=>b.teams-a.teams || b.season-a.season)[0];
+  const mostGames = rows.slice().sort((a,b)=>b.games-a.games || b.season-a.season)[0];
+  const currentStandings = currentRows();
+  const currentGames = DATA.matchups.filter(x => x.season === 2026 && x.away_team_id != null && x.winner !== "UNDECIDED");
+  const currentWeek = currentGames.length ? Math.max(...currentGames.map(x=>x.matchup_period_id)) : 0;
+  const recordText = x => x ? \`${x.wins}-${x.losses}${x.ties ? \`-${x.ties}\` : ""}\` : "—";
+  const seedText = x => x?.playoff_seed != null ? \`#${x.playoff_seed}\` : "—";
+
+  $("#app").innerHTML = \`
+    <div class="page-head"><div><div class="eyebrow">Archive</div><h1>Seasons</h1><p>A season-by-season record of champions, regular-season performance and how the league evolved.</p></div></div>
+    <div class="pulse-grid">
+      <div class="pulse-card"><div class="pulse-kicker">SEASONS COMPLETE</div><div class="pulse-value">15</div><div class="pulse-meta">2011–2025 · 2026 is in progress</div></div>
+      <div class="pulse-card"><div class="pulse-kicker">CURRENT SEASON</div><div class="pulse-value">2026</div><div class="pulse-meta">Week ${currentWeek} · ${currentStandings.length} teams</div></div>
+      <div class="pulse-card"><div class="pulse-kicker">LARGEST LEAGUE</div><div class="pulse-value">${largestSeason.teams}</div><div class="pulse-meta">${largestSeason.season} · teams</div></div>
+      <div class="pulse-card"><div class="pulse-kicker">OWNERS IN ARCHIVE</div><div class="pulse-value">${uniqueOwners}</div><div class="pulse-meta">Canonical identities across all seasons</div></div>
+    </div>
+    <div class="section-title"><h2>Season Archive</h2><span class="mini">Click any season for the full page</span></div>
+    <section class="card"><div class="table-wrap"><table><thead><tr><th>Season</th><th>Champion</th><th>#1 Seed</th><th>Best Record</th><th>Top Scorer</th><th>Games</th></tr></thead><tbody>
+      ${rows.map(x => \`
+        <tr class="clickable" onclick="location.hash='season/${x.season}'">
+          <td><strong>${x.season}</strong></td>
+          <td><span class="owner-link">${esc(x.champ?.person_name || "—")}</span>${x.champ ? \`<div class="team-name">${fmt(x.champ.score,0)} pts in final</div>\` : ""}</td>
+          <td>${esc(personName(x.oneSeed?.person_id))}<div class="team-name">${seedText(x.oneSeed)}</div></td>
+          <td><b>${recordText(x.bestRecord)}</b><div class="team-name">${esc(personName(x.bestRecord?.person_id))}</div></td>
+          <td>${esc(personName(x.topScorer?.person_id))}<div class="team-name">${fmt(x.topScorer?.points_for,0)} PF</div></td>
+          <td>${x.games}</td>
+        </tr>\`).join("")}
+    </tbody></table></div></section>
+    <div class="grid-2" style="margin-top:18px">
+      <section class="card"><div class="card-head"><div><h2>2026 Season</h2><div class="subtle">Current league state</div></div><span class="badge">IN PROGRESS</span></div><div class="card-body">
+        <div class="champ-row"><div class="trophy">📈</div><div class="champ-name"><strong>Current leader</strong><div class="champ-years">${currentStandings[0] ? esc(personName(currentStandings[0].person_id)) + " · " + recordText(currentStandings[0]) : "—"}</div></div></div>
+        <div class="champ-row"><div class="trophy">🔥</div><div class="champ-name"><strong>Current scoring leader</strong><div class="champ-years">${currentStandings.slice().sort((a,b)=>(b.points_for||0)-(a.points_for||0))[0] ? esc(personName(currentStandings.slice().sort((a,b)=>(b.points_for||0)-(a.points_for||0))[0].person_id)) : "—"}</div></div></div>
+        <p class="subtle" style="margin:14px 0 0;line-height:1.6">The current season is intentionally kept out of historical championship and record totals until the season is complete.</p>
+      </div></section>
+      <section class="card"><div class="card-head"><div><h2>League Evolution</h2><div class="subtle">How the format has changed</div></div></div><div class="card-body">
+        <div class="champ-row"><div class="trophy">👥</div><div class="champ-name"><strong>Team count</strong><div class="champ-years">The league grew from ${rows[rows.length-1].teams} teams in 2011 to ${latest.teams} in 2025.</div></div></div>
+        <div class="champ-row"><div class="trophy">⚔</div><div class="champ-name"><strong>Most regular-season games</strong><div class="champ-years">${mostGames.season} · ${mostGames.games} completed regular-season matchups</div></div></div>
+        <div class="champ-row"><div class="trophy">🏆</div><div class="champ-name"><strong>Championship history</strong><div class="champ-years">15 decided seasons · ${new Set(DATA.champions.map(x=>x.person_id)).size} different champions</div></div></div>
+      </div></section>
+    </div>
+  \`;
+}
 function renderSeason(season) {
   const standings = DATA.standings.filter(x => x.season === season).sort((a,b) => b.wins-a.wins || b.points_for-a.points_for);
   const champ = DATA.champions.find(x => x.season === season);
