@@ -522,19 +522,85 @@ function renderRivalry(a,b) {
 }
 
 function renderMatchups() {
-  const seasons=[...new Set(DATA.matchups.map(x=>x.season))].sort((a,b)=>b-a);
-  $("#app").innerHTML=`<div class="page-head"><div><div class="eyebrow">Head to head</div><h1>Matchups</h1><p>Browse the normalized matchup archive. Current-season games update as the season progresses.</p></div></div><div class="controls"><select id="matchupSeason">${seasons.map(y=>`<option value="${y}">${y}</option>`).join('')}</select><select id="matchupType"><option value="all">All games</option><option value="regular">Regular season</option><option value="playoffs">Playoffs</option></select></div><section class="card"><div class="table-wrap"><table><thead><tr><th>Season</th><th>Week</th><th>Home</th><th>Score</th><th>Away</th><th>Score</th><th>Result</th></tr></thead><tbody id="matchupRows"></tbody></table></div></section>`;
-  const seasonSel=$("#matchupSeason"), typeSel=$("#matchupType"), body=$("#matchupRows");
-  function paint(){
-    const y=Number(seasonSel.value), type=typeSel.value;
-    let rows=DATA.matchups.filter(x=>x.season===y);
-    if(type==='regular') rows=rows.filter(x=>x.playoff_tier_type==='NONE');
-    if(type==='playoffs') rows=rows.filter(x=>x.playoff_tier_type!=='NONE');
-    rows.sort((a,b)=>b.matchup_period_id-a.matchup_period_id || b.matchup_id-a.matchup_id);
-    body.innerHTML=rows.map(x=>`<tr><td>${x.season}</td><td>${x.matchup_period_id}</td><td class="owner-link">${esc(personName(x.home_person_id))}</td><td>${x.home_score==null?'—':fmt(x.home_score,2)}</td><td class="owner-link">${x.away_team_id==null?'Bye':esc(personName(x.away_person_id))}</td><td>${x.away_score==null?'—':fmt(x.away_score,2)}</td><td>${x.winner==='HOME'?'H':x.winner==='AWAY'?'A':x.winner==='TIE'?'T':'—'}</td></tr>`).join('');
+  const historical = DATA.matchups.filter(x => Number(x.season) <= 2025 && x.away_team_id != null && x.winner !== "UNDECIDED");
+  const current = DATA.matchups.filter(x => Number(x.season) === 2026 && x.away_team_id != null && x.winner !== "UNDECIDED");
+
+  const pairMap = {};
+  for (const m of historical) {
+    const ids = [m.home_person_id, m.away_person_id].sort();
+    const key = ids.join("|");
+    const p = (pairMap[key] ??= {
+      a: ids[0], b: ids[1], games: 0, aWins: 0, bWins: 0, ties: 0,
+      pointsA: 0, pointsB: 0, biggestMargin: 0, biggestMarginGame: null
+    });
+    const aIsHome = m.home_person_id === p.a;
+    const aScore = aIsHome ? m.home_score : m.away_score;
+    const bScore = aIsHome ? m.away_score : m.home_score;
+    p.games++;
+    p.pointsA += aScore || 0;
+    p.pointsB += bScore || 0;
+    if (m.winner === "TIE") p.ties++;
+    else if ((m.winner === "HOME" && aIsHome) || (m.winner === "AWAY" && !aIsHome)) p.aWins++;
+    else p.bWins++;
+    const margin = Math.abs((aScore || 0) - (bScore || 0));
+    if (margin > p.biggestMargin) {
+      p.biggestMargin = margin;
+      p.biggestMarginGame = m;
+    }
   }
-  seasonSel.addEventListener('change',paint); typeSel.addEventListener('change',paint); paint();
+
+  const pairs = Object.values(pairMap);
+  const mostMeetings = [...pairs].sort((a,b)=>b.games-a.games)[0];
+  const biggestRivalry = [...pairs].filter(x=>x.games>=5).sort((a,b)=>(Math.abs(b.aWins-b.bWins))-(Math.abs(a.aWins-a.bWins)))[0] || pairs[0];
+
+  let biggestBlowout = null, closestGame = null, highestCombined = null;
+  for (const m of historical) {
+    const margin = Math.abs((m.home_score||0) - (m.away_score||0));
+    const combined = (m.home_score||0) + (m.away_score||0);
+    if (!biggestBlowout || margin > biggestBlowout.margin) biggestBlowout={...m,margin};
+    if (!closestGame || margin < closestGame.margin) closestGame={...m,margin};
+    if (!highestCombined || combined > highestCombined.combined) highestCombined={...m,combined};
+  }
+
+  const statCards = [
+    ["Games played", historical.length.toLocaleString(), "2011–2025", "Completed head-to-head games"],
+    ["Most meetings", mostMeetings?.games ?? 0, mostMeetings ? personName(mostMeetings.a) + " vs " + personName(mostMeetings.b) : "—", "Regular + playoff"],
+    ["Biggest blowout", fmt(biggestBlowout?.margin ?? 0,2), biggestBlowout ? personName(biggestBlowout.home_person_id) : "—", biggestBlowout ? biggestBlowout.season + " · " + personName(biggestBlowout.away_person_id) : "—"],
+    ["Closest game", fmt(closestGame?.margin ?? 0,2), closestGame ? personName(closestGame.home_person_id) + " vs " + personName(closestGame.away_person_id) : "—", closestGame ? String(closestGame.season) : "—"],
+    ["Highest combined score", fmt(highestCombined?.combined ?? 0,2), highestCombined ? personName(highestCombined.home_person_id) + " + " + personName(highestCombined.away_person_id) : "—", highestCombined ? String(highestCombined.season) : "—"]
+  ];
+
+  const seasons=[...new Set(DATA.matchups.map(x=>x.season))].sort((a,b)=>b-a);
+  $("#app").innerHTML =
+    "<div class=\"page-head\"><div><div class=\"eyebrow\">Head to head</div><h1>Matchups</h1><p>Every completed matchup in league history, with the arguments distilled down to numbers.</p></div></div>" +
+    "<div class=\"pulse-grid\">" + statCards.map(r=>"<div class=\"pulse-card\"><div class=\"pulse-kicker\">" + esc(r[0]) + "</div><div class=\"pulse-value\">" + esc(String(r[1])) + "</div><div class=\"pulse-meta\">" + esc(r[2]) + " · " + esc(r[3]) + "</div></div>").join("") + "</div>" +
+    "<div class=\"section-title\"><h2>Head-to-Head Leaders</h2><span class=\"mini\">Historical · minimum 5 meetings</span></div>" +
+    "<section class=\"card\"><div class=\"table-wrap\"><table><thead><tr><th>Matchup</th><th>Games</th><th>Record</th><th>Points</th><th>Edge</th></tr></thead><tbody id=\"h2hRows\"></tbody></table></div></section>" +
+    "<div class=\"section-title\" style=\"margin-top:26px\"><h2>Matchup Archive</h2><span class=\"mini\">2026 is included below as games are completed</span></div>" +
+    "<div class=\"controls\"><select id=\"matchupSeason\">" + seasons.map(y=>"<option value=\""+y+"\">"+y+"</option>").join("") + "</select><select id=\"matchupType\"><option value=\"all\">All games</option><option value=\"regular\">Regular season</option><option value=\"playoffs\">Playoffs</option></select><input id=\"matchupSearch\" placeholder=\"Search owner…\" /></div>" +
+    "<section class=\"card\"><div class=\"table-wrap\"><table><thead><tr><th>Season</th><th>Week</th><th>Home</th><th>Score</th><th>Away</th><th>Score</th><th>Result</th></tr></thead><tbody id=\"matchupRows\"></tbody></table></div></section>";
+
+  const h2hBody=$("#h2hRows");
+  const leaders=[...pairs].filter(x=>x.games>=5).sort((a,b)=>b.games-a.games).slice(0,15);
+  h2hBody.innerHTML=leaders.map(x=>{
+    const totalA=x.aWins, totalB=x.bWins;
+    const edge=totalA===totalB ? "Tied" : personName(totalA>totalB?x.a:x.b) + " +" + Math.abs(totalA-totalB);
+    return "<tr><td><b>"+esc(personName(x.a))+"</b> <span class=\"mini\">vs</span> <b>"+esc(personName(x.b))+"</b></td><td>"+x.games+"</td><td>"+totalA+"–"+totalB+(x.ties?"–"+x.ties:"")+"</td><td>"+fmt(x.pointsA,1)+"–"+fmt(x.pointsB,1)+"</td><td>"+esc(edge)+"</td></tr>";
+  }).join("") || "<tr><td colspan=\"5\">No matchup pairs have reached five meetings yet.</td></tr>";
+
+  const seasonSel=$("#matchupSeason"), typeSel=$("#matchupType"), search=$("#matchupSearch"), body=$("#matchupRows");
+  function paint(){
+    const y=Number(seasonSel.value), type=typeSel.value, q=search.value.toLowerCase().trim();
+    let rows=DATA.matchups.filter(x=>Number(x.season)===y);
+    if(type==="regular") rows=rows.filter(x=>x.playoff_tier_type==="NONE");
+    if(type==="playoffs") rows=rows.filter(x=>x.playoff_tier_type!=="NONE");
+    if(q) rows=rows.filter(x=>personName(x.home_person_id).toLowerCase().includes(q) || personName(x.away_person_id).toLowerCase().includes(q));
+    rows.sort((a,b)=>b.matchup_period_id-a.matchup_period_id || b.matchup_id-a.matchup_id);
+    body.innerHTML=rows.map(x=>"<tr><td>"+x.season+"</td><td>"+x.matchup_period_id+"</td><td class=\"owner-link\">"+esc(personName(x.home_person_id))+"</td><td>"+(x.home_score==null?"—":fmt(x.home_score,2))+"</td><td class=\"owner-link\">"+(x.away_team_id==null?"Bye":esc(personName(x.away_person_id)))+"</td><td>"+(x.away_score==null?"—":fmt(x.away_score,2))+"</td><td>"+(x.winner==="HOME"?"H":x.winner==="AWAY"?"A":x.winner==="TIE"?"T":"—")+"</td></tr>").join("") || "<tr><td colspan=\"7\">No games match those filters.</td></tr>";
+  }
+  seasonSel.addEventListener("change",paint); typeSel.addEventListener("change",paint); search.addEventListener("input",paint); paint();
 }
+
 
 window.addEventListener('hashchange', render);
 $("#mobileMenu").addEventListener('click',()=>$(".sidebar").classList.toggle('open'));
