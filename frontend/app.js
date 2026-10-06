@@ -224,18 +224,42 @@ function renderSeasons() {
 }
 function renderSeason(season) {
   const standings = DATA.standings.filter(x => x.season === season).sort((a,b) => b.wins-a.wins || b.points_for-a.points_for);
+  const teamRows = DATA.teams.filter(x => x.season === season);
   const champ = DATA.champions.find(x => x.season === season);
-  const playoff = DATA.matchups.filter(x => x.season===season && x.playoff_tier_type==='WINNERS_BRACKET').sort((a,b)=>a.matchup_period_id-b.matchup_period_id);
+  const championship = DATA.championships.find(x => x.season === season);
+  const playoff = DATA.matchups.filter(x => x.season===season && x.playoff_tier_type!=="NONE" && x.away_team_id!=null).sort((a,b)=>a.matchup_period_id-b.matchup_period_id || a.matchup_id-b.matchup_id);
+  const oneSeed = teamRows.find(x => x.playoff_seed === 1);
+  const topScorer = standings.slice().sort((a,b)=>(b.points_for||0)-(a.points_for||0))[0];
+  const highestGame = DATA.matchups.filter(x=>x.season===season && x.away_team_id!=null && x.winner!=="UNDECIDED").reduce((best,m)=>{
+    const hs=Number(m.home_score||0), as=Number(m.away_score||0);
+    if(!best || hs>best.score) best={score:hs,person_id:m.home_person_id};
+    if(as>best.score) best={score:as,person_id:m.away_person_id};
+    return best;
+  },null);
+
+  const playoffRows = playoff.map(x => {
+    const home = personName(x.home_person_id);
+    const away = x.away_team_id == null ? "Bye" : personName(x.away_person_id);
+    const decided = x.winner !== "UNDECIDED";
+    const result = x.winner==="HOME" ? home : x.winner==="AWAY" ? away : x.winner==="TIE" ? "Tie" : "TBD";
+    return `<div class="champ-row"><div class="trophy">${decided?'✓':'…'}</div><div class="champ-name"><strong>Week ${x.matchup_period_id}</strong><div class="champ-years">${esc(home)}${x.away_team_id!=null ? ` vs ${esc(away)}` : " · Bye"}</div></div><div>${decided ? `${esc(result)} · ${fmt(x.home_score,2)}–${fmt(x.away_score,2)}` : "TBD"}</div></div>`;
+  }).join("");
+
   $("#app").innerHTML = `
-    <div class="page-head"><div><div class="eyebrow">Season</div><h1>${season}</h1><p>${season === 2026 ? 'Current season' : 'Historical season'} · ${standings.length} teams</p></div><a class="badge" href="#seasons">← All seasons</a></div>
-    ${champ ? `<section class="hero"><div class="hero-grid"><div><div class="hero-kicker">Champion</div><h1>${esc(champ.person_name)}</h1><p>Team ${champ.team_id} · Championship score ${fmt(champ.score,2)}</p></div><div class="hero-side"><div class="hero-big">🏆</div><div class="hero-label">${season} CHAMPION</div></div></div></section>` : ''}
+    <div class="page-head"><div><div class="eyebrow">Season</div><h1>${season}</h1><p>${season === 2026 ? "Current season" : "Historical season"} · ${standings.length} teams</p></div><a class="badge" href="#seasons">← All seasons</a></div>
+    ${champ ? `<section class="hero"><div class="hero-grid"><div><div class="hero-kicker">Champion</div><h1>${esc(champ.person_name)}</h1><p>Team ${champ.team_id} · Championship score ${fmt(champ.score,2)}</p></div><div class="hero-side"><div class="hero-big">🏆</div><div class="hero-label">${season} CHAMPION</div></div></div></section>` : `<section class="hero"><div class="hero-grid"><div><div class="hero-kicker">Season in progress</div><h1>2026</h1><p>The championship has not been decided yet. Current standings and completed games are shown below.</p></div><div class="hero-side"><div class="hero-big">2026</div><div class="hero-label">CURRENT SEASON</div></div></div></section>`}
+    <div class="pulse-grid">
+      <div class="pulse-card"><div class="pulse-kicker">#1 SEED</div><div class="pulse-value">${esc(personName(oneSeed?.person_id))}</div><div class="pulse-meta">${oneSeed ? esc(oneSeed.team_name) : "Seed not finalized"}</div></div>
+      <div class="pulse-card"><div class="pulse-kicker">BEST RECORD</div><div class="pulse-value">${standings[0] ? standings[0].wins+"–"+standings[0].losses : "—"}</div><div class="pulse-meta">${standings[0] ? esc(personName(standings[0].person_id)) : "—"}</div></div>
+      <div class="pulse-card"><div class="pulse-kicker">TOP SCORER</div><div class="pulse-value">${esc(personName(topScorer?.person_id))}</div><div class="pulse-meta">${topScorer ? fmt(topScorer.points_for,2)+" points" : "—"}</div></div>
+      <div class="pulse-card"><div class="pulse-kicker">HIGH SCORE</div><div class="pulse-value">${fmt(highestGame?.score,2)}</div><div class="pulse-meta">${highestGame ? esc(personName(highestGame.person_id)) : "—"}</div></div>
+    </div>
     <div class="grid-2" style="margin-top:18px">
-      <section class="card"><div class="card-head"><h2>Regular Season</h2></div><div class="table-wrap"><table><thead><tr><th>#</th><th>Owner</th><th>W-L-T</th><th>PF</th><th>PA</th></tr></thead><tbody>${standings.map((x,i)=>`<tr class="clickable" onclick="location.hash='owner/${encodeURIComponent(x.person_id)}'"><td>${i+1}</td><td><div class="owner-link">${esc(personName(x.person_id))}</div><div class="team-name">${esc(teamForSeason(season,x.team_id)?.team_name||'')}</div></td><td class="record">${x.wins}-${x.losses}${x.ties?`-${x.ties}`:''}</td><td>${fmt(x.points_for,2)}</td><td>${fmt(x.points_against,2)}</td></tr>`).join('')}</tbody></table></div></section>
-      <section class="card"><div class="card-head"><h2>Championship Path</h2></div><div class="card-body">${playoff.map(x=>`<div class="champ-row"><div class="trophy">${x.winner==='UNDECIDED'?'…':'✓'}</div><div class="champ-name"><strong>Week ${x.matchup_period_id}</strong><div class="champ-years">${x.home_team_id ? esc(personName(x.home_person_id)) : 'TBD'} ${x.away_team_id ? `vs ${esc(personName(x.away_person_id))}` : ' · Bye'}</div></div><div>${x.winner_team_id ? `<b>${x.winner_team_id}</b>` : 'TBD'}</div></div>`).join('')}</div></section>
+      <section class="card"><div class="card-head"><div><h2>Regular Season</h2><div class="subtle">Official standings and points</div></div></div><div class="table-wrap"><table><thead><tr><th>#</th><th>Owner</th><th>Seed</th><th>W-L-T</th><th>PF</th><th>PA</th></tr></thead><tbody>${standings.map((x,i)=>`<tr class="clickable" onclick="location.hash='owner/${encodeURIComponent(x.person_id)}'"><td>${i+1}</td><td><div class="owner-link">${esc(personName(x.person_id))}</div><div class="team-name">${esc(teamRows.find(t=>t.team_id===x.team_id)?.team_name||"")}</div></td><td>${teamRows.find(t=>t.team_id===x.team_id)?.playoff_seed ?? "—"}</td><td class="record">${x.wins}-${x.losses}${x.ties?`-${x.ties}`:""}</td><td>${fmt(x.points_for,2)}</td><td>${fmt(x.points_against,2)}</td></tr>`).join("")}</tbody></table></div></section>
+      <section class="card"><div class="card-head"><div><h2>Championship Path</h2><div class="subtle">${championship ? "Final bracket · official championship record" : "Completed playoff games"}</div></div></div><div class="card-body">${playoffRows || `<div class="empty">No playoff games have been played yet.</div>`}</div></section>
     </div>
   `;
 }
-
 function renderOwners() {
   const career = [...DATA.advanced_stats.career].sort((a,b)=>a.person_name.localeCompare(b.person_name));
   $("#app").innerHTML = `
