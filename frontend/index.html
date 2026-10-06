@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#031D3A" />
+  <title>FFL League History</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">FFL</div>
+        <div>
+          <div class="brand-title">League History</div>
+          <div class="brand-sub">2011 — Present</div>
+        </div>
+      </div>
+
+      <nav class="nav" id="nav">
+        <a href="#dashboard" data-route="dashboard" class="active"><span>⌂</span> Dashboard</a>
+        <a href="#seasons" data-route="seasons"><span>◫</span> Seasons</a>
+        <a href="#owners" data-route="owners"><span>◎</span> Owners</a>
+        <a href="#records" data-route="records"><span>★</span> Records</a>
+        <a href="#draft" data-route="draft"><span>↯</span> Draft</a>
+        <a href="#matchups" data-route="matchups"><span>⚔</span> Matchups</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="status-dot"></div>
+        <div>
+          <strong>ESPN archive</strong>
+          <small>2011–2026 data loaded</small>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu">☰</button>
+        <div class="breadcrumbs" id="breadcrumbs">League / Dashboard</div>
+        <div class="top-actions">
+          <span class="season-pill">2026 Season</span>
+        </div>
+      </header>
+
+      <div id="app" class="content">
+        <div class="loading"><div class="spinner"></div> Loading league history…</div>
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

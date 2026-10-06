@@ -1,0 +1,62 @@
+# =========================
+# Python
+# =========================
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.pyo
+
+# =========================
+# Environment / secrets
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# ESPN raw API data
+# =========================
+data/raw/
+
+# Boxscore/raw experimental API dumps
+data/raw/boxscore_v2/
+
+# =========================
+# Local diagnostics / temp files
+# =========================
+*.log
+*.tmp
+*.bak
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =========================
+# Editors
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# Local Python tooling
+# =========================
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# =========================
+# Build / frontend artifacts
+# =========================
+node_modules/
+dist/
+build/
+
+# =========================
+# Local archives
+# =========================
+*.zip

@@ -1,0 +1,530 @@
+{
+  "seasons": {
+    "2011": {
+      "player_seasons": 160,
+      "weekly_rows": 0,
+      "players_with_weekly": 0,
+      "players_without_weekly": 160,
+      "weekly_player_coverage_pct": 0.0,
+      "scoring_periods_present": [],
+      "weekly_rows_by_scoring_period": {},
+      "missing_weekly_examples": [
+        {
+          "player_id": -16034,
+          "player_name": "Texans D/ST"
+        },
+        {
+          "player_id": -16033,
+          "player_name": "Ravens D/ST"
+        },
+        {
+          "player_id": -16030,
+          "player_name": "Jaguars D/ST"
+        },
+        {
+          "player_id": -16025,
+          "player_name": "49ers D/ST"
+        },
+        {
+          "player_id": -16023,
+          "player_name": "Steelers D/ST"
+        },
+        {
+          "player_id": -16020,
+          "player_name": "Jets D/ST"
+        },
+        {
+          "player_id": -16019,
+          "player_name": "Giants D/ST"
+        },
+        {
+          "player_id": -16017,
+          "player_name": "Patriots D/ST"
+        },
+        {
+          "player_id": -16015,
+          "player_name": "Dolphins D/ST"
+        },
+        {
+          "player_id": -16007,
+          "player_name": "Broncos D/ST"
+        }
+      ]
+    },
+    "2012": {
+      "player_seasons": 159,
+      "weekly_rows": 0,
+      "players_with_weekly": 0,
+      "players_without_weekly": 159,
+      "weekly_player_coverage_pct": 0.0,
+      "scoring_periods_present": [],
+      "weekly_rows_by_scoring_period": {},
+      "missing_weekly_examples": [
+        {
+          "player_id": -16034,
+          "player_name": "Texans D/ST"
+        },
+        {
+          "player_id": -16033,
+          "player_name": "Ravens D/ST"
+        },
+        {
+          "player_id": -16029,
+          "player_name": "Panthers D/ST"
+        },
+        {
+          "player_id": -16028,
+          "player_name": "Redskins D/ST"
+        },
+        {
+          "player_id": -16026,
+          "player_name": "Seahawks D/ST"
+        },
+        {
+          "player_id": -16025,
+          "player_name": "49ers D/ST"
+        },
+        {
+          "player_id": -16024,
+          "player_name": "Chargers D/ST"
+        },
+        {
+          "player_id": -16023,
+          "player_name": "Steelers D/ST"
+        },
+        {
+          "player_id": -16020,
+          "player_name": "Jets D/ST"
+        },
+        {
+          "player_id": -16014,
+          "player_name": "Rams D/ST"
+        }
+      ]
+    },
+    "2013": {
+      "player_seasons": 128,
+      "weekly_rows": 0,
+      "players_with_weekly": 0,
+      "players_without_weekly": 128,
+      "weekly_player_coverage_pct": 0.0,
+      "scoring_periods_present": [],
+      "weekly_rows_by_scoring_period": {},
+      "missing_weekly_examples": [
+        {
+          "player_id": -16034,
+          "player_name": "Texans D/ST"
+        },
+        {
+          "player_id": -16033,
+          "player_name": "Ravens D/ST"
+        },
+        {
+          "player_id": -16029,
+          "player_name": "Panthers D/ST"
+        },
+        {
+          "player_id": -16026,
+          "player_name": "Seahawks D/ST"
+        },
+        {
+          "player_id": -16025,
+          "player_name": "49ers D/ST"
+        },
+        {
+          "player_id": -16022,
+          "player_name": "Cardinals D/ST"
+        },
+        {
+          "player_id": -16021,
+          "player_name": "Eagles D/ST"
+        },
+        {
+          "player_id": -16020,
+          "player_name": "Jets D/ST"
+        },
+        {
+          "player_id": -16015,
+          "player_name": "Dolphins D/ST"
+        },
+        {
+          "player_id": -16014,
+          "player_name": "Rams D/ST"
+        }
+      ]
+    },
+    "2014": {
+      "player_seasons": 164,
+      "weekly_rows": 0,
+      "players_with_weekly": 0,
+      "players_without_weekly": 164,
+      "weekly_player_coverage_pct": 0.0,
+      "scoring_periods_present": [],
+      "weekly_rows_by_scoring_period": {},
+      "missing_weekly_examples": [
+        {
+          "player_id": -16034,
+          "player_name": "Texans D/ST"
+        },
+        {
+          "player_id": -16033,
+          "player_name": "Ravens D/ST"
+        },
+        {
+          "player_id": -16028,
+          "player_name": "Redskins D/ST"
+        },
+        {
+          "player_id": -16026,
+          "player_name": "Seahawks D/ST"
+        },
+        {
+          "player_id": -16025,
+          "player_name": "49ers D/ST"
+        },
+        {
+          "player_id": -16024,
+          "player_name": "Chargers D/ST"
+        },
+        {
+          "player_id": -16022,
+          "player_name": "Cardinals D/ST"
+        },
+        {
+          "player_id": -16021,
+          "player_name": "Eagles D/ST"
+        },
+        {
+          "player_id": -16019,
+          "player_name": "Giants D/ST"
+        },
+        {
+          "player_id": -16016,
+          "player_name": "Vikings D/ST"
+        }
+      ]
+    },
+    "2015": {
+      "player_seasons": 162,
+      "weekly_rows": 0,
+      "players_with_weekly": 0,
+      "players_without_weekly": 162,
+      "weekly_player_coverage_pct": 0.0,
+      "scoring_periods_present": [],
+      "weekly_rows_by_scoring_period": {},
+      "missing_weekly_examples": [
+        {
+          "player_id": -16034,
+          "player_name": "Texans D/ST"
+        },
+        {
+          "player_id": -16029,
+          "player_name": "Panthers D/ST"
+        },
+        {
+          "player_id": -16026,
+          "player_name": "Seahawks D/ST"
+        },
+        {
+          "player_id": -16023,
+          "player_name": "Steelers D/ST"
+        },
+        {
+          "player_id": -16022,
+          "player_name": "Cardinals D/ST"
+        },
+        {
+          "player_id": -16020,
+          "player_name": "Jets D/ST"
+        },
+        {
+          "player_id": -16017,
+          "player_name": "Patriots D/ST"
+        },
+        {
+          "player_id": -16016,
+          "player_name": "Vikings D/ST"
+        },
+        {
+          "player_id": -16014,
+          "player_name": "Rams D/ST"
+        },
+        {
+          "player_id": -16012,
+          "player_name": "Chiefs D/ST"
+        }
+      ]
+    },
+    "2016": {
+      "player_seasons": 195,
+      "weekly_rows": 0,
+      "players_with_weekly": 0,
+      "players_without_weekly": 195,
+      "weekly_player_coverage_pct": 0.0,
+      "scoring_periods_present": [],
+      "weekly_rows_by_scoring_period": {},
+      "missing_weekly_examples": [
+        {
+          "player_id": -16033,
+          "player_name": "Ravens D/ST"
+        },
+        {
+          "player_id": -16026,
+          "player_name": "Seahawks D/ST"
+        },
+        {
+          "player_id": -16024,
+          "player_name": "Chargers D/ST"
+        },
+        {
+          "player_id": -16023,
+          "player_name": "Steelers D/ST"
+        },
+        {
+          "player_id": -16022,
+          "player_name": "Cardinals D/ST"
+        },
+        {
+          "player_id": -16021,
+          "player_name": "Eagles D/ST"
+        },
+        {
+          "player_id": -16019,
+          "player_name": "Giants D/ST"
+        },
+        {
+          "player_id": -16017,
+          "player_name": "Patriots D/ST"
+        },
+        {
+          "player_id": -16016,
+          "player_name": "Vikings D/ST"
+        },
+        {
+          "player_id": -16015,
+          "player_name": "Dolphins D/ST"
+        }
+      ]
+    },
+    "2017": {
+      "player_seasons": 167,
+      "weekly_rows": 0,
+      "players_with_weekly": 0,
+      "players_without_weekly": 167,
+      "weekly_player_coverage_pct": 0.0,
+      "scoring_periods_present": [],
+      "weekly_rows_by_scoring_period": {},
+      "missing_weekly_examples": [
+        {
+          "player_id": -16033,
+          "player_name": "Ravens D/ST"
+        },
+        {
+          "player_id": -16030,
+          "player_name": "Jaguars D/ST"
+        },
+        {
+          "player_id": -16029,
+          "player_name": "Panthers D/ST"
+        },
+        {
+          "player_id": -16028,
+          "player_name": "Redskins D/ST"
+        },
+        {
+          "player_id": -16026,
+          "player_name": "Seahawks D/ST"
+        },
+        {
+          "player_id": -16024,
+          "player_name": "Chargers D/ST"
+        },
+        {
+          "player_id": -16023,
+          "player_name": "Steelers D/ST"
+        },
+        {
+          "player_id": -16021,
+          "player_name": "Eagles D/ST"
+        },
+        {
+          "player_id": -16018,
+          "player_name": "Saints D/ST"
+        },
+        {
+          "player_id": -16017,
+          "player_name": "Patriots D/ST"
+        }
+      ]
+    },
+    "2018": {
+      "player_seasons": 200,
+      "weekly_rows": 199,
+      "players_with_weekly": 199,
+      "players_without_weekly": 1,
+      "weekly_player_coverage_pct": 99.5,
+      "scoring_periods_present": [
+        17
+      ],
+      "weekly_rows_by_scoring_period": {
+        "17": 199
+      },
+      "missing_weekly_examples": [
+        {
+          "player_id": 14001,
+          "player_name": "Colin Kaepernick"
+        }
+      ]
+    },
+    "2019": {
+      "player_seasons": 199,
+      "weekly_rows": 197,
+      "players_with_weekly": 197,
+      "players_without_weekly": 2,
+      "weekly_player_coverage_pct": 98.99,
+      "scoring_periods_present": [
+        17
+      ],
+      "weekly_rows_by_scoring_period": {
+        "17": 197
+      },
+      "missing_weekly_examples": [
+        {
+          "player_id": 13934,
+          "player_name": "Antonio Brown"
+        },
+        {
+          "player_id": 14001,
+          "player_name": "Colin Kaepernick"
+        }
+      ]
+    },
+    "2020": {
+      "player_seasons": 170,
+      "weekly_rows": 170,
+      "players_with_weekly": 170,
+      "players_without_weekly": 0,
+      "weekly_player_coverage_pct": 100.0,
+      "scoring_periods_present": [
+        17
+      ],
+      "weekly_rows_by_scoring_period": {
+        "17": 170
+      },
+      "missing_weekly_examples": []
+    },
+    "2021": {
+      "player_seasons": 200,
+      "weekly_rows": 199,
+      "players_with_weekly": 199,
+      "players_without_weekly": 1,
+      "weekly_player_coverage_pct": 99.5,
+      "scoring_periods_present": [
+        18
+      ],
+      "weekly_rows_by_scoring_period": {
+        "18": 199
+      },
+      "missing_weekly_examples": [
+        {
+          "player_id": 13934,
+          "player_name": "Antonio Brown"
+        }
+      ]
+    },
+    "2022": {
+      "player_seasons": 202,
+      "weekly_rows": 201,
+      "players_with_weekly": 201,
+      "players_without_weekly": 1,
+      "weekly_player_coverage_pct": 99.5,
+      "scoring_periods_present": [
+        18
+      ],
+      "weekly_rows_by_scoring_period": {
+        "18": 201
+      },
+      "missing_weekly_examples": [
+        {
+          "player_id": 3052117,
+          "player_name": "Phillip Lindsay"
+        }
+      ]
+    },
+    "2023": {
+      "player_seasons": 201,
+      "weekly_rows": 200,
+      "players_with_weekly": 200,
+      "players_without_weekly": 1,
+      "weekly_player_coverage_pct": 99.5,
+      "scoring_periods_present": [
+        18
+      ],
+      "weekly_rows_by_scoring_period": {
+        "18": 200
+      },
+      "missing_weekly_examples": [
+        {
+          "player_id": 15835,
+          "player_name": "Zach Ertz"
+        }
+      ]
+    },
+    "2024": {
+      "player_seasons": 203,
+      "weekly_rows": 203,
+      "players_with_weekly": 203,
+      "players_without_weekly": 0,
+      "weekly_player_coverage_pct": 100.0,
+      "scoring_periods_present": [
+        18
+      ],
+      "weekly_rows_by_scoring_period": {
+        "18": 203
+      },
+      "missing_weekly_examples": []
+    },
+    "2025": {
+      "player_seasons": 203,
+      "weekly_rows": 203,
+      "players_with_weekly": 203,
+      "players_without_weekly": 0,
+      "weekly_player_coverage_pct": 100.0,
+      "scoring_periods_present": [
+        18
+      ],
+      "weekly_rows_by_scoring_period": {
+        "18": 203
+      },
+      "missing_weekly_examples": []
+    },
+    "2026": {
+      "player_seasons": 205,
+      "weekly_rows": 204,
+      "players_with_weekly": 204,
+      "players_without_weekly": 1,
+      "weekly_player_coverage_pct": 99.51,
+      "scoring_periods_present": [
+        4
+      ],
+      "weekly_rows_by_scoring_period": {
+        "4": 204
+      },
+      "missing_weekly_examples": [
+        {
+          "player_id": 3116406,
+          "player_name": "Tyreek Hill"
+        }
+      ]
+    }
+  },
+  "summary": {
+    "player_seasons": 2918,
+    "weekly_rows": 1776,
+    "players_with_weekly": 1776,
+    "players_without_weekly": 1142,
+    "weekly_player_coverage_pct": 60.86,
+    "duplicate_weekly_keys": 0
+  },
+  "duplicate_weekly_examples": []
+}

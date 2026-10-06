@@ -1,0 +1,787 @@
+[
+  {
+    "person_id": "espn_062cc5abad2c4980a5d0e70fcabd8833",
+    "regular_season_longest_win_streak": 1,
+    "regular_season_longest_loss_streak": 10,
+    "regular_season_longest_tie_streak": 1,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 10
+    },
+    "longest_streak_details": {
+      "W": {
+        "length": 1,
+        "start_season": 2011,
+        "start_period": 1,
+        "end_season": 2011,
+        "end_period": 1
+      },
+      "L": {
+        "length": 10,
+        "start_season": 2011,
+        "start_period": 4,
+        "end_season": 2011,
+        "end_period": 13
+      },
+      "T": {
+        "length": 1,
+        "start_season": 2011,
+        "start_period": 3,
+        "end_season": 2011,
+        "end_period": 3
+      }
+    },
+    "person_name": "George Moshogianis"
+  },
+  {
+    "person_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
+    "regular_season_longest_win_streak": 4,
+    "regular_season_longest_loss_streak": 6,
+    "regular_season_longest_tie_streak": 1,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 2
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 6,
+        "start_season": 2013,
+        "start_period": 5,
+        "end_season": 2013,
+        "end_period": 10
+      },
+      "W": {
+        "length": 4,
+        "start_season": 2019,
+        "start_period": 13,
+        "end_season": 2020,
+        "end_period": 3
+      },
+      "T": {
+        "length": 1,
+        "start_season": 2017,
+        "start_period": 2,
+        "end_season": 2017,
+        "end_period": 2
+      }
+    },
+    "person_name": "Alex Christodoulou"
+  },
+  {
+    "person_id": "espn_1b307fc2d84e4962bcf11a2daab52bee",
+    "regular_season_longest_win_streak": 3,
+    "regular_season_longest_loss_streak": 7,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "W",
+      "length": 2
+    },
+    "longest_streak_details": {
+      "W": {
+        "length": 3,
+        "start_season": 2019,
+        "start_period": 4,
+        "end_season": 2019,
+        "end_period": 6
+      },
+      "L": {
+        "length": 7,
+        "start_season": 2018,
+        "start_period": 5,
+        "end_season": 2018,
+        "end_period": 11
+      }
+    },
+    "person_name": "Bryan Goldman"
+  },
+  {
+    "person_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
+    "regular_season_longest_win_streak": 5,
+    "regular_season_longest_loss_streak": 5,
+    "regular_season_longest_tie_streak": 1,
+    "regular_season_current_streak": {
+      "result": "W",
+      "length": 4
+    },
+    "longest_streak_details": {
+      "W": {
+        "length": 5,
+        "start_season": 2015,
+        "start_period": 2,
+        "end_season": 2015,
+        "end_period": 6
+      },
+      "L": {
+        "length": 5,
+        "start_season": 2016,
+        "start_period": 10,
+        "end_season": 2017,
+        "end_period": 1
+      },
+      "T": {
+        "length": 1,
+        "start_season": 2013,
+        "start_period": 6,
+        "end_season": 2013,
+        "end_period": 6
+      }
+    },
+    "person_name": "Charlie Marks"
+  },
+  {
+    "person_id": "espn_55540c8225724955940c8225723955e3",
+    "regular_season_longest_win_streak": 5,
+    "regular_season_longest_loss_streak": 3,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 1
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 3,
+        "start_season": 2021,
+        "start_period": 1,
+        "end_season": 2021,
+        "end_period": 3
+      },
+      "W": {
+        "length": 5,
+        "start_season": 2020,
+        "start_period": 1,
+        "end_season": 2020,
+        "end_period": 5
+      }
+    },
+    "person_name": "Andrew Carlson"
+  },
+  {
+    "person_id": "espn_5ac92d7b18f3434c81f2a2c372f8443b",
+    "regular_season_longest_win_streak": 3,
+    "regular_season_longest_loss_streak": 3,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "W",
+      "length": 1
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 3,
+        "start_season": 2011,
+        "start_period": 6,
+        "end_season": 2011,
+        "end_period": 8
+      },
+      "W": {
+        "length": 3,
+        "start_season": 2011,
+        "start_period": 9,
+        "end_season": 2011,
+        "end_period": 11
+      }
+    },
+    "person_name": "Andreas Moshogianis"
+  },
+  {
+    "person_id": "espn_5c24f9e28d594018b8037b5d72fc94b6",
+    "regular_season_longest_win_streak": 6,
+    "regular_season_longest_loss_streak": 5,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 3
+    },
+    "longest_streak_details": {
+      "W": {
+        "length": 6,
+        "start_season": 2022,
+        "start_period": 8,
+        "end_season": 2022,
+        "end_period": 13
+      },
+      "L": {
+        "length": 5,
+        "start_season": 2025,
+        "start_period": 1,
+        "end_season": 2025,
+        "end_period": 5
+      }
+    },
+    "person_name": "Joe Klass"
+  },
+  {
+    "person_id": "espn_5c772829a646413e8a8088ebfb82dc74",
+    "regular_season_longest_win_streak": 8,
+    "regular_season_longest_loss_streak": 7,
+    "regular_season_longest_tie_streak": 1,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 1
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 7,
+        "start_season": 2017,
+        "start_period": 9,
+        "end_season": 2018,
+        "end_period": 2
+      },
+      "W": {
+        "length": 8,
+        "start_season": 2025,
+        "start_period": 3,
+        "end_season": 2025,
+        "end_period": 10
+      },
+      "T": {
+        "length": 1,
+        "start_season": 2017,
+        "start_period": 2,
+        "end_season": 2017,
+        "end_period": 2
+      }
+    },
+    "person_name": "Jacob Hiner"
+  },
+  {
+    "person_id": "espn_6d193d02cac74f5eb4a25582fd5e5da3",
+    "regular_season_longest_win_streak": 5,
+    "regular_season_longest_loss_streak": 4,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 1
+    },
+    "longest_streak_details": {
+      "W": {
+        "length": 5,
+        "start_season": 2012,
+        "start_period": 1,
+        "end_season": 2012,
+        "end_period": 5
+      },
+      "L": {
+        "length": 4,
+        "start_season": 2014,
+        "start_period": 6,
+        "end_season": 2014,
+        "end_period": 9
+      }
+    },
+    "person_name": "Brian Oliver"
+  },
+  {
+    "person_id": "espn_709f61471de549839f61471de5998320",
+    "regular_season_longest_win_streak": 4,
+    "regular_season_longest_loss_streak": 4,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 2
+    },
+    "longest_streak_details": {
+      "W": {
+        "length": 4,
+        "start_season": 2012,
+        "start_period": 6,
+        "end_season": 2012,
+        "end_period": 9
+      },
+      "L": {
+        "length": 4,
+        "start_season": 2012,
+        "start_period": 2,
+        "end_season": 2012,
+        "end_period": 5
+      }
+    },
+    "person_name": "Brandon Spaeth"
+  },
+  {
+    "person_id": "espn_90d70961630440c3b59bb020c6eb36de",
+    "regular_season_longest_win_streak": 10,
+    "regular_season_longest_loss_streak": 8,
+    "regular_season_longest_tie_streak": 1,
+    "regular_season_current_streak": {
+      "result": "W",
+      "length": 2
+    },
+    "longest_streak_details": {
+      "W": {
+        "length": 10,
+        "start_season": 2016,
+        "start_period": 7,
+        "end_season": 2017,
+        "end_period": 3
+      },
+      "L": {
+        "length": 8,
+        "start_season": 2012,
+        "start_period": 11,
+        "end_season": 2013,
+        "end_period": 5
+      },
+      "T": {
+        "length": 1,
+        "start_season": 2013,
+        "start_period": 6,
+        "end_season": 2013,
+        "end_period": 6
+      }
+    },
+    "person_name": "David Yates"
+  },
+  {
+    "person_id": "espn_92ddd17878d644ed9d48487debbb6801",
+    "regular_season_longest_win_streak": 2,
+    "regular_season_longest_loss_streak": 4,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "W",
+      "length": 1
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 4,
+        "start_season": 2011,
+        "start_period": 6,
+        "end_season": 2011,
+        "end_period": 9
+      },
+      "W": {
+        "length": 2,
+        "start_season": 2011,
+        "start_period": 2,
+        "end_season": 2011,
+        "end_period": 3
+      }
+    },
+    "person_name": "Dex Doyle"
+  },
+  {
+    "person_id": "espn_96f0556caec04058a8ed59682ed5a33d",
+    "regular_season_longest_win_streak": 8,
+    "regular_season_longest_loss_streak": 5,
+    "regular_season_longest_tie_streak": 1,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 2
+    },
+    "longest_streak_details": {
+      "W": {
+        "length": 8,
+        "start_season": 2013,
+        "start_period": 12,
+        "end_season": 2014,
+        "end_period": 6
+      },
+      "L": {
+        "length": 5,
+        "start_season": 2012,
+        "start_period": 5,
+        "end_season": 2012,
+        "end_period": 9
+      },
+      "T": {
+        "length": 1,
+        "start_season": 2015,
+        "start_period": 9,
+        "end_season": 2015,
+        "end_period": 9
+      }
+    },
+    "person_name": "Chris Smith"
+  },
+  {
+    "person_id": "espn_9c0c1c2669ce43f5b65102d1e36b8d0b",
+    "regular_season_longest_win_streak": 5,
+    "regular_season_longest_loss_streak": 7,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "W",
+      "length": 5
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 7,
+        "start_season": 2024,
+        "start_period": 3,
+        "end_season": 2024,
+        "end_period": 9
+      },
+      "W": {
+        "length": 5,
+        "start_season": 2024,
+        "start_period": 14,
+        "end_season": 2025,
+        "end_period": 4
+      }
+    },
+    "person_name": "Oscar Canales"
+  },
+  {
+    "person_id": "espn_9ddf54272f2143ed9d5808bfb7400a96",
+    "regular_season_longest_win_streak": 7,
+    "regular_season_longest_loss_streak": 6,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 1
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 6,
+        "start_season": 2020,
+        "start_period": 13,
+        "end_season": 2021,
+        "end_period": 5
+      },
+      "W": {
+        "length": 7,
+        "start_season": 2022,
+        "start_period": 1,
+        "end_season": 2022,
+        "end_period": 7
+      }
+    },
+    "person_name": "Nicole Carlson"
+  },
+  {
+    "person_id": "espn_9e6adcd9fd68496293cd68dd623d791d",
+    "regular_season_longest_win_streak": 1,
+    "regular_season_longest_loss_streak": 7,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 7
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 7,
+        "start_season": 2012,
+        "start_period": 7,
+        "end_season": 2012,
+        "end_period": 13
+      },
+      "W": {
+        "length": 1,
+        "start_season": 2012,
+        "start_period": 6,
+        "end_season": 2012,
+        "end_period": 6
+      }
+    },
+    "person_name": "robbie law"
+  },
+  {
+    "person_id": "espn_a0b8716a2ce14556b8716a2ce1e5568d",
+    "regular_season_longest_win_streak": 4,
+    "regular_season_longest_loss_streak": 4,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "W",
+      "length": 1
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 4,
+        "start_season": 2023,
+        "start_period": 8,
+        "end_season": 2023,
+        "end_period": 11
+      },
+      "W": {
+        "length": 4,
+        "start_season": 2024,
+        "start_period": 10,
+        "end_season": 2024,
+        "end_period": 13
+      }
+    },
+    "person_name": "gregory trakas"
+  },
+  {
+    "person_id": "espn_b8d9ff7f8eb74694a6ed72dfa21e8e28",
+    "regular_season_longest_win_streak": 2,
+    "regular_season_longest_loss_streak": 1,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "W",
+      "length": 2
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 1,
+        "start_season": 2011,
+        "start_period": 1,
+        "end_season": 2011,
+        "end_period": 1
+      },
+      "W": {
+        "length": 2,
+        "start_season": 2011,
+        "start_period": 4,
+        "end_season": 2011,
+        "end_period": 5
+      }
+    },
+    "person_name": "zach d"
+  },
+  {
+    "person_id": "espn_bdc4c12b724f4aa59b571905a72e4582",
+    "regular_season_longest_win_streak": 5,
+    "regular_season_longest_loss_streak": 4,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 2
+    },
+    "longest_streak_details": {
+      "W": {
+        "length": 5,
+        "start_season": 2023,
+        "start_period": 6,
+        "end_season": 2023,
+        "end_period": 10
+      },
+      "L": {
+        "length": 4,
+        "start_season": 2023,
+        "start_period": 2,
+        "end_season": 2023,
+        "end_period": 5
+      }
+    },
+    "person_name": "Luke Duncan"
+  },
+  {
+    "person_id": "espn_c733909ee06a42ecb6e3e8ba8984f079",
+    "regular_season_longest_win_streak": 5,
+    "regular_season_longest_loss_streak": 6,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "W",
+      "length": 4
+    },
+    "longest_streak_details": {
+      "W": {
+        "length": 5,
+        "start_season": 2016,
+        "start_period": 1,
+        "end_season": 2016,
+        "end_period": 5
+      },
+      "L": {
+        "length": 6,
+        "start_season": 2018,
+        "start_period": 5,
+        "end_season": 2018,
+        "end_period": 10
+      }
+    },
+    "person_name": "Alex Boeckler"
+  },
+  {
+    "person_id": "espn_c7ebdf32bccd4649abdf32bccd8649f0",
+    "regular_season_longest_win_streak": 2,
+    "regular_season_longest_loss_streak": 7,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 3
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 7,
+        "start_season": 2015,
+        "start_period": 3,
+        "end_season": 2015,
+        "end_period": 9
+      },
+      "W": {
+        "length": 2,
+        "start_season": 2014,
+        "start_period": 7,
+        "end_season": 2014,
+        "end_period": 8
+      }
+    },
+    "person_name": "J Ram"
+  },
+  {
+    "person_id": "espn_c996a1d4280b42eea48f424b8a27bb53",
+    "regular_season_longest_win_streak": 9,
+    "regular_season_longest_loss_streak": 6,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "W",
+      "length": 1
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 6,
+        "start_season": 2023,
+        "start_period": 9,
+        "end_season": 2023,
+        "end_period": 14
+      },
+      "W": {
+        "length": 9,
+        "start_season": 2022,
+        "start_period": 12,
+        "end_season": 2023,
+        "end_period": 6
+      }
+    },
+    "person_name": "Ryan Cassidy"
+  },
+  {
+    "person_id": "espn_cbaa1dd7e6674a3daa1dd7e667ea3d25",
+    "regular_season_longest_win_streak": 5,
+    "regular_season_longest_loss_streak": 6,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 2
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 6,
+        "start_season": 2022,
+        "start_period": 2,
+        "end_season": 2022,
+        "end_period": 7
+      },
+      "W": {
+        "length": 5,
+        "start_season": 2023,
+        "start_period": 6,
+        "end_season": 2023,
+        "end_period": 10
+      }
+    },
+    "person_name": "Brittany Chairs"
+  },
+  {
+    "person_id": "espn_cc1c39b46abd4d1e9c39b46abd8d1edb",
+    "regular_season_longest_win_streak": 5,
+    "regular_season_longest_loss_streak": 10,
+    "regular_season_longest_tie_streak": 1,
+    "regular_season_current_streak": {
+      "result": "W",
+      "length": 2
+    },
+    "longest_streak_details": {
+      "W": {
+        "length": 5,
+        "start_season": 2012,
+        "start_period": 1,
+        "end_season": 2012,
+        "end_period": 5
+      },
+      "L": {
+        "length": 10,
+        "start_season": 2013,
+        "start_period": 13,
+        "end_season": 2014,
+        "end_period": 9
+      },
+      "T": {
+        "length": 1,
+        "start_season": 2013,
+        "start_period": 2,
+        "end_season": 2013,
+        "end_period": 2
+      }
+    },
+    "person_name": "Jason Weisberg"
+  },
+  {
+    "person_id": "espn_d357bfe24dd640f097bfe24dd690f0e7",
+    "regular_season_longest_win_streak": 2,
+    "regular_season_longest_loss_streak": 5,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 1
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 5,
+        "start_season": 2016,
+        "start_period": 4,
+        "end_season": 2016,
+        "end_period": 8
+      },
+      "W": {
+        "length": 2,
+        "start_season": 2016,
+        "start_period": 2,
+        "end_season": 2016,
+        "end_period": 3
+      }
+    },
+    "person_name": "Max Spitalny"
+  },
+  {
+    "person_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "regular_season_longest_win_streak": 7,
+    "regular_season_longest_loss_streak": 8,
+    "regular_season_longest_tie_streak": 1,
+    "regular_season_current_streak": {
+      "result": "W",
+      "length": 1
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 8,
+        "start_season": 2023,
+        "start_period": 2,
+        "end_season": 2023,
+        "end_period": 9
+      },
+      "T": {
+        "length": 1,
+        "start_season": 2011,
+        "start_period": 3,
+        "end_season": 2011,
+        "end_period": 3
+      },
+      "W": {
+        "length": 7,
+        "start_season": 2011,
+        "start_period": 6,
+        "end_season": 2011,
+        "end_period": 12
+      }
+    },
+    "person_name": "Nicholas Christodoulou"
+  },
+  {
+    "person_id": "person_001",
+    "regular_season_longest_win_streak": 7,
+    "regular_season_longest_loss_streak": 6,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 1
+    },
+    "longest_streak_details": {
+      "W": {
+        "length": 7,
+        "start_season": 2013,
+        "start_period": 3,
+        "end_season": 2013,
+        "end_period": 9
+      },
+      "L": {
+        "length": 6,
+        "start_season": 2024,
+        "start_period": 8,
+        "end_season": 2024,
+        "end_period": 13
+      }
+    },
+    "person_name": "Chris Jackson"
+  }
+]

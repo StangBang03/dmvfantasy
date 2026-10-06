@@ -1,0 +1,113 @@
+{
+  "seasons": [
+    {
+      "season": 2011,
+      "teams": 10,
+      "roster_rows": 160,
+      "unique_players": 160
+    },
+    {
+      "season": 2012,
+      "teams": 10,
+      "roster_rows": 159,
+      "unique_players": 159
+    },
+    {
+      "season": 2013,
+      "teams": 8,
+      "roster_rows": 128,
+      "unique_players": 128
+    },
+    {
+      "season": 2014,
+      "teams": 10,
+      "roster_rows": 164,
+      "unique_players": 164
+    },
+    {
+      "season": 2015,
+      "teams": 10,
+      "roster_rows": 162,
+      "unique_players": 162
+    },
+    {
+      "season": 2016,
+      "teams": 12,
+      "roster_rows": 195,
+      "unique_players": 195
+    },
+    {
+      "season": 2017,
+      "teams": 10,
+      "roster_rows": 167,
+      "unique_players": 167
+    },
+    {
+      "season": 2018,
+      "teams": 12,
+      "roster_rows": 200,
+      "unique_players": 200
+    },
+    {
+      "season": 2019,
+      "teams": 12,
+      "roster_rows": 199,
+      "unique_players": 199
+    },
+    {
+      "season": 2020,
+      "teams": 10,
+      "roster_rows": 170,
+      "unique_players": 170
+    },
+    {
+      "season": 2021,
+      "teams": 12,
+      "roster_rows": 200,
+      "unique_players": 200
+    },
+    {
+      "season": 2022,
+      "teams": 12,
+      "roster_rows": 202,
+      "unique_players": 202
+    },
+    {
+      "season": 2023,
+      "teams": 12,
+      "roster_rows": 201,
+      "unique_players": 201
+    },
+    {
+      "season": 2024,
+      "teams": 12,
+      "roster_rows": 203,
+      "unique_players": 203
+    },
+    {
+      "season": 2025,
+      "teams": 12,
+      "roster_rows": 203,
+      "unique_players": 203
+    },
+    {
+      "season": 2026,
+      "teams": 12,
+      "roster_rows": 205,
+      "unique_players": 205
+    }
+  ],
+  "total_roster_rows": 2918,
+  "unique_player_seasons": 2918,
+  "season_actual_rows": 2918,
+  "weekly_actual_rows": 1776,
+  "missing_season_actual": [],
+  "duplicate_player_seasons": [],
+  "source_counts": {
+    "actual": 2918
+  },
+  "split_counts": {
+    "season_total": 2918,
+    "weekly": 1776
+  }
+}
