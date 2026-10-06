@@ -307,9 +307,12 @@ function renderDraft() {
   const a=DATA.draft_analytics;
   const career=(a.career||[]).slice().sort((x,y)=>y.draft_picks-x.draft_picks);
   const slots=(a.slot_profile||[]).slice().sort((x,y)=>x.avg_first_pick-y.avg_first_pick);
-  const repeat=(a.most_repeat_player_targets||[]).slice(0,8);
+  const records=a.records||{};
+  const repeat=(records.most_repeat_player_targets||[]).slice(0,8);
   const recent=DATA.draft_picks.filter(x=>x.season===2026).sort((x,y)=>x.overall_pick-y.overall_pick).slice(0,24);
-  const top=career[0], early=(a.most_early_round_picks||[])[0], keeper=(a.most_keepers||[])[0];
+  const top=career[0];
+  const early=(records.most_early_round_picks||[])[0] || career.slice().sort((x,y)=>y.early_round_picks_1_3-x.early_round_picks_1_3)[0];
+  const keeper=(records.most_keepers||[])[0] || career.slice().sort((x,y)=>y.keepers-x.keepers)[0];
 
   $("#app").innerHTML=`
     <div class="page-head"><div><div class="eyebrow">Draft room</div><h1>Draft History</h1><p>2,816 picks across 16 seasons — now with the deeper draft-room numbers behind them.</p></div></div>
