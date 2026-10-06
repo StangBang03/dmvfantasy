@@ -209,3 +209,10 @@ input:focus, select:focus { border-color: #9ec9ff; box-shadow: 0 0 0 3px rgba(45
 .rank-main strong { font-size:14px; }
 .rank-main small { color:var(--muted); font-size:11px; }
 .rank-row > b { font-size:18px; color:var(--navy); }
+.section-title { display:flex; justify-content:space-between; align-items:end; gap:16px; margin:22px 0 12px; }
+.section-title h2 { margin:0; font-size:18px; }
+.section-title .mini { color:var(--muted); font-size:11px; }
+@media (max-width: 760px) {
+  .owner-metrics { grid-template-columns:repeat(2,1fr); }
+  .section-title { align-items:flex-start; flex-direction:column; gap:5px; }
+}
