@@ -104,6 +104,7 @@ function render() {
   if (route === "seasons") return renderSeasons();
   if (route === "owners") return renderOwners();
   if (route === "records") return renderRecords();
+  if (route === "analytics") return renderAnalytics();
   if (route === "draft") return renderDraft();
   if (route === "matchups") return renderMatchups();
   if (route === "rivalries") return renderRivalries();
