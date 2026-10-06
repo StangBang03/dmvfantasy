@@ -160,7 +160,7 @@ input:focus, select:focus { border-color: #9ec9ff; box-shadow: 0 0 0 3px rgba(45
 .avatar { width: 40px; height: 40px; border-radius: 12px; background: var(--navy); color: #fff; display:grid; place-items:center; font-weight: 900; }
 .owner-card h3 { margin-top: 2px; }
 .owner-card .mini { color: var(--muted); font-size: 11px; }
-.owner-metrics { display:grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-top: 16px; }
+.owner-metrics { display:grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-top: 16px; }
 .owner-metric { background: var(--soft); border-radius: 9px; padding: 9px; }
 .owner-metric b { display:block; font-size: 16px; }
 .owner-metric span { color:var(--muted); font-size:10px; }
