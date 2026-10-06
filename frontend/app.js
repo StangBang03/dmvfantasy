@@ -336,38 +336,128 @@ function renderOwner(id) {
 }
 
 function renderRecords() {
-  const seasons = DATA.advanced_stats.season;
-  const career = DATA.advanced_stats.career;
-  const bestSeason = [...seasons].sort((a,b)=>b.points_for-a.points_for)[0];
-  const bestPPG = [...seasons].sort((a,b)=>b.points_per_game-a.points_per_game)[0];
-  const bestAllPlay = [...career].filter(x=>x.seasons>=3).sort((a,b)=>b.all_play_win_pct-a.all_play_win_pct)[0];
-  const luck = [...seasons].sort((a,b)=>b.schedule_luck-a.schedule_luck)[0];
-  const worstLuck = [...seasons].sort((a,b)=>a.schedule_luck-b.schedule_luck)[0];
-  let biggestWin=null, highestScore=null;
-  for(const m of DATA.matchups){
-    if(m.winner==='UNDECIDED' || m.away_team_id==null) continue;
-    const margin=Math.abs((m.home_score||0)-(m.away_score||0));
-    if(!biggestWin || margin>biggestWin.margin) biggestWin={...m,margin};
-    for(const side of ['home','away']){
-      const score=side==='home'?m.home_score:m.away_score;
-      if(score!=null && (!highestScore || score>highestScore.score)) highestScore={...m,side,score};
+  const historicalSeasons = DATA.advanced_stats.season.filter(x => Number(x.season) <= 2025);
+  const historicalCareer = DATA.advanced_stats.career.map(x => ({...x}));
+
+  const champCounts = {};
+  for (const c of DATA.champions || []) champCounts[c.person_id] = (champCounts[c.person_id] || 0) + 1;
+
+  const titleRunnerUps = {};
+  for (const c of DATA.championships || []) {
+    if (c.runner_up_person_id != null) titleRunnerUps[c.runner_up_person_id] = (titleRunnerUps[c.runner_up_person_id] || 0) + 1;
+  }
+
+  const teamRows = DATA.teams.filter(t => Number(t.season) <= 2025 && t.playoff_seed != null);
+  const byOwner = {};
+  for (const t of teamRows) (byOwner[t.person_id] ??= []).push(t);
+
+  function streakFor(id, predicate) {
+    const rows = (byOwner[id] || []).slice().sort((a,b)=>a.season-b.season);
+    let best = 0, run = 0, prev = null;
+    for (const r of rows) {
+      const consecutive = prev != null && Number(r.season) === Number(prev) + 1;
+      run = consecutive && predicate(r) ? run + 1 : (predicate(r) ? 1 : 0);
+      best = Math.max(best, run);
+      prev = Number(r.season);
+    }
+    return best;
+  }
+
+  const careerRows = historicalCareer.map(x => {
+    const rows = byOwner[x.person_id] || [];
+    const playoffs = rows.filter(r => r.playoff_seed <= 6).length;
+    const top3 = rows.filter(r => r.playoff_seed <= 3).length;
+    const oneSeeds = rows.filter(r => r.playoff_seed === 1).length;
+    const titles = champCounts[x.person_id] || 0;
+    const titleGames = titles + (titleRunnerUps[x.person_id] || 0);
+    return {
+      ...x,
+      championships: titles,
+      playoff_appearances: playoffs,
+      top3_seeds: top3,
+      one_seeds: oneSeeds,
+      avg_seed: rows.length ? rows.reduce((s,r)=>s+r.playoff_seed,0) / rows.length : null,
+      playoff_rate: rows.length ? playoffs / rows.length : 0,
+      one_seed_rate: rows.length ? oneSeeds / rows.length : 0,
+      playoff_streak: streakFor(x.person_id, r => r.playoff_seed <= 6),
+      one_seed_streak: streakFor(x.person_id, r => r.playoff_seed === 1),
+      title_appearances: titleGames,
+      title_conversion: titleGames ? titles / titleGames : 0
+    };
+  });
+
+  const qualified = careerRows.filter(x => x.seasons >= 5);
+  const qualifiedTitles = careerRows.filter(x => x.title_appearances >= 3);
+
+  const best = (rows, key, reverse=false) => [...rows].sort((a,b) => {
+    const av = a[key] ?? (reverse ? -Infinity : Infinity);
+    const bv = b[key] ?? (reverse ? -Infinity : Infinity);
+    return reverse ? bv-av : av-bv;
+  })[0];
+
+  const mostTitles = best(careerRows, "championships", true);
+  const mostPlayoffs = best(careerRows, "playoff_appearances", true);
+  const mostOneSeeds = best(careerRows, "one_seeds", true);
+  const mostTop3 = best(careerRows, "top3_seeds", true);
+  const mostWins = best(careerRows, "wins", true);
+  const bestWinPct = best(qualified, "actual_win_pct", true);
+  const bestPlayoffRate = best(qualified, "playoff_rate", true);
+  const bestOneSeedRate = best(qualified, "one_seed_rate", true);
+  const bestAvgSeed = best(qualified, "avg_seed", false);
+  const bestConversion = best(qualifiedTitles, "title_conversion", true);
+  const longestPlayoff = best(careerRows, "playoff_streak", true);
+  const longestOneSeed = best(careerRows, "one_seed_streak", true);
+
+  let biggestWin = null, highestScore = null;
+  for (const m of DATA.matchups) {
+    if (Number(m.season) > 2025 || m.winner === "UNDECIDED" || m.away_team_id == null) continue;
+    const margin = Math.abs((m.home_score || 0) - (m.away_score || 0));
+    if (!biggestWin || margin > biggestWin.margin) biggestWin = {...m, margin};
+    for (const side of ["home","away"]) {
+      const score = side === "home" ? m.home_score : m.away_score;
+      if (score != null && (!highestScore || score > highestScore.score)) highestScore = {...m, side, score};
     }
   }
-  const pairMap={};
-  for(const m of DATA.matchups){ if(m.winner==='UNDECIDED' || m.away_team_id==null) continue; const ids=[m.home_person_id,m.away_person_id].sort().join('|'); pairMap[ids] ??= {games:0,combined:0,a:m.home_person_id,b:m.away_person_id}; pairMap[ids].games++; pairMap[ids].combined += (m.home_score||0)+(m.away_score||0); }
-  const pairRows=Object.values(pairMap);
-  const mostMeetings=pairRows.sort((a,b)=>b.games-a.games)[0];
-  const mostCombined=[...pairRows].sort((a,b)=>b.combined-a.combined)[0];
-  const recordCards=[
-    ['Most points in a season',fmt(bestSeason.points_for,2),bestSeason.person_name,`${bestSeason.season} · ${fmt(bestSeason.points_per_game,2)} PPG`],
-    ['Best season PPG',fmt(bestPPG.points_per_game,2),bestPPG.person_name,`${bestPPG.season} · ${fmt(bestPPG.points_for,2)} PF`],
-    ['Best career all-play %',pct(bestAllPlay.all_play_win_pct),bestAllPlay.person_name,`${bestAllPlay.seasons} seasons`],
-    ['Best schedule luck',`+${fmt(luck.schedule_luck,2)}`,luck.person_name,`${luck.season}`],
-    ['Worst schedule luck',fmt(worstLuck.schedule_luck,2),worstLuck.person_name,`${worstLuck.season}`],
-    ['Biggest winning margin',fmt(biggestWin.margin,2),'Single matchup',`${biggestWin.season} · ${personName(biggestWin.home_person_id)} ${fmt(biggestWin.home_score,2)}–${fmt(biggestWin.away_score,2)} ${personName(biggestWin.away_person_id)}`],
-    ['Highest single-game score',fmt(highestScore.score,2),personName(highestScore.side==='home'?highestScore.home_person_id:highestScore.away_person_id),`${highestScore.season}`],
+
+  const bestSeason = [...historicalSeasons].sort((a,b)=>b.points_for-a.points_for)[0];
+  const bestPPG = [...historicalSeasons].sort((a,b)=>b.points_per_game-a.points_per_game)[0];
+  const bestAllPlay = [...historicalCareer].filter(x=>x.seasons>=3).sort((a,b)=>b.all_play_win_pct-a.all_play_win_pct)[0];
+  const luck = [...historicalSeasons].sort((a,b)=>b.schedule_luck-a.schedule_luck)[0];
+  const worstLuck = [...historicalSeasons].sort((a,b)=>a.schedule_luck-b.schedule_luck)[0];
+
+  const careerCards = [
+    ["Most championships", mostTitles.championships, mostTitles.person_name, "Career titles"],
+    ["Most playoff appearances", mostPlayoffs.playoff_appearances, mostPlayoffs.person_name, mostPlayoffs.seasons + " seasons"],
+    ["Most #1 seeds", mostOneSeeds.one_seeds, mostOneSeeds.person_name, "Regular-season #1 seeds"],
+    ["Most top-3 seeds", mostTop3.top3_seeds, mostTop3.person_name, "Regular-season top-3 finishes"],
+    ["Most career wins", mostWins.wins, mostWins.person_name, mostWins.seasons + " seasons"],
+    ["Best career win %", pct(bestWinPct.actual_win_pct), bestWinPct.person_name, "Minimum 5 seasons"],
+    ["Best playoff rate", pct(bestPlayoffRate.playoff_rate), bestPlayoffRate.person_name, "Minimum 5 seasons"],
+    ["Best #1 seed rate", pct(bestOneSeedRate.one_seed_rate), bestOneSeedRate.person_name, "Minimum 5 seasons"],
+    ["Best average seed", fmt(bestAvgSeed.avg_seed,2), bestAvgSeed.person_name, "Lower is better · minimum 5 seasons"],
+    ["Best title conversion", pct(bestConversion.title_conversion), bestConversion.person_name, bestConversion.title_appearances + " title-game appearances"],
+    ["Longest playoff streak", longestPlayoff.playoff_streak, longestPlayoff.person_name, "Consecutive seasons"],
+    ["Longest #1 seed streak", longestOneSeed.one_seed_streak, longestOneSeed.person_name, "Consecutive seasons"]
   ];
-  $("#app").innerHTML=`<div class="page-head"><div><div class="eyebrow">League history</div><h1>Records</h1><p>The numbers that will start arguments in the group chat.</p></div></div><div class="owner-grid">${recordCards.map(r=>`<div class="owner-card"><div class="mini">${esc(r[0])}</div><div class="stat-value" style="margin-top:8px">${esc(r[1])}</div><div style="font-weight:800;margin-top:8px">${esc(r[2])}</div><div class="mini" style="margin-top:3px">${esc(r[3])}</div></div>`).join('')}</div>`;
+
+  const seasonCards = [
+    ["Most points in a season", fmt(bestSeason.points_for,2), bestSeason.person_name, bestSeason.season + " · " + fmt(bestSeason.points_per_game,2) + " PPG"],
+    ["Best season PPG", fmt(bestPPG.points_per_game,2), bestPPG.person_name, bestPPG.season + " · " + fmt(bestPPG.points_for,2) + " PF"],
+    ["Best career all-play %", pct(bestAllPlay.all_play_win_pct), bestAllPlay.person_name, bestAllPlay.seasons + " seasons"],
+    ["Best schedule luck", "+" + fmt(luck.schedule_luck,2), luck.person_name, String(luck.season)],
+    ["Worst schedule luck", fmt(worstLuck.schedule_luck,2), worstLuck.person_name, String(worstLuck.season)],
+    ["Biggest winning margin", fmt(biggestWin.margin,2), "Single matchup", biggestWin.season + " · " + personName(biggestWin.home_person_id) + " " + fmt(biggestWin.home_score,2) + "–" + fmt(biggestWin.away_score,2) + " " + personName(biggestWin.away_person_id)],
+    ["Highest single-game score", fmt(highestScore.score,2), personName(highestScore.side==="home"?highestScore.home_person_id:highestScore.away_person_id), String(highestScore.season)]
+  ];
+
+  const card = r => "<div class=\"owner-card\"><div class=\"mini\">" + esc(r[0]) + "</div><div class=\"stat-value\" style=\"margin-top:8px\">" + esc(String(r[1])) + "</div><div style=\"font-weight:800;margin-top:8px\">" + esc(r[2]) + "</div><div class=\"mini\" style=\"margin-top:3px\">" + esc(r[3]) + "</div></div>";
+
+  $("#app").innerHTML =
+    "<div class=\"page-head\"><div><div class=\"eyebrow\">League history</div><h1>Records</h1><p>The numbers that will start arguments in the group chat.</p></div></div>" +
+    "<div class=\"section-title\"><h2>Career Résumé Records</h2><span class=\"mini\">2011–2025 · 5-season minimum where noted</span></div>" +
+    "<div class=\"owner-grid\">" + careerCards.map(card).join("") + "</div>" +
+    "<div class=\"section-title\" style=\"margin-top:26px\"><h2>Season &amp; Game Records</h2><span class=\"mini\">Historical seasons only · 2026 excluded</span></div>" +
+    "<div class=\"owner-grid\">" + seasonCards.map(card).join("") + "</div>";
 }
 
 function renderDraft() {
