@@ -123,6 +123,7 @@ for pid, rows in owner_rows.items():
     # they have been in the league.
     first_round_avg = avg(first_round_picks)
     first_round_median = median(first_round_picks)
+    first_round_slot_std_dev = stdev(first_round_picks)
     first_round_top3 = sum(p <= 3 for p in first_round_picks)
     first_round_top5 = sum(p <= 5 for p in first_round_picks)
     first_round_top10 = sum(p <= 10 for p in first_round_picks)
@@ -144,6 +145,7 @@ for pid, rows in owner_rows.items():
         "first_round_picks": len(first_round),
         "avg_first_round_pick": first_round_avg,
         "median_first_round_pick": first_round_median,
+        "first_round_pick_std_dev": first_round_slot_std_dev,
         "first_round_top3": first_round_top3,
         "first_round_top5": first_round_top5,
         "first_round_top10": first_round_top10,
