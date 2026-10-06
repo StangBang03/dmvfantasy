@@ -114,6 +114,20 @@ for pid, rows in owner_rows.items():
         for d in rows
     )
 
+    first_round = [d for d in rows if d["round"] == 1]
+    first_round_picks = [d["overall_pick"] for d in first_round]
+
+    # First-round draft position is more informative than total draft volume.
+    # Each owner normally has one first-round selection per season, so these
+    # metrics describe where the owner actually drafted rather than how long
+    # they have been in the league.
+    first_round_avg = avg(first_round_picks)
+    first_round_median = median(first_round_picks)
+    first_round_top3 = sum(p <= 3 for p in first_round_picks)
+    first_round_top5 = sum(p <= 5 for p in first_round_picks)
+    first_round_top10 = sum(p <= 10 for p in first_round_picks)
+    first_overall = sum(p == 1 for p in first_round_picks)
+
     career.append({
         "person_id": pid,
         "person_name": name_for(pid),
@@ -127,6 +141,15 @@ for pid, rows in owner_rows.items():
         "draft_slot_std_dev": stdev(picks),
         "avg_round": avg(rounds),
         "avg_round_pick": avg(round_picks),
+        "first_round_picks": len(first_round),
+        "avg_first_round_pick": first_round_avg,
+        "median_first_round_pick": first_round_median,
+        "first_round_top3": first_round_top3,
+        "first_round_top5": first_round_top5,
+        "first_round_top10": first_round_top10,
+        "first_overall_picks": first_overall,
+        "best_first_round_pick": min(first_round_picks) if first_round_picks else None,
+        "worst_first_round_pick": max(first_round_picks) if first_round_picks else None,
         "early_round_picks_1_3": early,
         "middle_round_picks_4_8": middle,
         "late_round_picks_9_plus": late,
@@ -353,7 +376,17 @@ output = {
     "player_history": player_history,
     "repeat_player_drafts": repeat_player_rows,
     "slot_profile": slot_profile,
-    "records": records,
+    "records": {
+        **records,
+        "best_avg_first_round_pick": top(
+            [x for x in career if x["first_round_picks"] >= 5],
+            "avg_first_round_pick",
+            reverse=False
+        ),
+        "most_first_round_top3": top(career, "first_round_top3"),
+        "most_first_round_top5": top(career, "first_round_top5"),
+        "most_first_overall_picks": top(career, "first_overall_picks"),
+    },
 }
 
 ANALYTICS.mkdir(parents=True, exist_ok=True)
