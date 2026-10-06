@@ -40,6 +40,7 @@ async function loadData() {
     standings: ["data/processed/standings.json", "data/standings.json"],
     seasons: ["data/processed/seasons.json", "data/seasons.json"],
     draft_analytics: ["data/analytics/draft_analytics.json", "data/draft_analytics.json"],
+    owner_records: ["data/analytics/owner_records.json", "data/owner_records.json"],
   };
   const names = Object.keys(sources);
   const vals = await Promise.all(names.map(n => loadOne(sources[n])));
@@ -228,44 +229,94 @@ function renderOwners() {
 function renderOwner(id) {
   const x = DATA.advanced_stats.career.find(x=>x.person_id===id);
   if (!x) { $("#app").innerHTML='<div class="empty">Owner not found.</div>'; return; }
-  const seasons = DATA.advanced_stats.season.filter(s=>s.person_id===id).sort((a,b)=>b.season-a.season);
+
+  const historicalSeasons = DATA.advanced_stats.season.filter(s=>s.person_id===id && s.season<=2025).sort((a,b)=>b.season-a.season);
+  const teams = DATA.teams.filter(t=>t.person_id===id).sort((a,b)=>b.season-a.season);
+  const historicalTeams = teams.filter(t=>t.season<=2025);
   const champs = DATA.champions.filter(c=>c.person_id===id);
+  const ownerRecord = DATA.owner_records.find(r=>r.person_id===id) || {};
+  const championshipAppearances = DATA.championships?.filter(c=>c.runner_up_person_id===id).length || 0;
+  const draft = DATA.draft_analytics.career.find(d=>d.person_id===id) || {};
+  const draftRounds = DATA.draft_picks.filter(d=>d.person_id===id && d.season<=2025 && d.round===1).map(d=>d.overall_pick);
+
+  const wins=historicalSeasons.reduce((n,s)=>n+(s.actual_wins||0),0);
+  const losses=historicalSeasons.reduce((n,s)=>n+(s.actual_losses||0),0);
+  const ties=historicalSeasons.reduce((n,s)=>n+(s.actual_ties||0),0);
+  const points=historicalSeasons.reduce((n,s)=>n+(s.points_for||0),0);
+  const games=wins+losses+ties;
+  const winPct=games?(wins+ties*.5)/games:null;
+  const avgPF=historicalSeasons.length?points/historicalSeasons.length:null;
+
+  const seedRows=historicalTeams.filter(t=>t.playoff_seed!=null);
+  const oneSeeds=seedRows.filter(t=>t.playoff_seed===1).length;
+  const top3Seeds=seedRows.filter(t=>t.playoff_seed<=3).length;
+  const avgSeed=seedRows.length?seedRows.reduce((n,t)=>n+t.playoff_seed,0)/seedRows.length:null;
+  const bestSeed=seedRows.length?Math.min(...seedRows.map(t=>t.playoff_seed)):null;
+  const playoffApps=ownerRecord.playoff_appearances||0;
+  const playoffRate=historicalSeasons.length?playoffApps/historicalSeasons.length:null;
+  const champRate=historicalSeasons.length?champs.length/historicalSeasons.length:null;
+  const playoffConversion=playoffApps?champs.length/playoffApps:null;
+  const oneSeedRate=historicalSeasons.length?oneSeeds/historicalSeasons.length:null;
+
   const h2h = {};
   DATA.matchups.filter(m=>m.home_person_id===id || m.away_person_id===id).forEach(m=>{
     const opponent = m.home_person_id===id ? m.away_person_id : m.home_person_id;
     if (!opponent) return;
-    h2h[opponent] ??= {games:0,wins:0,losses:0,ties:0,points:0,against:0};
+    h2h[opponent] ??= {games:0,wins:0,losses:0,ties:0};
     const h=h2h[opponent]; h.games++;
-    const mine=m.home_person_id===id?m.home_score:m.away_score;
-    const theirs=m.home_person_id===id?m.away_score:m.home_score;
-    h.points+=mine||0; h.against+=theirs||0;
     if(m.winner==='UNDECIDED') return;
     if((m.winner==='HOME' && m.home_person_id===id)||(m.winner==='AWAY'&&m.away_person_id===id)) h.wins++;
     else if(m.winner==='TIE') h.ties++;
     else h.losses++;
   });
   const rivals=Object.entries(h2h).filter(([k,v])=>v.games>0).sort((a,b)=>b[1].games-a[1].games).slice(0,8);
-  const teams=DATA.teams.filter(t=>t.person_id===id).sort((a,b)=>b.season-a.season);
-  const draft=DATA.draft_picks.filter(d=>d.person_id===id && d.season<=2025);
-  const avgPick=draft.length?draft.reduce((s,d)=>s+d.overall_pick,0)/draft.length:null;
 
-  $("#app").innerHTML=`
-    <div class="profile-hero"><div class="profile-avatar">${initials(x.person_name)}</div><div><div class="eyebrow">Owner profile</div><h1>${esc(x.person_name)}</h1><div class="badges">${champs.map(c=>`<span class="badge">🏆 ${c.season}</span>`).join('')}${!champs.length?'<span class="badge">No championships yet</span>':''}</div></div></div>
-    <div class="stats-grid">
-      <div class="stat-card"><div class="stat-label">CAREER RECORD</div><div class="stat-value">${x.actual_wins}-${x.actual_losses}${x.actual_ties?`-${x.actual_ties}`:''}</div><div class="stat-meta">${pct(x.actual_win_pct)} win rate</div></div>
-      <div class="stat-card"><div class="stat-label">POINTS PER GAME</div><div class="stat-value">${fmt(x.points_per_game,1)}</div><div class="stat-meta">${fmt(x.points_for,1)} career PF</div></div>
-      <div class="stat-card"><div class="stat-label">ALL-PLAY WIN %</div><div class="stat-value">${pct(x.all_play_win_pct)}</div><div class="stat-meta">${fmt(x.expected_wins,1)} expected wins</div></div>
-      <div class="stat-card"><div class="stat-label">SCHEDULE LUCK</div><div class="stat-value" class="${x.schedule_luck>=0?'positive':'negative'}">${x.schedule_luck>=0?'+':''}${fmt(x.schedule_luck,1)}</div><div class="stat-meta">actual minus expected wins</div></div>
-    </div>
-    <div class="grid-2">
-      <section class="card"><div class="card-head"><h2>Season History</h2></div><div class="table-wrap"><table><thead><tr><th>Year</th><th>Record</th><th>PF</th><th>PPG</th><th>All-Play</th><th>Luck</th></tr></thead><tbody>${seasons.map(s=>`<tr><td><a class="owner-link" href="#season/${s.season}">${s.season}</a></td><td class="record">${s.actual_wins}-${s.actual_losses}${s.actual_ties?`-${s.actual_ties}`:''}</td><td>${fmt(s.points_for,1)}</td><td>${fmt(s.points_per_game,1)}</td><td>${pct(s.all_play_win_pct)}</td><td class="${s.schedule_luck>=0?'positive':'negative'}">${s.schedule_luck>=0?'+':''}${fmt(s.schedule_luck,1)}</td></tr>`).join('')}</tbody></table></div></section>
-      <section class="card"><div class="card-head"><h2>Most Played Opponents</h2></div><div class="card-body">${rivals.map(([pid,v])=>`<div class="champ-row"><div class="avatar" style="width:32px;height:32px;border-radius:9px;font-size:10px">${initials(personName(pid))}</div><div class="champ-name"><a class="owner-link" href="#owner/${encodeURIComponent(pid)}">${esc(personName(pid))}</a><div class="champ-years">${v.games} games · ${v.wins}-${v.losses}${v.ties?`-${v.ties}`:''}</div></div><div class="record">${v.games?pct(v.wins/v.games):'—'}</div></div>`).join('') || '<div class="empty">No H2H data.</div>'}</div></section>
-    </div>
-    <div class="grid-2" style="margin-top:18px">
-      <section class="card"><div class="card-head"><h2>Team History</h2></div><div class="table-wrap"><table><thead><tr><th>Year</th><th>Team</th><th>Seed</th></tr></thead><tbody>${teams.map(t=>`<tr><td>${t.season}</td><td><strong>${esc(t.team_name)}</strong><div class="team-name">${esc(t.abbrev||'')}</div></td><td>${t.playoff_seed ?? '—'}</td></tr>`).join('')}</tbody></table></div></section>
-      <section class="card"><div class="card-head"><h2>Draft Footprint</h2></div><div class="card-body"><div class="stats-grid" style="margin:0"><div class="stat-card"><div class="stat-label">PICKS</div><div class="stat-value">${draft.length}</div></div><div class="stat-card"><div class="stat-label">AVG PICK</div><div class="stat-value">${avgPick?fmt(avgPick,1):'—'}</div></div><div class="stat-card"><div class="stat-label">FIRST ROUND</div><div class="stat-value">${draft.filter(d=>d.round===1).length}</div></div><div class="stat-card"><div class="stat-label">CHAMPS</div><div class="stat-value">${champs.length}</div></div></div></div></section>
-    </div>
-  `;
+  const current = DATA.advanced_stats.season.find(s=>s.person_id===id && s.season===2026);
+  const draftAvg=draft.avg_first_round_pick;
+  const draftTop3=draft.first_round_top3||0;
+  const draftTop5=draft.first_round_top5||0;
+  const draftFirstOverall=draft.first_overall_picks||0;
+
+  $("#app").innerHTML=
+    '<div class="profile-hero"><div class="profile-avatar">'+initials(x.person_name)+'</div><div><div class="eyebrow">Owner résumé</div><h1>'+esc(x.person_name)+'</h1><div class="badges">'+champs.map(c=>'<span class="badge">🏆 '+c.season+'</span>').join('')+(!champs.length?'<span class="badge">No championships yet</span>':'')+'</div></div></div>'+
+    '<div class="pulse-grid">'+
+      '<div class="pulse-card"><div class="pulse-kicker">CHAMPIONSHIPS</div><div class="pulse-value">'+champs.length+'</div><div class="pulse-meta">'+pct(champRate)+' of historical seasons</div></div>'+
+      '<div class="pulse-card"><div class="pulse-kicker">#1 SEEDS</div><div class="pulse-value">'+oneSeeds+'</div><div class="pulse-meta">'+pct(oneSeedRate)+' of historical seasons</div></div>'+
+      '<div class="pulse-card"><div class="pulse-kicker">PLAYOFF APPEARANCES</div><div class="pulse-value">'+playoffApps+'</div><div class="pulse-meta">'+pct(playoffRate)+' playoff rate</div></div>'+
+      '<div class="pulse-card"><div class="pulse-kicker">AVG 1ST-ROUND PICK</div><div class="pulse-value">'+(draftAvg!=null?fmt(draftAvg,1):'—')+'</div><div class="pulse-meta">'+draftTop3+' top-3 · '+draftTop5+' top-5 · '+draftFirstOverall+' #1 overall</div></div>'+
+    '</div>'+
+    '<div class="grid-2">'+
+      '<section class="card"><div class="card-head"><div><h2>Career Résumé</h2><div class="subtle">Historical seasons through 2025</div></div></div><div class="stats-grid" style="margin:0">'+
+        '<div class="stat-card"><div class="stat-label">RECORD</div><div class="stat-value">'+wins+'-'+losses+(ties?' - '+ties:'')+'</div><div class="stat-meta">'+pct(winPct)+' win rate</div></div>'+
+        '<div class="stat-card"><div class="stat-label">AVG FINISH / SEED</div><div class="stat-value">'+(avgSeed!=null?fmt(avgSeed,1):'—')+'</div><div class="stat-meta">best seed '+(bestSeed??'—')+'</div></div>'+
+        '<div class="stat-card"><div class="stat-label">TOP-3 SEASONS</div><div class="stat-value">'+top3Seeds+'</div><div class="stat-meta">'+pct(historicalSeasons.length?top3Seeds/historicalSeasons.length:null)+' rate</div></div>'+
+        '<div class="stat-card"><div class="stat-label">CHAMP. CONVERSION</div><div class="stat-value">'+pct(playoffConversion)+'</div><div class="stat-meta">titles per playoff appearance</div></div>'+
+      '</div></section>'+
+      '<section class="card"><div class="card-head"><div><h2>Draft Profile</h2><div class="subtle">Historical first-round positioning</div></div></div><div class="rank-list">'+
+        '<div class="rank-row"><div class="rank-main"><strong>Average 1st-round pick</strong><small>Lower is earlier</small></div><b>'+(draftAvg!=null?fmt(draftAvg,1):'—')+'</b></div>'+
+        '<div class="rank-row"><div class="rank-main"><strong>Top-3 picks</strong><small>Premium draft slots</small></div><b>'+draftTop3+'</b></div>'+
+        '<div class="rank-row"><div class="rank-main"><strong>Top-5 picks</strong><small>Premium draft slots</small></div><b>'+draftTop5+'</b></div>'+
+        '<div class="rank-row"><div class="rank-main"><strong>#1 overall picks</strong><small>Times drafting first</small></div><b>'+draftFirstOverall+'</b></div>'+
+        '<div class="rank-row"><div class="rank-main"><strong>Best 1st-round pick</strong><small>Career best</small></div><b>'+(draft.best_first_round_pick??'—')+'</b></div>'+
+      '</div></section>'+
+    '</div>'+
+    '<div class="grid-2" style="margin-top:18px">'+
+      '<section class="card"><div class="card-head"><h2>Season History</h2></div><div class="table-wrap"><table><thead><tr><th>Year</th><th>Record</th><th>Seed</th><th>PF</th><th>PPG</th><th>Luck</th></tr></thead><tbody>'+
+        historicalSeasons.map(s=>{const t=historicalTeams.find(t=>t.season===s.season);return '<tr><td><a class="owner-link" href="#season/'+s.season+'">'+s.season+'</a></td><td class="record">'+s.actual_wins+'-'+s.actual_losses+(s.actual_ties?'-'+s.actual_ties:'')+'</td><td>'+(t?.playoff_seed??'—')+'</td><td>'+fmt(s.points_for,1)+'</td><td>'+fmt(s.points_per_game,1)+'</td><td class="'+(s.schedule_luck>=0?'positive':'negative')+'">'+(s.schedule_luck>=0?'+':'')+fmt(s.schedule_luck,1)+'</td></tr>';}).join('')+
+      '</tbody></table></div></section>'+
+      '<section class="card"><div class="card-head"><h2>Postseason Résumé</h2></div><div class="rank-list">'+
+        '<div class="rank-row"><div class="rank-main"><strong>Championships</strong><small>'+champs.map(c=>c.season).join(' · ')+'</small></div><b>'+champs.length+'</b></div>'+
+        '<div class="rank-row"><div class="rank-main"><strong>Championship appearances</strong><small>Won or runner-up</small></div><b>'+ (champs.length+championshipAppearances) +'</b></div>'+
+        '<div class="rank-row"><div class="rank-main"><strong>#1 seeds</strong><small>Regular-season seed</small></div><b>'+oneSeeds+'</b></div>'+
+        '<div class="rank-row"><div class="rank-main"><strong>Top-3 seeds</strong><small>Regular-season seed</small></div><b>'+top3Seeds+'</b></div>'+
+        '<div class="rank-row"><div class="rank-main"><strong>Playoff appearances</strong><small>Historical seasons</small></div><b>'+playoffApps+'</b></div>'+
+      '</div></section>'+
+    '</div>'+
+    '<div class="grid-2" style="margin-top:18px">'+
+      '<section class="card"><div class="card-head"><h2>Team History</h2></div><div class="table-wrap"><table><thead><tr><th>Year</th><th>Team</th><th>Seed</th></tr></thead><tbody>'+historicalTeams.map(t=>'<tr><td>'+t.season+'</td><td><strong>'+esc(t.team_name)+'</strong><div class="team-name">'+esc(t.abbrev||'')+'</div></td><td>'+(t.playoff_seed??'—')+'</td></tr>').join('')+'</tbody></table></div></section>'+
+      '<section class="card"><div class="card-head"><h2>Most Played Opponents</h2></div><div class="card-body">'+rivals.map(([pid,v])=>'<div class="champ-row"><div class="avatar" style="width:32px;height:32px;border-radius:9px;font-size:10px">'+initials(personName(pid))+'</div><div class="champ-name"><a class="owner-link" href="#owner/'+encodeURIComponent(pid)+'">'+esc(personName(pid))+'</a><div class="champ-years">'+v.games+' games · '+v.wins+'-'+v.losses+(v.ties?' - '+v.ties:'')+'</div></div><div class="record">'+(v.games?pct(v.wins/v.games):'—')+'</div></div>').join('') || '<div class="empty">No H2H data.</div>'+'</div></section>'+
+    '</div>'+
+    (current ? '<section class="card" style="margin-top:18px"><div class="card-head"><div><h2>2026 Season</h2><div class="subtle">Current season — not included in the historical résumé above</div></div></div><div class="stats-grid" style="margin:0"><div class="stat-card"><div class="stat-label">RECORD</div><div class="stat-value">'+current.actual_wins+'-'+current.actual_losses+(current.actual_ties?'-'+current.actual_ties:'')+'</div></div><div class="stat-card"><div class="stat-label">POINTS</div><div class="stat-value">'+fmt(current.points_for,1)+'</div></div><div class="stat-card"><div class="stat-label">PPG</div><div class="stat-value">'+fmt(current.points_per_game,1)+'</div></div></div></section>' : '');
 }
 
 function renderRecords() {
