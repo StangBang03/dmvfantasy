@@ -390,6 +390,9 @@ function renderMatchups() {
 
 window.addEventListener('hashchange', render);
 $("#mobileMenu").addEventListener('click',()=>$(".sidebar").classList.toggle('open'));
+document.querySelectorAll(".sidebar nav a").forEach(link=>{
+  link.addEventListener("click",()=>$(".sidebar").classList.remove("open"));
+});
 
 loadData().then(render).catch(err=>{
   console.error(err);
