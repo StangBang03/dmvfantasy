@@ -305,46 +305,38 @@ function renderRecords() {
 
 function renderDraft() {
   const a=DATA.draft_analytics;
-  const career=(a.career||[]).slice().sort((x,y)=>y.draft_picks-x.draft_picks);
-  const slots=(a.slot_profile||[]).slice().sort((x,y)=>x.avg_first_pick-y.avg_first_pick);
-  const records=a.records||{};
-  const repeat=(records.most_repeat_player_targets||[]).slice(0,8);
+  const career=(a.career||[]).slice().sort((x,y)=>(x.avg_first_round_pick??999)-(y.avg_first_round_pick??999));
+  const qualified=career.filter(x=>(x.first_round_picks||0)>=5);
+  const topAvg=qualified[0];
+  const top1=(a.records?.most_first_overall_picks||[])[0];
+  const top3=(a.records?.most_first_round_top3||[])[0];
   const recent=DATA.draft_picks.filter(x=>x.season===2026).sort((x,y)=>x.overall_pick-y.overall_pick).slice(0,24);
-  const top=career[0];
-  const early=(records.most_early_round_picks||[])[0] || career.slice().sort((x,y)=>y.early_round_picks_1_3-x.early_round_picks_1_3)[0];
-  const keeper=(records.most_keepers||[])[0] || career.slice().sort((x,y)=>y.keepers-x.keepers)[0];
 
-  $("#app").innerHTML=`
-    <div class="page-head"><div><div class="eyebrow">Draft room</div><h1>Draft History</h1><p>2,816 picks across 16 seasons — now with the deeper draft-room numbers behind them.</p></div></div>
-    <div class="pulse-grid">
-      <div class="pulse-card"><div class="pulse-kicker">MOST DRAFT PICKS</div><div class="pulse-value">${esc(top.person_name)}</div><div class="pulse-meta">${fmt(top.draft_picks)} picks across ${top.seasons} seasons</div></div>
-      <div class="pulse-card"><div class="pulse-kicker">MOST EARLY PICKS</div><div class="pulse-value">${esc(early.person_name)}</div><div class="pulse-meta">${early.early_round_picks_1_3} picks in rounds 1–3</div></div>
-      <div class="pulse-card"><div class="pulse-kicker">MOST KEEPERS</div><div class="pulse-value">${esc(keeper.person_name)}</div><div class="pulse-meta">${keeper.keepers} keeper selections</div></div>
-    </div>
-    <div class="grid-2">
-      <section class="card"><div class="card-head"><div><h2>Owner Draft Footprint</h2><div class="subtle">Historical drafts, 2011–2025</div></div></div>
-        <div class="table-wrap"><table><thead><tr><th>Owner</th><th>Seasons</th><th>Picks</th><th>Avg Pick</th><th>Early</th><th>Keepers</th></tr></thead><tbody>
-        ${career.map(r=>`<tr class="clickable" onclick="location.hash='owner/${encodeURIComponent(r.person_id)}'"><td class="owner-link">${esc(r.person_name)}</td><td>${r.seasons}</td><td>${r.draft_picks}</td><td>${fmt(r.avg_overall_pick,1)}</td><td>${r.early_round_picks_1_3}</td><td>${r.keepers}</td></tr>`).join("")}
-        </tbody></table></div>
-      </section>
-      <section class="card"><div class="card-head"><div><h2>Most Repeated Targets</h2><div class="subtle">Owners who drafted the same player across multiple seasons</div></div></div>
-        <div class="rank-list">${repeat.map((r,i)=>`<div class="rank-row"><span class="rank-num">0${i+1}</span><div class="rank-main"><strong>${esc(r.person_name)}</strong><small>repeat player targets</small></div><b>${r.repeat_player_targets}</b></div>`).join("")}</div>
-      </section>
-    </div>
-    <div class="grid-2">
-      <section class="card"><div class="card-head"><div><h2>Draft Slot Profile</h2><div class="subtle">Average first pick and consistency by owner</div></div></div>
-        <div class="table-wrap"><table><thead><tr><th>Owner</th><th>Drafts</th><th>Avg 1st Pick</th><th>Slot σ</th></tr></thead><tbody>
-        ${slots.map(r=>`<tr><td class="owner-link">${esc(r.person_name)}</td><td>${r.drafts}</td><td>${fmt(r.avg_first_pick,1)}</td><td>${fmt(r.first_pick_std_dev,1)}</td></tr>`).join("")}
-        </tbody></table></div>
-      </section>
-      <section class="card"><div class="card-head"><div><h2>2026 Draft</h2><div class="subtle">First 24 picks</div></div></div>
-        <div class="table-wrap"><table><thead><tr><th>Pick</th><th>Owner</th><th>Round</th></tr></thead><tbody>
-        ${recent.map(d=>`<tr><td><strong>${d.overall_pick}</strong></td><td class="owner-link">${esc(personName(d.person_id))}</td><td>${d.round}</td></tr>`).join("")}
-        </tbody></table></div>
-      </section>
-    </div>`;
+  const positionRows=qualified.map(r=>'<tr class="clickable" onclick="location.hash=\'owner/'+encodeURIComponent(r.person_id)+'\'"><td class="owner-link">'+esc(r.person_name)+'</td><td>'+r.first_round_picks+'</td><td><strong>'+fmt(r.avg_first_round_pick,1)+'</strong></td><td>'+r.first_round_top3+'</td><td>'+r.first_round_top5+'</td><td>'+r.first_overall_picks+'</td><td>'+r.best_first_round_pick+'</td></tr>').join('');
+  const leaders=qualified.slice().sort((x,y)=>y.first_round_top5-x.first_round_top5 || y.first_round_top3-x.first_round_top3).slice(0,8);
+  const leaderRows=leaders.map((r,i)=>'<div class="rank-row"><span class="rank-num">'+String(i+1).padStart(2,"0")+'</span><div class="rank-main"><strong>'+esc(r.person_name)+'</strong><small>'+r.first_round_top5+' top-5 picks · '+r.first_round_top3+' top-3 · '+r.first_overall_picks+' #1</small></div><b>'+fmt(r.avg_first_round_pick,1)+'</b></div>').join('');
+  const slotRows=qualified.map(r=>'<tr><td class="owner-link">'+esc(r.person_name)+'</td><td>'+r.first_round_picks+'</td><td>'+fmt(r.avg_first_round_pick,1)+'</td><td>'+fmt(r.first_round_pick_std_dev,1)+'</td><td>'+r.best_first_round_pick+'</td><td>'+r.worst_first_round_pick+'</td></tr>').join('');
+  const recentRows=recent.map(d=>'<tr><td><strong>'+d.overall_pick+'</strong></td><td class="owner-link">'+esc(personName(d.person_id))+'</td><td>'+d.round+'</td></tr>').join('');
+
+  $("#app").innerHTML='
+    <div class="page-head"><div><div class="eyebrow">Draft room</div><h1>Draft History</h1><p>Who actually got the premium draft slots — and how often?</p></div></div>'+
+    '<div class="pulse-grid">'+
+      '<div class="pulse-card"><div class="pulse-kicker">BEST AVG 1ST-ROUND SLOT</div><div class="pulse-value">'+esc(topAvg?.person_name||"—")+'</div><div class="pulse-meta">'+(topAvg ? "Pick "+fmt(topAvg.avg_first_round_pick,1)+" across "+topAvg.first_round_picks+" drafts" : "—")+'</div></div>'+
+      '<div class="pulse-card"><div class="pulse-kicker">MOST #1 OVERALL PICKS</div><div class="pulse-value">'+esc(top1?.person_name||"—")+'</div><div class="pulse-meta">'+(top1?.first_overall_picks||0)+' times at pick 1</div></div>'+
+      '<div class="pulse-card"><div class="pulse-kicker">MOST TOP-3 PICKS</div><div class="pulse-value">'+esc(top3?.person_name||"—")+'</div><div class="pulse-meta">'+(top3?.first_round_top3||0)+' first-round picks in the top 3</div></div>'+
+    '</div>'+
+    '<div class="grid-2">'+
+      '<section class="card"><div class="card-head"><div><h2>First-Round Draft Position</h2><div class="subtle">Historical first-round slot, 2011–2025 · minimum 5 first-round drafts</div></div></div>'+
+      '<div class="table-wrap"><table><thead><tr><th>Owner</th><th>1st Rnd</th><th>Avg Pick</th><th>Top 3</th><th>Top 5</th><th>#1</th><th>Best</th></tr></thead><tbody>'+positionRows+'</tbody></table></div></section>'+
+      '<section class="card"><div class="card-head"><div><h2>Draft Position Leaders</h2><div class="subtle">Owners who have lived in the premium slots</div></div></div><div class="rank-list">'+leaderRows+'</div></section>'+
+    '</div>'+
+    '<div class="grid-2">'+
+      '<section class="card"><div class="card-head"><div><h2>Draft Slot Profile</h2><div class="subtle">How consistently each owner has received their first pick</div></div></div>'+
+      '<div class="table-wrap"><table><thead><tr><th>Owner</th><th>Drafts</th><th>Avg 1st Pick</th><th>Slot σ</th><th>Best</th><th>Worst</th></tr></thead><tbody>'+slotRows+'</tbody></table></div></section>'+
+      '<section class="card"><div class="card-head"><div><h2>2026 Draft</h2><div class="subtle">First 24 picks</div></div></div><div class="table-wrap"><table><thead><tr><th>Pick</th><th>Owner</th><th>Round</th></tr></thead><tbody>'+recentRows+'</tbody></table></div></section>'+
+    '</div>'+
+    '<div class="card"><div class="card-head"><div><h2>How to Read This</h2><div class="subtle">This is draft-position history, not a measure of draft skill.</div></div></div><p class="subtle" style="margin:0;line-height:1.7">First-round metrics use the actual overall pick number from each historical draft. A lower average means an owner has generally drafted earlier. Top-3, top-5, and #1 counts show how often they landed in premium draft slots. The leaderboard uses a five-draft minimum so one-season owners do not dominate the averages.</p></div>';
 }
-
 function rivalryRows() {
   const pairs = {};
   for (const m of DATA.matchups) {
