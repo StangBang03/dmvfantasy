@@ -185,10 +185,10 @@ function renderSeasons() {
   const currentStandings = currentRows();
   const currentGames = DATA.matchups.filter(x => x.season === 2026 && x.away_team_id != null && x.winner !== "UNDECIDED");
   const currentWeek = currentGames.length ? Math.max(...currentGames.map(x=>x.matchup_period_id)) : 0;
-  const recordText = x => x ? \`${x.wins}-${x.losses}${x.ties ? \`-${x.ties}\` : ""}\` : "—";
-  const seedText = x => x?.playoff_seed != null ? \`#${x.playoff_seed}\` : "—";
+  const recordText = x => x ? `${x.wins}-${x.losses}${x.ties ? `-${x.ties}` : ""}` : "—";
+  const seedText = x => x?.playoff_seed != null ? `#${x.playoff_seed}` : "—";
 
-  $("#app").innerHTML = \`
+  $("#app").innerHTML = `
     <div class="page-head"><div><div class="eyebrow">Archive</div><h1>Seasons</h1><p>A season-by-season record of champions, regular-season performance and how the league evolved.</p></div></div>
     <div class="pulse-grid">
       <div class="pulse-card"><div class="pulse-kicker">SEASONS COMPLETE</div><div class="pulse-value">15</div><div class="pulse-meta">2011–2025 · 2026 is in progress</div></div>
@@ -198,15 +198,15 @@ function renderSeasons() {
     </div>
     <div class="section-title"><h2>Season Archive</h2><span class="mini">Click any season for the full page</span></div>
     <section class="card"><div class="table-wrap"><table><thead><tr><th>Season</th><th>Champion</th><th>#1 Seed</th><th>Best Record</th><th>Top Scorer</th><th>Games</th></tr></thead><tbody>
-      ${rows.map(x => \`
+      ${rows.map(x => `
         <tr class="clickable" onclick="location.hash='season/${x.season}'">
           <td><strong>${x.season}</strong></td>
-          <td><span class="owner-link">${esc(x.champ?.person_name || "—")}</span>${x.champ ? \`<div class="team-name">${fmt(x.champ.score,0)} pts in final</div>\` : ""}</td>
+          <td><span class="owner-link">${esc(x.champ?.person_name || "—")}</span>${x.champ ? `<div class="team-name">${fmt(x.champ.score,0)} pts in final</div>` : ""}</td>
           <td>${esc(personName(x.oneSeed?.person_id))}<div class="team-name">${seedText(x.oneSeed)}</div></td>
           <td><b>${recordText(x.bestRecord)}</b><div class="team-name">${esc(personName(x.bestRecord?.person_id))}</div></td>
           <td>${esc(personName(x.topScorer?.person_id))}<div class="team-name">${fmt(x.topScorer?.points_for,0)} PF</div></td>
           <td>${x.games}</td>
-        </tr>\`).join("")}
+        </tr>`).join("")}
     </tbody></table></div></section>
     <div class="grid-2" style="margin-top:18px">
       <section class="card"><div class="card-head"><div><h2>2026 Season</h2><div class="subtle">Current league state</div></div><span class="badge">IN PROGRESS</span></div><div class="card-body">
@@ -220,7 +220,7 @@ function renderSeasons() {
         <div class="champ-row"><div class="trophy">🏆</div><div class="champ-name"><strong>Championship history</strong><div class="champ-years">15 decided seasons · ${new Set(DATA.champions.map(x=>x.person_id)).size} different champions</div></div></div>
       </div></section>
     </div>
-  \`;
+  `;
 }
 function renderSeason(season) {
   const standings = DATA.standings.filter(x => x.season === season).sort((a,b) => b.wins-a.wins || b.points_for-a.points_for);
