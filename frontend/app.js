@@ -211,7 +211,7 @@ function renderSeason(season) {
 function renderOwners() {
   const career = [...DATA.advanced_stats.career].sort((a,b)=>a.person_name.localeCompare(b.person_name));
   $("#app").innerHTML = `
-    <div class="page-head"><div><div class="eyebrow">People</div><h1>Owners</h1><p>Career profiles built from normalized regular-season history.</p></div></div>
+    <div class="page-head"><div><div class="eyebrow">People</div><h1>Owners</h1><p>League résumés, championships, playoff history and draft positioning.</p></div></div>
     <div class="controls"><input id="ownerSearch" placeholder="Search owner…" /></div>
     <div class="owner-grid" id="ownerGrid"></div>
   `;
@@ -221,7 +221,22 @@ function renderOwners() {
     const filtered = career.filter(x => x.person_name.toLowerCase().includes(q));
     grid.innerHTML = filtered.map(x=>{
       const c = DATA.champCounts[x.person_id]?.count || 0;
-      return `<article class="owner-card" onclick="location.hash='owner/${encodeURIComponent(x.person_id)}'"><div class="owner-card-top"><div style="display:flex;gap:11px;align-items:center"><div class="avatar">${initials(x.person_name)}</div><div><h3>${esc(x.person_name)}</h3><div class="mini">${x.seasons} season${x.seasons===1?'':'s'}</div></div></div><div>${c ? `<span class="badge">🏆 ${c}</span>` : ''}</div></div><div class="owner-metrics"><div class="owner-metric"><b>${pct(x.actual_win_pct)}</b><span>WIN %</span></div><div class="owner-metric"><b>${fmt(x.points_per_game,1)}</b><span>PPG</span></div><div class="owner-metric"><b>${fmt(x.expected_wins,1)}</b><span>EXP W</span></div></div></article>`;
+      const rec = DATA.owner_records.find(r=>r.person_id===x.person_id) || {};
+      const teamRows = DATA.teams.filter(t=>t.person_id===x.person_id && t.season<=2025 && t.playoff_seed!=null);
+      const oneSeeds = teamRows.filter(t=>t.playoff_seed===1).length;
+      const draft = DATA.draft_analytics.career.find(d=>d.person_id===x.person_id) || {};
+      return `<article class="owner-card" onclick="location.hash='owner/${encodeURIComponent(x.person_id)}'">
+        <div class="owner-card-top">
+          <div style="display:flex;gap:11px;align-items:center"><div class="avatar">${initials(x.person_name)}</div><div><h3>${esc(x.person_name)}</h3><div class="mini">${x.seasons} season${x.seasons===1?'':'s'}</div></div></div>
+          <div>${c ? `<span class="badge">🏆 ${c}</span>` : ''}</div>
+        </div>
+        <div class="owner-metrics">
+          <div class="owner-metric"><b>${pct(x.actual_win_pct)}</b><span>WIN %</span></div>
+          <div class="owner-metric"><b>${rec.playoff_appearances||0}</b><span>PLAYOFFS</span></div>
+          <div class="owner-metric"><b>${oneSeeds}</b><span>#1 SEEDS</span></div>
+          <div class="owner-metric"><b>${draft.avg_first_round_pick!=null?fmt(draft.avg_first_round_pick,1):'—'}</b><span>AVG 1ST</span></div>
+        </div>
+      </article>`;
     }).join("") || '<div class="empty">No owners found.</div>';
   }
   $("#ownerSearch").addEventListener('input', paint); paint();
