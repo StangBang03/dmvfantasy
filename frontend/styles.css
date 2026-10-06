@@ -200,3 +200,12 @@ input:focus, select:focus { border-color: #9ec9ff; box-shadow: 0 0 0 3px rgba(45
   .hero { padding:22px; }
   .page-head { align-items:flex-start; flex-direction:column; }
 }
+
+.rank-list { display:flex; flex-direction:column; }
+.rank-row { display:flex; align-items:center; gap:12px; padding:13px 4px; border-bottom:1px solid var(--line); }
+.rank-row:last-child { border-bottom:0; }
+.rank-num { width:26px; color:var(--accent); font-size:11px; font-weight:900; }
+.rank-main { flex:1; display:flex; flex-direction:column; gap:3px; }
+.rank-main strong { font-size:14px; }
+.rank-main small { color:var(--muted); font-size:11px; }
+.rank-row > b { font-size:18px; color:var(--navy); }
