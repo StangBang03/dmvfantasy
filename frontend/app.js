@@ -41,6 +41,7 @@ async function loadData() {
     seasons: ["data/processed/seasons.json", "data/seasons.json"],
     draft_analytics: ["data/analytics/draft_analytics.json", "data/draft_analytics.json"],
     owner_records: ["data/analytics/owner_records.json", "data/owner_records.json"],
+    championships: ["data/analytics/championships.json", "data/championships.json"],
   };
   const names = Object.keys(sources);
   const vals = await Promise.all(names.map(n => loadOne(sources[n])));
