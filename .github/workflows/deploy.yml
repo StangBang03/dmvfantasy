@@ -30,10 +30,17 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      - name: Prepare site
+        run: |
+          mkdir -p _site/data/analytics _site/data/processed
+          cp -R frontend/. _site/
+          cp -R data/analytics/. _site/data/analytics/
+          cp -R data/processed/. _site/data/processed/
+
       - name: Upload site
         uses: actions/upload-pages-artifact@v4
         with:
-          path: frontend
+          path: _site
 
       - name: Deploy
         id: deployment
