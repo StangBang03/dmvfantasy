@@ -5,6 +5,7 @@ const routes = {
   seasons: "Seasons",
   owners: "Owners",
   records: "Records",
+  analytics: "Analytics",
   draft: "Draft",
   matchups: "Matchups",
   rivalries: "Rivalries",
@@ -386,6 +387,63 @@ function renderOwner(id) {
       '<section class="card"><div class="card-head"><h2>Most Played Opponents</h2></div><div class="card-body">'+rivals.map(([pid,v])=>'<div class="champ-row"><div class="avatar" style="width:32px;height:32px;border-radius:9px;font-size:10px">'+initials(personName(pid))+'</div><div class="champ-name"><a class="owner-link" href="#owner/'+encodeURIComponent(pid)+'">'+esc(personName(pid))+'</a><div class="champ-years">'+v.games+' games · '+v.wins+'-'+v.losses+(v.ties?' - '+v.ties:'')+'</div></div><div class="record">'+(v.games?pct(v.wins/v.games):'—')+'</div></div>').join('') || '<div class="empty">No H2H data.</div>'+'</div></section>'+
     '</div>'+
     (current ? '<section class="card" style="margin-top:18px"><div class="card-head"><div><h2>2026 Season</h2><div class="subtle">Current season — not included in the historical résumé above</div></div></div><div class="stats-grid" style="margin:0"><div class="stat-card"><div class="stat-label">RECORD</div><div class="stat-value">'+current.actual_wins+'-'+current.actual_losses+(current.actual_ties?'-'+current.actual_ties:'')+'</div></div><div class="stat-card"><div class="stat-label">POINTS</div><div class="stat-value">'+fmt(current.points_for,1)+'</div></div><div class="stat-card"><div class="stat-label">PPG</div><div class="stat-value">'+fmt(current.points_per_game,1)+'</div></div></div></section>' : '');
+}
+
+
+function renderAnalytics() {
+  const historical = DATA.advanced_stats.season.filter(x => Number(x.season) <= 2025);
+  const career = DATA.advanced_stats.career.filter(x => x.seasons >= 3);
+  const current = DATA.advanced_stats.season.filter(x => Number(x.season) === 2026);
+
+  const bestActual = [...career].sort((a,b)=>b.actual_win_pct-a.actual_win_pct)[0];
+  const bestAllPlay = [...career].sort((a,b)=>b.all_play_win_pct-a.all_play_win_pct)[0];
+  const luckiest = [...career].sort((a,b)=>b.schedule_luck-a.schedule_luck)[0];
+  const unluckiest = [...career].sort((a,b)=>a.schedule_luck-b.schedule_luck)[0];
+  const bestPPG = [...career].sort((a,b)=>b.points_per_game-a.points_per_game)[0];
+  const toughest = [...career].sort((a,b)=>b.opponent_points_per_game-a.opponent_points_per_game)[0];
+
+  const seasonRows = [...historical].sort((a,b)=>b.schedule_luck-a.schedule_luck);
+  const recent = [...historical].sort((a,b)=>b.season-a.season).slice(0,5);
+  const currentRows = [...current].sort((a,b)=>b.actual_win_pct-a.actual_win_pct || b.points_for-a.points_for);
+
+  const card = (label, value, name, meta) =>
+    '<div class="pulse-card"><div class="pulse-kicker">'+esc(label)+'</div><div class="pulse-value">'+esc(String(value))+'</div><div class="pulse-meta">'+esc(name)+' · '+esc(meta)+'</div></div>';
+
+  const luckRows = seasonRows.slice(0,8).map(x =>
+    '<tr class="clickable" onclick="location.hash=\\'owner/'+encodeURIComponent(x.person_id)+'\\"><td>'+x.season+'</td><td>'+esc(x.person_name)+'</td><td class="positive">+'+fmt(x.schedule_luck,1)+'</td><td>'+fmt(x.actual_wins + 0.5*x.actual_ties,1)+'</td><td>'+fmt(x.expected_wins,1)+'</td></tr>'
+  ).join("");
+
+  const toughRows = [...historical].sort((a,b)=>b.opponent_points_per_game-a.opponent_points_per_game).slice(0,8).map(x =>
+    '<tr class="clickable" onclick="location.hash=\\'owner/'+encodeURIComponent(x.person_id)+'\\"><td>'+x.season+'</td><td>'+esc(x.person_name)+'</td><td>'+fmt(x.opponent_points_per_game,1)+'</td><td>'+fmt(x.actual_win_pct,3*100)+'%</td><td>'+fmt(x.all_play_win_pct,3*100)+'%</td></tr>'
+  ).join("");
+
+  const consistency = [...career].sort((a,b)=>a.score_std_dev-b.score_std_dev).slice(0,8);
+  const median = [...career].sort((a,b)=>b.median_score-a.median_score).slice(0,8);
+  const currentHtml = currentRows.map(x =>
+    '<tr><td>'+esc(x.person_name)+'</td><td>'+x.actual_wins+'-'+x.actual_losses+(x.actual_ties?' '+x.actual_ties+'T':'')+'</td><td>'+pct(x.actual_win_pct)+'</td><td>'+fmt(x.all_play_win_pct,3*100)+'%</td><td>'+fmt(x.schedule_luck,1)+'</td></tr>'
+  ).join("");
+
+  $("#app").innerHTML =
+    '<div class="page-head"><div><div class="eyebrow">Advanced Analytics</div><h1>Beyond the Standings</h1><p>Regular-season performance measured against the league, the schedule and the scoring environment.</p></div></div>'+
+    '<div class="pulse-grid">'+
+      card("BEST CAREER WIN %",pct(bestActual?.actual_win_pct),bestActual?.person_name||"—","minimum 3 seasons")+
+      card("BEST ALL-PLAY %",pct(bestAllPlay?.all_play_win_pct),bestAllPlay?.person_name||"—","beats the field, not just the opponent")+
+      card("LUCKIEST SCHEDULE",fmt(luckiest?.schedule_luck,1),luckiest?.person_name||"—","career wins above expected")+
+      card("UNLUCKIEST SCHEDULE",fmt(unluckiest?.schedule_luck,1),unluckiest?.person_name||"—","career wins below expected")+
+    '</div>'+
+    '<section class="hero" style="margin-top:18px"><div class="hero-grid"><div><div class="hero-kicker">The useful stuff</div><h1>Were you actually good?</h1><p>All-play win percentage asks how often your weekly score would have beaten every other team in the league that week. Schedule luck compares your actual record to that performance baseline.</p></div><div class="hero-side"><div class="hero-big">Σ</div><div class="hero-label">2011–2025 HISTORICAL</div></div></div></section>'+
+    '<div class="grid-2" style="margin-top:18px">'+
+      '<section class="card"><div class="card-head"><div><h2>Schedule Luck</h2><div class="subtle">Actual W-L equivalent minus expected wins</div></div></div><div class="table-wrap"><table><thead><tr><th>Season</th><th>Owner</th><th>Luck</th><th>Actual</th><th>Expected</th></tr></thead><tbody>'+luckRows+'</tbody></table></div></section>'+
+      '<section class="card"><div class="card-head"><div><h2>Toughest Schedules</h2><div class="subtle">Opponent scoring average</div></div></div><div class="table-wrap"><table><thead><tr><th>Season</th><th>Owner</th><th>Opp PPG</th><th>Win %</th><th>All-Play</th></tr></thead><tbody>'+toughRows+'</tbody></table></div></section>'+
+    '</div>'+
+    '<div class="section-title"><h2>Career Profiles</h2><span class="mini">Minimum 3 completed seasons</span></div>'+
+    '<div class="grid-2">'+
+      '<section class="card"><div class="card-head"><h2>Scoring & Consistency</h2></div><div class="card-body"><div class="champ-row"><div class="trophy">🔥</div><div class="champ-name"><strong>Highest career PPG</strong><div class="champ-years">'+esc(bestPPG?.person_name||"—")+' · '+fmt(bestPPG?.points_per_game,1)+'</div></div></div><div class="champ-row"><div class="trophy">🎯</div><div class="champ-name"><strong>Highest career median</strong><div class="champ-years">'+esc(median[0]?.person_name||"—")+' · '+fmt(median[0]?.median_score,1)+'</div></div></div><div class="champ-row"><div class="trophy">🧊</div><div class="champ-name"><strong>Most consistent scoring</strong><div class="champ-years">'+esc(consistency[0]?.person_name||"—")+' · σ '+fmt(consistency[0]?.score_std_dev,1)+'</div></div></div><div class="champ-row"><div class="trophy">💪</div><div class="champ-name"><strong>Toughest career schedule</strong><div class="champ-years">'+esc(toughest?.person_name||"—")+' · '+fmt(toughest?.opponent_points_per_game,1)+' Opp PPG</div></div></div></div></section>'+
+      '<section class="card"><div class="card-head"><h2>Recent Historical Seasons</h2><div class="subtle">2021–2025</div></div><div class="table-wrap"><table><thead><tr><th>Year</th><th>Owner</th><th>PPG</th><th>All-Play</th><th>Median+</th></tr></thead><tbody>'+recent.map(x=>'<tr><td>'+x.season+'</td><td>'+esc(x.person_name)+'</td><td>'+fmt(x.points_per_game,1)+'</td><td>'+pct(x.all_play_win_pct)+'</td><td>'+pct(x.median_plus_win_pct)+'</td></tr>').join("")+'</tbody></table></div></section>'+
+    '</div>'+
+    '<div class="section-title"><h2>2026 Live Analytics</h2><span class="mini">Current season · not included in historical leaderboards</span></div>'+
+    '<section class="card"><div class="table-wrap"><table><thead><tr><th>Owner</th><th>Record</th><th>Win %</th><th>All-Play</th><th>Schedule Luck</th></tr></thead><tbody>'+currentHtml+'</tbody></table></div></section>'+
+    '<div class="card" style="margin-top:18px"><div class="card-head"><h2>How to Read This</h2></div><div class="card-body"><p class="subtle" style="line-height:1.7"><strong>All-Play %</strong> measures your weekly score against every other team that week. <strong>Expected Wins</strong> is the sum of those weekly all-play percentages. <strong>Schedule Luck</strong> is your actual W-L equivalent minus expected wins: positive means the schedule helped; negative means it hurt. <strong>Opponent PPG</strong> measures the scoring strength of the teams you actually faced.</p></div></div>';
 }
 
 function renderRecords() {
