@@ -474,13 +474,13 @@ function renderAnalytics() {
   ).join("");
 
   const toughRows = [...historical].sort((a,b)=>b.opponent_points_per_game-a.opponent_points_per_game).slice(0,8).map(x =>
-    '<tr class="clickable" onclick="location.hash=\'owner/'+encodeURIComponent(x.person_id)+'\\"><td>'+x.season+'</td><td>'+esc(x.person_name)+'</td><td>'+fmt(x.opponent_points_per_game,1)+'</td><td>'+fmt(x.actual_win_pct,3*100)+'%</td><td>'+fmt(x.all_play_win_pct,3*100)+'%</td></tr>'
+    '<tr class="clickable" onclick="location.hash=\'owner/'+encodeURIComponent(x.person_id)+'\\"><td>'+x.season+'</td><td>'+esc(x.person_name)+'</td><td>'+fmt(x.opponent_points_per_game,1)+'</td><td>'+pct(x.actual_win_pct)+'%</td><td>'+pct(x.all_play_win_pct)+'%</td></tr>'
   ).join("");
 
   const consistency = [...career].sort((a,b)=>a.score_std_dev-b.score_std_dev).slice(0,8);
   const median = [...career].sort((a,b)=>b.median_score-a.median_score).slice(0,8);
   const currentHtml = currentRows.map(x =>
-    '<tr><td>'+esc(x.person_name)+'</td><td>'+x.actual_wins+'-'+x.actual_losses+(x.actual_ties?' '+x.actual_ties+'T':'')+'</td><td>'+pct(x.actual_win_pct)+'</td><td>'+fmt(x.all_play_win_pct,3*100)+'%</td><td>'+fmt(x.schedule_luck,1)+'</td></tr>'
+    '<tr><td>'+esc(x.person_name)+'</td><td>'+x.actual_wins+'-'+x.actual_losses+(x.actual_ties?' '+x.actual_ties+'T':'')+'</td><td>'+pct(x.actual_win_pct)+'</td><td>'+pct(x.all_play_win_pct)+'%</td><td>'+fmt(x.schedule_luck,1)+'</td></tr>'
   ).join("");
 
   $("#app").innerHTML =
