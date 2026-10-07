@@ -630,6 +630,10 @@ function renderRecords() {
     ["Highest single-game score", fmt(highestScore.score,2), personName(highestScore.side==="home"?highestScore.home_person_id:highestScore.away_person_id), String(highestScore.season)]
   ];
 
+  const podiumRows = (DATA.podiums || []).slice().sort((a,b)=>b.season-a.season).map(p =>
+    '<tr><td><a class="owner-link" href="#season/'+p.season+'">'+p.season+'</a></td><td>🏆 '+esc(personName(p.champion_person_id))+'</td><td>🥈 '+esc(personName(p.runner_up_person_id))+'</td><td>🥉 '+esc(personName(p.third_place_person_id))+'</td></tr>'
+  ).join("");
+
   const card = r => "<div class=\"owner-card\"><div class=\"mini\">" + esc(r[0]) + "</div><div class=\"stat-value\" style=\"margin-top:8px\">" + esc(String(r[1])) + "</div><div style=\"font-weight:800;margin-top:8px\">" + esc(r[2]) + "</div><div class=\"mini\" style=\"margin-top:3px\">" + esc(r[3]) + "</div></div>";
 
   $("#app").innerHTML =
@@ -637,7 +641,9 @@ function renderRecords() {
     "<div class=\"section-title\"><h2>Career Résumé Records</h2><span class=\"mini\">2011–2025 · 5-season minimum where noted</span></div>" +
     "<div class=\"owner-grid\">" + careerCards.map(card).join("") + "</div>" +
     "<div class=\"section-title\" style=\"margin-top:26px\"><h2>Season &amp; Game Records</h2><span class=\"mini\">Historical seasons only · 2026 excluded</span></div>" +
-    "<div class=\"owner-grid\">" + seasonCards.map(card).join("") + "</div>";
+    "<div class=\"owner-grid\">" + seasonCards.map(card).join("") + "</div>" +
+    "<div class=\"section-title\" style=\"margin-top:26px\"><h2>Playoff Podium History</h2><span class=\"mini\">2011–2025 · official championship, runner-up and 3rd-place finishes</span></div>" +
+    "<section class=\"card\"><div class=\"table-wrap\"><table><thead><tr><th>Season</th><th>Champion</th><th>Runner-Up</th><th>3rd Place</th></tr></thead><tbody>" + podiumRows + "</tbody></table></div></section>";
 }
 
 function renderDraft() {
