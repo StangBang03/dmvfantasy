@@ -485,6 +485,9 @@ function renderRecords() {
     return {
       ...x,
       championships: titles,
+      runner_ups: (DATA.podiumCounts?.[x.person_id]?.runner_ups || 0),
+      third_place_finishes: (DATA.podiumCounts?.[x.person_id]?.third_place_finishes || 0),
+      podium_finishes: titles + (DATA.podiumCounts?.[x.person_id]?.runner_ups || 0) + (DATA.podiumCounts?.[x.person_id]?.third_place_finishes || 0),
       playoff_appearances: playoffs,
       top3_seeds: top3,
       one_seeds: oneSeeds,
@@ -506,6 +509,10 @@ function renderRecords() {
     const bv = b[key] ?? (reverse ? -Infinity : Infinity);
     return reverse ? bv-av : av-bv;
   })[0];
+
+  const mostRunnerUps = best(careerRows, "runner_ups", true);
+  const mostThirds = best(careerRows, "third_place_finishes", true);
+  const mostPodiums = best(careerRows, "podium_finishes", true);
 
   const mostTitles = best(careerRows, "championships", true);
   const mostPlayoffs = best(careerRows, "playoff_appearances", true);
@@ -539,6 +546,9 @@ function renderRecords() {
 
   const careerCards = [
     ["Most championships", mostTitles.championships, mostTitles.person_name, "Career titles"],
+    ["Most runner-up finishes", mostRunnerUps.runner_ups, mostRunnerUps.person_name, "Championship-game losses"],
+    ["Most 3rd-place finishes", mostThirds.third_place_finishes, mostThirds.person_name, "Official 3rd-place games"],
+    ["Most top-3 finishes", mostPodiums.podium_finishes, mostPodiums.person_name, "Championship + runner-up + 3rd"],
     ["Most playoff appearances", mostPlayoffs.playoff_appearances, mostPlayoffs.person_name, mostPlayoffs.seasons + " seasons"],
     ["Most #1 seeds", mostOneSeeds.one_seeds, mostOneSeeds.person_name, "Regular-season #1 seeds"],
     ["Most top-3 seeds", mostTop3.top3_seeds, mostTop3.person_name, "Regular-season top-3 finishes"],
