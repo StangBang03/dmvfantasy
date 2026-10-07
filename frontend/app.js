@@ -75,7 +75,8 @@ function personName(id) {
 
 function buildChampions() {
   const out = [];
-  for (let season = 2011; season <= 2025; season++) {
+  const completedSeasons = (DATA.championships || []).filter(x => x.status === "COMPLETE").map(x => Number(x.season));
+  for (const season of completedSeasons) {
     const rows = DATA.matchups.filter(x => x.season === season && x.playoff_tier_type === "WINNERS_BRACKET" && x.away_team_id != null && x.winner !== "UNDECIDED");
     if (!rows.length) continue;
     const maxPeriod = Math.max(...rows.map(x => x.matchup_period_id));
