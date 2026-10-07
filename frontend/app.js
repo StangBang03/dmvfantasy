@@ -305,6 +305,8 @@ function renderOwner(id) {
   const teams = DATA.teams.filter(t=>t.person_id===id).sort((a,b)=>b.season-a.season);
   const historicalTeams = teams.filter(t=>t.season<=2025);
   const champs = DATA.champions.filter(c=>c.person_id===id);
+  const podiums = (DATA.podiums || []).filter(p => p.champion_person_id===id || p.runner_up_person_id===id || p.third_place_person_id===id).sort((a,b)=>b.season-a.season);
+  const podiumCounts = DATA.podiumCounts?.[id] || { championships: 0, runner_ups: 0, third_place_finishes: 0 };
   const ownerRecord = DATA.owner_records.find(r=>r.person_id===id) || {};
   const championshipAppearances = DATA.championships?.filter(c=>c.runner_up_person_id===id).length || 0;
   const draft = DATA.draft_analytics.career.find(d=>d.person_id===id) || {};
@@ -352,6 +354,8 @@ function renderOwner(id) {
     '<div class="profile-hero"><div class="profile-avatar">'+initials(x.person_name)+'</div><div><div class="eyebrow">Owner résumé</div><h1>'+esc(x.person_name)+'</h1><div class="badges">'+champs.map(c=>'<span class="badge">🏆 '+c.season+'</span>').join('')+(!champs.length?'<span class="badge">No championships yet</span>':'')+'</div></div></div>'+
     '<div class="pulse-grid">'+
       '<div class="pulse-card"><div class="pulse-kicker">CHAMPIONSHIPS</div><div class="pulse-value">'+champs.length+'</div><div class="pulse-meta">'+pct(champRate)+' of historical seasons</div></div>'+
+      '<div class="pulse-card"><div class="pulse-kicker">RUNNER-UP FINISHES</div><div class="pulse-value">'+podiumCounts.runner_ups+'</div><div class="pulse-meta">Championship-game appearances</div></div>'+
+      '<div class="pulse-card"><div class="pulse-kicker">3RD-PLACE FINISHES</div><div class="pulse-value">'+podiumCounts.third_place_finishes+'</div><div class="pulse-meta">Official 3rd-place games</div></div>'+
       '<div class="pulse-card"><div class="pulse-kicker">#1 SEEDS</div><div class="pulse-value">'+oneSeeds+'</div><div class="pulse-meta">'+pct(oneSeedRate)+' of historical seasons</div></div>'+
       '<div class="pulse-card"><div class="pulse-kicker">PLAYOFF APPEARANCES</div><div class="pulse-value">'+playoffApps+'</div><div class="pulse-meta">'+pct(playoffRate)+' playoff rate</div></div>'+
       '<div class="pulse-card"><div class="pulse-kicker">AVG 1ST-ROUND PICK</div><div class="pulse-value">'+(draftAvg!=null?fmt(draftAvg,1):'—')+'</div><div class="pulse-meta">'+draftTop3+' top-3 · '+draftTop5+' top-5 · '+draftFirstOverall+' #1 overall</div></div>'+
@@ -377,6 +381,9 @@ function renderOwner(id) {
       '</tbody></table></div></section>'+
       '<section class="card"><div class="card-head"><h2>Postseason Résumé</h2></div><div class="rank-list">'+
         '<div class="rank-row"><div class="rank-main"><strong>Championships</strong><small>'+champs.map(c=>c.season).join(' · ')+'</small></div><b>'+champs.length+'</b></div>'+
+        '<div class="rank-row"><div class="rank-main"><strong>Runner-up finishes</strong><small>'+podiums.filter(p=>p.runner_up_person_id===id).map(p=>p.season).join(' · ')+'</small></div><b>'+podiumCounts.runner_ups+'</b></div>'+
+        '<div class="rank-row"><div class="rank-main"><strong>3rd-place finishes</strong><small>'+podiums.filter(p=>p.third_place_person_id===id).map(p=>p.season).join(' · ')+'</small></div><b>'+podiumCounts.third_place_finishes+'</b></div>'+
+        '<div class="rank-row"><div class="rank-main"><strong>Top-3 finishes</strong><small>'+podiums.map(p=>p.season).join(' · ')+'</small></div><b>'+podiums.length+'</b></div>'+
         '<div class="rank-row"><div class="rank-main"><strong>Championship appearances</strong><small>Won or runner-up</small></div><b>'+ (champs.length+championshipAppearances) +'</b></div>'+
         '<div class="rank-row"><div class="rank-main"><strong>#1 seeds</strong><small>Regular-season seed</small></div><b>'+oneSeeds+'</b></div>'+
         '<div class="rank-row"><div class="rank-main"><strong>Top-3 seeds</strong><small>Regular-season seed</small></div><b>'+top3Seeds+'</b></div>'+
