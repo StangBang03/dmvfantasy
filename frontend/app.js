@@ -53,6 +53,14 @@ async function loadData() {
   for (const x of DATA.people) DATA.personNames[x.person_id] = x.name;
 
   DATA.champions = buildChampions();
+  DATA.podiums = buildPodiums();
+  DATA.podiumCounts = {};
+  for (const p of DATA.podiums) {
+    for (const [place, id] of [["championships", p.champion_person_id], ["runner_ups", p.runner_up_person_id], ["third_place_finishes", p.third_place_person_id]]) {
+      DATA.podiumCounts[id] ??= { championships: 0, runner_ups: 0, third_place_finishes: 0 };
+      DATA.podiumCounts[id][place]++;
+    }
+  }
   DATA.champCounts = {};
   for (const c of DATA.champions) {
     DATA.champCounts[c.person_id] ??= { name: c.person_name, count: 0, years: [] };
@@ -76,6 +84,49 @@ function buildChampions() {
     const f = finals[0];
     const pid = f.winner === "HOME" ? f.home_person_id : f.away_person_id;
     out.push({ season, person_id: pid, person_name: personName(pid), team_id: f.winner_team_id, score: f.winner === "HOME" ? f.home_score : f.away_score, matchup_id: f.matchup_id });
+  }
+  return out;
+}
+
+function buildPodiums() {
+  const out = [];
+  for (let season = 2011; season <= 2025; season++) {
+    const winners = DATA.matchups.filter(m =>
+      m.season === season &&
+      m.playoff_tier_type === "WINNERS_BRACKET" &&
+      m.away_team_id != null &&
+      m.winner !== "UNDECIDED"
+    );
+    if (!winners.length) continue;
+
+    const finalPeriod = Math.max(...winners.map(m => m.matchup_period_id));
+    const finals = winners.filter(m => m.matchup_period_id === finalPeriod);
+    if (finals.length !== 1) continue;
+
+    const priorRound = winners.filter(m => m.matchup_period_id === finalPeriod - 1);
+    const semifinalLosers = new Set(
+      priorRound.map(m => m.winner === "HOME" ? m.away_team_id : m.home_team_id)
+    );
+
+    const thirdGames = DATA.matchups.filter(m =>
+      m.season === season &&
+      m.playoff_tier_type === "WINNERS_CONSOLATION_LADDER" &&
+      m.matchup_period_id === finalPeriod &&
+      m.away_team_id != null &&
+      m.winner !== "UNDECIDED" &&
+      semifinalLosers.has(m.home_team_id) &&
+      semifinalLosers.has(m.away_team_id)
+    );
+    if (thirdGames.length !== 1) continue;
+
+    const final = finals[0];
+    const thirdGame = thirdGames[0];
+    out.push({
+      season,
+      champion_person_id: final.winner === "HOME" ? final.home_person_id : final.away_person_id,
+      runner_up_person_id: final.winner === "HOME" ? final.away_person_id : final.home_person_id,
+      third_place_person_id: thirdGame.winner === "HOME" ? thirdGame.home_person_id : thirdGame.away_person_id
+    });
   }
   return out;
 }
