@@ -641,6 +641,10 @@ function renderRecords() {
     "<div class=\"page-head\"><div><div class=\"eyebrow\">League history</div><h1>Records</h1><p>The numbers that will start arguments in the group chat.</p></div></div>" +
     "<div class=\"section-title\"><h2>Career Résumé Records</h2><span class=\"mini\">2011–2025 · 5-season minimum where noted</span></div>" +
     "<div class=\"owner-grid\">" + careerCards.map(card).join("") + "</div>" +
+    "<div class=\"section-title\" style=\"margin-top:26px\"><h2>Playoff Résumé Leaderboard</h2><span class=\"mini\">Championships · runner-ups · 3rd place · total Top-3 finishes</span></div>" +
+    "<section class=\"card\"><div class=\"table-wrap\"><table><thead><tr><th>Rank</th><th>Owner</th><th>🏆 Titles</th><th>🥈 Runner-Up</th><th>🥉 3rd Place</th><th>🏅 Top 3</th></tr></thead><tbody>" +
+    careerRows.slice().sort((a,b)=>b.podium_finishes-a.podium_finishes || b.championships-a.championships || b.runner_ups-a.runner_ups).map((r,i)=>"<tr class=\"clickable\" onclick=\"location.hash='owner/"+encodeURIComponent(r.person_id)+"\"><td class=\"rank\">"+(i+1)+"</td><td><span class=\"owner-link\">"+esc(r.person_name)+"</span></td><td>"+r.championships+"</td><td>"+r.runner_ups+"</td><td>"+r.third_place_finishes+"</td><td><strong>"+r.podium_finishes+"</strong></td></tr>").join("") +
+    "</tbody></table></div></section>" +
     "<div class=\"section-title\" style=\"margin-top:26px\"><h2>Season &amp; Game Records</h2><span class=\"mini\">Historical seasons only · 2026 excluded</span></div>" +
     "<div class=\"owner-grid\">" + seasonCards.map(card).join("") + "</div>" +
     "<div class=\"section-title\" style=\"margin-top:26px\"><h2>Playoff Podium History</h2><span class=\"mini\">2011–2025 · official championship, runner-up and 3rd-place finishes</span></div>" +
