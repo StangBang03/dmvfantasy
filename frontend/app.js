@@ -133,6 +133,12 @@ function buildPodiums() {
 }
 
 function playoffFinishForSeason(season) {
+  const seasonTeams = DATA.teams.filter(t => t.season === season && t.playoff_seed != null);
+  if (!seasonTeams.length) return {};
+
+  const seedByTeam = {};
+  for (const t of seasonTeams) seedByTeam[t.team_id] = t.playoff_seed;
+
   const winners = DATA.matchups.filter(m =>
     m.season === season &&
     m.playoff_tier_type === "WINNERS_BRACKET" &&
@@ -145,60 +151,122 @@ function playoffFinishForSeason(season) {
   const finals = winners.filter(m => m.matchup_period_id === finalPeriod);
   if (finals.length !== 1) return {};
 
-  const priorRound = winners.filter(m => m.matchup_period_id === finalPeriod - 1);
-  const semifinalLosers = new Set(
-    priorRound.map(m => m.winner === "HOME" ? m.away_team_id : m.home_team_id)
-  );
-
-  const thirdGames = DATA.matchups.filter(m =>
-    m.season === season &&
-    m.playoff_tier_type === "WINNERS_CONSOLATION_LADDER" &&
-    m.matchup_period_id === finalPeriod &&
-    m.away_team_id != null &&
-    m.winner !== "UNDECIDED" &&
-    semifinalLosers.has(m.home_team_id) &&
-    semifinalLosers.has(m.away_team_id)
-  );
-
-  const final = finals[0];
   const finish = {};
-  const winnerId = final.winner === "HOME" ? final.home_person_id : final.away_person_id;
-  const loserId = final.winner === "HOME" ? final.away_person_id : final.home_person_id;
-  finish[winnerId] = 1;
-  finish[loserId] = 2;
+  const final = finals[0];
+  const championId = final.winner === "HOME" ? final.home_team_id : final.away_team_id;
+  const runnerUpId = final.winner === "HOME" ? final.away_team_id : final.home_team_id;
+  finish[championId] = 1;
+  finish[runnerUpId] = 2;
 
-  if (thirdGames.length === 1) {
-    const third = thirdGames[0];
-    const thirdId = third.winner === "HOME" ? third.home_person_id : third.away_person_id;
-    const fourthId = third.winner === "HOME" ? third.away_person_id : third.home_person_id;
-    finish[thirdId] = 3;
-    finish[fourthId] = 4;
+  // Teams eliminated in later rounds finish ahead of teams eliminated earlier.
+  // The final-period WINNERS_CONSOLATION_LADDER games settle those placement groups.
+  const eliminationGroups = {};
+  const winnerPeriods = [...new Set(winners.map(m => m.matchup_period_id))].sort((a,b) => a-b);
+
+  for (const period of winnerPeriods.slice(0, -1)) {
+    for (const game of winners.filter(m => m.matchup_period_id === period)) {
+      const loserId = game.winner === "HOME" ? game.away_team_id : game.home_team_id;
+      const appearsLater = winners.some(m =>
+        m.matchup_period_id > period &&
+        (m.home_team_id === loserId || m.away_team_id === loserId)
+      );
+      if (!appearsLater) {
+        (eliminationGroups[period] ||= []).push(loserId);
+      }
+    }
   }
 
-  // This league's remaining playoff spots are seeds 5 and 6.
-  // The final-period consolation matchup between those seeds determines 5th/6th.
-  const seedByTeam = {};
-  for (const t of DATA.teams.filter(t => t.season === season && t.playoff_seed != null)) {
-    seedByTeam[t.team_id] = t.playoff_seed;
-  }
-  const fifthSixth = DATA.matchups.filter(m =>
-    m.season === season &&
-    m.playoff_tier_type === "WINNERS_CONSOLATION_LADDER" &&
-    m.matchup_period_id === finalPeriod &&
-    m.away_team_id != null &&
-    m.winner !== "UNDECIDED" &&
-    ((seedByTeam[m.home_team_id] === 5 && seedByTeam[m.away_team_id] === 6) ||
-     (seedByTeam[m.home_team_id] === 6 && seedByTeam[m.away_team_id] === 5))
-  );
-  if (fifthSixth.length === 1) {
-    const game = fifthSixth[0];
-    const fifthId = game.winner === "HOME" ? game.home_person_id : game.away_person_id;
-    const sixthId = game.winner === "HOME" ? game.away_person_id : game.home_person_id;
-    finish[fifthId] = 5;
-    finish[sixthId] = 6;
+  let nextFinish = 3;
+  const eliminationRounds = Object.keys(eliminationGroups)
+    .map(Number)
+    .sort((a,b) => b-a);
+
+  for (const period of eliminationRounds) {
+    const teams = eliminationGroups[period];
+    if (teams.length !== 2) continue;
+
+    const placementGame = DATA.matchups.find(m =>
+      m.season === season &&
+      m.matchup_period_id === finalPeriod &&
+      m.playoff_tier_type === "WINNERS_CONSOLATION_LADDER" &&
+      ((m.home_team_id === teams[0] && m.away_team_id === teams[1]) ||
+       (m.home_team_id === teams[1] && m.away_team_id === teams[0])) &&
+      m.winner !== "UNDECIDED"
+    );
+
+    if (placementGame) {
+      const winnerId = placementGame.winner === "HOME"
+        ? placementGame.home_team_id
+        : placementGame.away_team_id;
+      const loserId = placementGame.winner === "HOME"
+        ? placementGame.away_team_id
+        : placementGame.home_team_id;
+      finish[winnerId] = nextFinish;
+      finish[loserId] = nextFinish + 1;
+    } else {
+      teams.sort((a,b) => seedByTeam[a] - seedByTeam[b]);
+      finish[teams[0]] = nextFinish;
+      finish[teams[1]] = nextFinish + 1;
+    }
+
+    nextFinish += 2;
   }
 
-  return finish;
+  // ESPN's LOSERS_CONSOLATION_LADDER is a moving ladder:
+  // winners move toward the top, losers toward the bottom.
+  // Start with the regular-season playoff seeds, then replay each ladder round.
+  const playoffTeams = new Set(Object.keys(finish).map(Number));
+  let ladder = seasonTeams
+    .filter(t => !playoffTeams.has(t.team_id))
+    .sort((a,b) => a.playoff_seed - b.playoff_seed)
+    .map(t => t.team_id);
+
+  const ladderGames = DATA.matchups
+    .filter(m =>
+      m.season === season &&
+      m.playoff_tier_type === "LOSERS_CONSOLATION_LADDER" &&
+      m.away_team_id != null &&
+      m.winner !== "UNDECIDED"
+    )
+    .sort((a,b) => a.matchup_period_id - b.matchup_period_id);
+
+  const ladderPeriods = [...new Set(ladderGames.map(m => m.matchup_period_id))].sort((a,b) => a-b);
+
+  for (const period of ladderPeriods) {
+    const games = ladderGames.filter(m => m.matchup_period_id === period);
+    const positions = {};
+    ladder.forEach((teamId, index) => { positions[teamId] = index; });
+    const updated = ladder.slice();
+
+    for (const game of games) {
+      const homePos = positions[game.home_team_id];
+      const awayPos = positions[game.away_team_id];
+      if (homePos == null || awayPos == null) continue;
+
+      const topPos = Math.min(homePos, awayPos);
+      const bottomPos = Math.max(homePos, awayPos);
+      const winnerId = game.winner === "HOME" ? game.home_team_id : game.away_team_id;
+      const loserId = game.winner === "HOME" ? game.away_team_id : game.home_team_id;
+
+      updated[topPos] = winnerId;
+      updated[bottomPos] = loserId;
+    }
+
+    ladder = updated;
+  }
+
+  ladder.forEach((teamId, index) => {
+    finish[teamId] = nextFinish + index;
+  });
+
+  // Convert the team-level result into the person-level structure used by the owner page.
+  const personFinish = {};
+  for (const [teamId, place] of Object.entries(finish)) {
+    const team = DATA.teams.find(t => t.season === season && t.team_id === Number(teamId));
+    if (team?.person_id) personFinish[team.person_id] = place;
+  }
+
+  return personFinish;
 }
 
 function teamForSeason(season, teamId) {
