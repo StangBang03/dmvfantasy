@@ -132,6 +132,75 @@ function buildPodiums() {
   return out;
 }
 
+function playoffFinishForSeason(season) {
+  const winners = DATA.matchups.filter(m =>
+    m.season === season &&
+    m.playoff_tier_type === "WINNERS_BRACKET" &&
+    m.away_team_id != null &&
+    m.winner !== "UNDECIDED"
+  );
+  if (!winners.length) return {};
+
+  const finalPeriod = Math.max(...winners.map(m => m.matchup_period_id));
+  const finals = winners.filter(m => m.matchup_period_id === finalPeriod);
+  if (finals.length !== 1) return {};
+
+  const priorRound = winners.filter(m => m.matchup_period_id === finalPeriod - 1);
+  const semifinalLosers = new Set(
+    priorRound.map(m => m.winner === "HOME" ? m.away_team_id : m.home_team_id)
+  );
+
+  const thirdGames = DATA.matchups.filter(m =>
+    m.season === season &&
+    m.playoff_tier_type === "WINNERS_CONSOLATION_LADDER" &&
+    m.matchup_period_id === finalPeriod &&
+    m.away_team_id != null &&
+    m.winner !== "UNDECIDED" &&
+    semifinalLosers.has(m.home_team_id) &&
+    semifinalLosers.has(m.away_team_id)
+  );
+
+  const final = finals[0];
+  const finish = {};
+  const winnerId = final.winner === "HOME" ? final.home_person_id : final.away_person_id;
+  const loserId = final.winner === "HOME" ? final.away_person_id : final.home_person_id;
+  finish[winnerId] = 1;
+  finish[loserId] = 2;
+
+  if (thirdGames.length === 1) {
+    const third = thirdGames[0];
+    const thirdId = third.winner === "HOME" ? third.home_person_id : third.away_person_id;
+    const fourthId = third.winner === "HOME" ? third.away_person_id : third.home_person_id;
+    finish[thirdId] = 3;
+    finish[fourthId] = 4;
+  }
+
+  // This league's remaining playoff spots are seeds 5 and 6.
+  // The final-period consolation matchup between those seeds determines 5th/6th.
+  const seedByTeam = {};
+  for (const t of DATA.teams.filter(t => t.season === season && t.playoff_seed != null)) {
+    seedByTeam[t.team_id] = t.playoff_seed;
+  }
+  const fifthSixth = DATA.matchups.filter(m =>
+    m.season === season &&
+    m.playoff_tier_type === "WINNERS_CONSOLATION_LADDER" &&
+    m.matchup_period_id === finalPeriod &&
+    m.away_team_id != null &&
+    m.winner !== "UNDECIDED" &&
+    ((seedByTeam[m.home_team_id] === 5 && seedByTeam[m.away_team_id] === 6) ||
+     (seedByTeam[m.home_team_id] === 6 && seedByTeam[m.away_team_id] === 5))
+  );
+  if (fifthSixth.length === 1) {
+    const game = fifthSixth[0];
+    const fifthId = game.winner === "HOME" ? game.home_person_id : game.away_person_id;
+    const sixthId = game.winner === "HOME" ? game.away_person_id : game.home_person_id;
+    finish[fifthId] = 5;
+    finish[sixthId] = 6;
+  }
+
+  return finish;
+}
+
 function teamForSeason(season, teamId) {
   return DATA.teams.find(x => x.season === season && x.team_id === teamId);
 }
@@ -356,6 +425,10 @@ function renderOwner(id) {
   const historicalSeasons = DATA.advanced_stats.season.filter(s=>s.person_id===id && s.season<=2025).sort((a,b)=>b.season-a.season);
   const teams = DATA.teams.filter(t=>t.person_id===id).sort((a,b)=>b.season-a.season);
   const historicalTeams = teams.filter(t=>t.season<=2025);
+  const playoffFinishes = {};
+  for (const season of [...new Set(historicalTeams.map(t=>t.season))]) {
+    playoffFinishes[season] = playoffFinishForSeason(season);
+  }
   const champs = DATA.champions.filter(c=>c.person_id===id);
   const podiums = (DATA.podiums || []).filter(p => p.champion_person_id===id || p.runner_up_person_id===id || p.third_place_person_id===id).sort((a,b)=>b.season-a.season);
   const podiumCounts = DATA.podiumCounts?.[id] || { championships: 0, runner_ups: 0, third_place_finishes: 0 };
@@ -408,19 +481,19 @@ function renderOwner(id) {
       '<div class="pulse-card"><div class="pulse-kicker">CHAMPIONSHIPS</div><div class="pulse-value">'+champs.length+'</div><div class="pulse-meta">'+pct(champRate)+' of historical seasons</div></div>'+
       '<div class="pulse-card"><div class="pulse-kicker">RUNNER-UP FINISHES</div><div class="pulse-value">'+podiumCounts.runner_ups+'</div><div class="pulse-meta">Championship-game appearances</div></div>'+
       '<div class="pulse-card"><div class="pulse-kicker">3RD-PLACE FINISHES</div><div class="pulse-value">'+podiumCounts.third_place_finishes+'</div><div class="pulse-meta">Official 3rd-place games</div></div>'+
-      '<div class="pulse-card"><div class="pulse-kicker">#1 SEEDS</div><div class="pulse-value">'+oneSeeds+'</div><div class="pulse-meta">'+pct(oneSeedRate)+' of historical seasons</div></div>'+
+      '<div class="pulse-card"><div class="pulse-kicker">#1 SEEDS - REGULAR SEASON</div><div class="pulse-value">'+oneSeeds+'</div><div class="pulse-meta">'+pct(oneSeedRate)+' of historical seasons</div></div>'+
       '<div class="pulse-card"><div class="pulse-kicker">PLAYOFF APPEARANCES</div><div class="pulse-value">'+playoffApps+'</div><div class="pulse-meta">'+pct(playoffRate)+' playoff rate</div></div>'+
-      '<div class="pulse-card"><div class="pulse-kicker">AVG 1ST-ROUND PICK</div><div class="pulse-value">'+(draftAvg!=null?fmt(draftAvg,1):'—')+'</div><div class="pulse-meta">'+draftTop3+' top-3 · '+draftTop5+' top-5 · '+draftFirstOverall+' #1 overall</div></div>'+
+      '<div class="pulse-card"><div class="pulse-kicker">AVG DRAFT POSITION</div><div class="pulse-value">'+(draftAvg!=null?fmt(draftAvg,1):'—')+'</div><div class="pulse-meta">'+draftTop3+' top-3 · '+draftTop5+' top-5 · '+draftFirstOverall+' #1 overall</div></div>'+
     '</div>'+
     '<div class="grid-2">'+
       '<section class="card"><div class="card-head"><div><h2>Career Résumé</h2><div class="subtle">Historical seasons through 2025</div></div></div><div class="stats-grid" style="margin:0">'+
         '<div class="stat-card"><div class="stat-label">RECORD</div><div class="stat-value">'+wins+'-'+losses+(ties?' - '+ties:'')+'</div><div class="stat-meta">'+pct(winPct)+' win rate</div></div>'+
-        '<div class="stat-card"><div class="stat-label">AVG FINISH / SEED</div><div class="stat-value">'+(avgSeed!=null?fmt(avgSeed,1):'—')+'</div><div class="stat-meta">best seed '+(bestSeed??'—')+'</div></div>'+
-        '<div class="stat-card"><div class="stat-label">TOP-3 SEASONS</div><div class="stat-value">'+top3Seeds+'</div><div class="stat-meta">'+pct(historicalSeasons.length?top3Seeds/historicalSeasons.length:null)+' rate</div></div>'+
+        '<div class="stat-card"><div class="stat-label">AVG REGULAR-SEASON SEED</div><div class="stat-value">'+(avgSeed!=null?fmt(avgSeed,1):'—')+'</div><div class="stat-meta">best seed '+(bestSeed??'—')+'</div></div>'+
+        '<div class="stat-card"><div class="stat-label">TOP 3 PLAYOFF FINISH</div><div class="stat-value">'+top3Seeds+'</div><div class="stat-meta">'+pct(historicalSeasons.length?top3Seeds/historicalSeasons.length:null)+' rate</div></div>'+
         '<div class="stat-card"><div class="stat-label">CHAMP. CONVERSION</div><div class="stat-value">'+pct(playoffConversion)+'</div><div class="stat-meta">titles per playoff appearance</div></div>'+
       '</div></section>'+
       '<section class="card"><div class="card-head"><div><h2>Draft Profile</h2><div class="subtle">Historical first-round positioning</div></div></div><div class="rank-list">'+
-        '<div class="rank-row"><div class="rank-main"><strong>Average 1st-round pick</strong><small>Lower is earlier</small></div><b>'+(draftAvg!=null?fmt(draftAvg,1):'—')+'</b></div>'+
+        '<div class="rank-row"><div class="rank-main"><strong>Average Draft Position</strong><small>Lower is earlier</small></div><b>'+(draftAvg!=null?fmt(draftAvg,1):'—')+'</b></div>'+
         '<div class="rank-row"><div class="rank-main"><strong>Top-3 picks</strong><small>Premium draft slots</small></div><b>'+draftTop3+'</b></div>'+
         '<div class="rank-row"><div class="rank-main"><strong>Top-5 picks</strong><small>Premium draft slots</small></div><b>'+draftTop5+'</b></div>'+
         '<div class="rank-row"><div class="rank-main"><strong>#1 overall picks</strong><small>Times drafting first</small></div><b>'+draftFirstOverall+'</b></div>'+
@@ -428,16 +501,16 @@ function renderOwner(id) {
       '</div></section>'+
     '</div>'+
     '<div class="grid-2" style="margin-top:18px">'+
-      '<section class="card"><div class="card-head"><h2>Season History</h2></div><div class="table-wrap"><table><thead><tr><th>Year</th><th>Record</th><th>Seed</th><th>PF</th><th>PPG</th><th>Luck</th></tr></thead><tbody>'+
-        historicalSeasons.map(s=>{const t=historicalTeams.find(t=>t.season===s.season);return '<tr><td><a class="owner-link" href="#season/'+s.season+'">'+s.season+'</a></td><td class="record">'+s.actual_wins+'-'+s.actual_losses+(s.actual_ties?'-'+s.actual_ties:'')+'</td><td>'+(t?.playoff_seed??'—')+'</td><td>'+fmt(s.points_for,1)+'</td><td>'+fmt(s.points_per_game,1)+'</td><td class="'+(s.schedule_luck>=0?'positive':'negative')+'">'+(s.schedule_luck>=0?'+':'')+fmt(s.schedule_luck,1)+'</td></tr>';}).join('')+
+      '<section class="card"><div class="card-head"><h2>Season History</h2></div><div class="table-wrap"><table><thead><tr><th>Year</th><th>Record</th><th>Regular Season</th><th>Playoff Finish</th><th>PF</th><th>PPG</th><th>Luck</th></tr></thead><tbody>'+
+        historicalSeasons.map(s=>{const t=historicalTeams.find(t=>t.season===s.season);return '<tr><td><a class="owner-link" href="#season/'+s.season+'">'+s.season+'</a></td><td class="record">'+s.actual_wins+'-'+s.actual_losses+(s.actual_ties?'-'+s.actual_ties:'')+'</td><td>'+(t?.playoff_seed??'—')+'</td><td>'+(playoffFinishes[s.season]?.[t?.team_id] ? playoffFinishes[s.season][t.team_id]+(playoffFinishes[s.season][t.team_id]===1?'st':playoffFinishes[s.season][t.team_id]===2?'nd':playoffFinishes[s.season][t.team_id]===3?'rd':'th') : '—')+'</td><td>'+fmt(s.points_for,1)+'</td><td>'+fmt(s.points_per_game,1)+'</td><td class="'+(s.schedule_luck>=0?'positive':'negative')+'">'+(s.schedule_luck>=0?'+':'')+fmt(s.schedule_luck,1)+'</td></tr>';}).join('')+
       '</tbody></table></div></section>'+
       '<section class="card"><div class="card-head"><h2>Postseason Résumé</h2></div><div class="rank-list">'+
         '<div class="rank-row"><div class="rank-main"><strong>Championships</strong><small>'+champs.map(c=>c.season).join(' · ')+'</small></div><b>'+champs.length+'</b></div>'+
-        '<div class="rank-row"><div class="rank-main"><strong>Runner-up finishes</strong><small>'+podiums.filter(p=>p.runner_up_person_id===id).map(p=>p.season).join(' · ')+'</small></div><b>'+podiumCounts.runner_ups+'</b></div>'+
-        '<div class="rank-row"><div class="rank-main"><strong>3rd-place finishes</strong><small>'+podiums.filter(p=>p.third_place_person_id===id).map(p=>p.season).join(' · ')+'</small></div><b>'+podiumCounts.third_place_finishes+'</b></div>'+
-        '<div class="rank-row"><div class="rank-main"><strong>Top-3 finishes</strong><small>'+podiums.map(p=>p.season).join(' · ')+'</small></div><b>'+podiums.length+'</b></div>'+
+        '<div class="rank-row"><div class="rank-main"><strong>Runner Up</strong><small>'+podiums.filter(p=>p.runner_up_person_id===id).map(p=>p.season).join(' · ')+'</small></div><b>'+podiumCounts.runner_ups+'</b></div>'+
+        '<div class="rank-row"><div class="rank-main"><strong>3rd Place</strong><small>'+podiums.filter(p=>p.third_place_person_id===id).map(p=>p.season).join(' · ')+'</small></div><b>'+podiumCounts.third_place_finishes+'</b></div>'+
+        '<div class="rank-row"><div class="rank-main"><strong>Top 3 Playoff Finish</strong><small>'+podiums.map(p=>p.season).join(' · ')+'</small></div><b>'+podiums.length+'</b></div>'+
         '<div class="rank-row"><div class="rank-main"><strong>Championship appearances</strong><small>Won or runner-up</small></div><b>'+ (champs.length+championshipAppearances) +'</b></div>'+
-        '<div class="rank-row"><div class="rank-main"><strong>#1 seeds</strong><small>Regular-season seed</small></div><b>'+oneSeeds+'</b></div>'+
+        '<div class="rank-row"><div class="rank-main"><strong>#1 Seeds - Regular Season</strong><small>Regular-season seed</small></div><b>'+oneSeeds+'</b></div>'+
         '<div class="rank-row"><div class="rank-main"><strong>Top-3 seeds</strong><small>Regular-season seed</small></div><b>'+top3Seeds+'</b></div>'+
         '<div class="rank-row"><div class="rank-main"><strong>Playoff appearances</strong><small>Historical seasons</small></div><b>'+playoffApps+'</b></div>'+
       '</div></section>'+
