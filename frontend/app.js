@@ -442,7 +442,7 @@ function renderSeason(season) {
       <div class="pulse-card"><div class="pulse-kicker">HIGH SCORE</div><div class="pulse-value">${fmt(highestGame?.score,2)}</div><div class="pulse-meta">${highestGame ? esc(personName(highestGame.person_id)) : "—"}</div></div>
     </div>
     <div class="grid-2" style="margin-top:18px">
-      <section class="card"><div class="card-head"><div><h2>Regular Season</h2><div class="subtle">Official standings and points</div></div></div><div class="table-wrap"><table><thead><tr><th>#</th><th>Owner</th><th>Seed</th><th>Playoff Finish</th><th>W-L-T</th><th>PF</th><th>PA</th></tr></thead><tbody>${standings.map((x,i)=>`<tr class="clickable" onclick="location.hash='owner/${encodeURIComponent(x.person_id)}'"><td>${i+1}</td><td><div class="owner-link">${esc(personName(x.person_id))}</div><div class="team-name">${esc(teamRows.find(t=>t.team_id===x.team_id)?.team_name||"")}</div></td><td>${teamRows.find(t=>t.team_id===x.team_id)?.playoff_seed ?? "—"}</td><td>${(() => { const f=playoffFinishForSeason(season)[x.team_id]; return f ? f+(f===1?'st':f===2?'nd':f===3?'rd':'th') : '—'; })()}</td><td class="record">${x.wins}-${x.losses}${x.ties?`-${x.ties}`:""}</td><td>${fmt(x.points_for,2)}</td><td>${fmt(x.points_against,2)}</td></tr>`).join("")}</tbody></table></div></section>
+      <section class="card"><div class="card-head"><div><h2>Regular Season</h2><div class="subtle">Official standings and points</div></div></div><div class="table-wrap"><table><thead><tr><th>#</th><th>Owner</th><th>Seed</th><th>Final Finish</th><th>W-L-T</th><th>PF</th><th>PA</th></tr></thead><tbody>${standings.map((x,i)=>`<tr class="clickable" onclick="location.hash='owner/${encodeURIComponent(x.person_id)}'"><td>${i+1}</td><td><div class="owner-link">${esc(personName(x.person_id))}</div><div class="team-name">${esc(teamRows.find(t=>t.team_id===x.team_id)?.team_name||"")}</div></td><td>${teamRows.find(t=>t.team_id===x.team_id)?.playoff_seed ?? "—"}</td><td>${(() => { const f=playoffFinishForSeason(season)[x.team_id]; return f ? f+(f===1?'st':f===2?'nd':f===3?'rd':'th') : '—'; })()}</td><td class="record">${x.wins}-${x.losses}${x.ties?`-${x.ties}`:""}</td><td>${fmt(x.points_for,2)}</td><td>${fmt(x.points_against,2)}</td></tr>`).join("")}</tbody></table></div></section>
       <section class="card"><div class="card-head"><div><h2>Championship Path</h2><div class="subtle">${championship ? "Final bracket · official championship record" : "Completed playoff games"}</div></div></div><div class="card-body">${playoffRows || `<div class="empty">No playoff games have been played yet.</div>`}</div></section>
     </div>
   `;
@@ -494,12 +494,12 @@ function renderCareer() {
       .map(t => playoffFinishForSeason(t.season)[t.team_id])
       .filter(v => Number.isFinite(Number(v)))
       .map(Number);
-    const avgPlayoffFinish = playoffResults.length
+    const avgFinalFinish = playoffResults.length
       ? playoffResults.reduce((sum, v) => sum + v, 0) / playoffResults.length
       : null;
-    const bestPlayoffFinish = playoffResults.length ? Math.min(...playoffResults) : null;
+    const bestFinalFinish = playoffResults.length ? Math.min(...playoffResults) : null;
     const playoffApps = rec.playoff_appearances || 0;
-    return {...x, games, avgFinish, avgPlayoffFinish, bestPlayoffFinish, wins:x.actual_wins||0, losses:x.actual_losses||0, ties:x.actual_ties||0, pointsFor:x.points_for||0, pointsAgainst:x.points_against||0, ppg:games?(x.points_for||0)/games:0, playoffApps, playoffRate:x.seasons?playoffApps/x.seasons:0, titles, runnerUps:podium.runner_ups||0};
+    return {...x, games, avgFinish, avgFinalFinish, bestFinalFinish, wins:x.actual_wins||0, losses:x.actual_losses||0, ties:x.actual_ties||0, pointsFor:x.points_for||0, pointsAgainst:x.points_against||0, ppg:games?(x.points_for||0)/games:0, playoffApps, playoffRate:x.seasons?playoffApps/x.seasons:0, titles, runnerUps:podium.runner_ups||0};
   });
 
   $("#app").innerHTML = `
@@ -508,7 +508,7 @@ function renderCareer() {
       <div class="controls"><input id="careerSearch" placeholder="Search owner…" /><select id="careerSort">
         <option value="seasons">Seasons</option><option value="wins">Total wins</option><option value="actual_win_pct">Win %</option><option value="avgFinish">Avg regular-season finish</option><option value="pointsFor">Points for</option><option value="titles">Championships</option>
       </select></div>
-      <div class="table-wrap"><table><thead><tr><th>Owner</th><th>Seasons</th><th>Record</th><th>Win %</th><th>Avg Finish</th><th>Avg Playoff Finish</th><th>PF</th><th>PA</th><th>PPG</th><th>Playoffs</th><th>Titles</th><th>Runner Up</th></tr></thead><tbody id="careerRows"></tbody></table></div>
+      <div class="table-wrap"><table><thead><tr><th>Owner</th><th>Seasons</th><th>Record</th><th>Win %</th><th>Avg Finish</th><th>Avg Final Finish</th><th>PF</th><th>PA</th><th>PPG</th><th>Playoffs</th><th>Titles</th><th>Runner Up</th></tr></thead><tbody id="careerRows"></tbody></table></div>
     </section>`;
   const careerRowsBody = $("#careerRows");
   function paintCareerTable() {
@@ -529,7 +529,7 @@ function renderCareer() {
         <td class="record">${x.wins}-${x.losses}${x.ties ? ' - '+x.ties : ''}</td>
         <td>${pct(x.actual_win_pct)}</td>
         <td>${x.avgFinish != null ? fmt(x.avgFinish,1) : '—'}</td>
-        <td>${x.avgPlayoffFinish != null ? fmt(x.avgPlayoffFinish,1) : '—'}</td>
+        <td>${x.avgFinalFinish != null ? fmt(x.avgFinalFinish,1) : '—'}</td>
         <td>${fmt(x.pointsFor,1)}</td>
         <td>${fmt(x.pointsAgainst,1)}</td>
         <td>${fmt(x.ppg,1)}</td>
@@ -626,7 +626,7 @@ function renderOwner(id) {
       '</div></section>'+
     '</div>'+
     '<div class="grid-2" style="margin-top:18px">'+
-      '<section class="card"><div class="card-head"><h2>Season History</h2></div><div class="table-wrap"><table><thead><tr><th>Year</th><th>Record</th><th>Regular Season</th><th>Playoff Finish</th><th>PF</th><th>PPG</th><th>Luck</th></tr></thead><tbody>'+
+      '<section class="card"><div class="card-head"><h2>Season History</h2></div><div class="table-wrap"><table><thead><tr><th>Year</th><th>Record</th><th>Regular Season</th><th>Final Finish</th><th>PF</th><th>PPG</th><th>Luck</th></tr></thead><tbody>'+
         historicalSeasons.map(s=>{const t=historicalTeams.find(t=>t.season===s.season);return '<tr><td><a class="owner-link" href="#season/'+s.season+'">'+s.season+'</a></td><td class="record">'+s.actual_wins+'-'+s.actual_losses+(s.actual_ties?'-'+s.actual_ties:'')+'</td><td>'+(t?.playoff_seed??'—')+'</td><td>'+(playoffFinishes[s.season]?.[t?.team_id] ? playoffFinishes[s.season][t.team_id]+(playoffFinishes[s.season][t.team_id]===1?'st':playoffFinishes[s.season][t.team_id]===2?'nd':playoffFinishes[s.season][t.team_id]===3?'rd':'th') : '—')+'</td><td>'+fmt(s.points_for,1)+'</td><td>'+fmt(s.points_per_game,1)+'</td><td class="'+(s.schedule_luck>=0?'positive':'negative')+'">'+(s.schedule_luck>=0?'+':'')+fmt(s.schedule_luck,1)+'</td></tr>';}).join('')+
       '</tbody></table></div></section>'+
       '<section class="card"><div class="card-head"><h2>Postseason Résumé</h2></div><div class="rank-list">'+
