@@ -260,14 +260,7 @@ function playoffFinishForSeason(season) {
     finish[teamId] = nextFinish + index;
   });
 
-  // Convert the team-level result into the person-level structure used by the owner page.
-  const personFinish = {};
-  for (const [teamId, place] of Object.entries(finish)) {
-    const team = DATA.teams.find(t => t.season === season && t.team_id === Number(teamId));
-    if (team?.person_id) personFinish[team.person_id] = place;
-  }
-
-  return personFinish;
+  return finish;
 }
 
 function teamForSeason(season, teamId) {
@@ -449,7 +442,7 @@ function renderSeason(season) {
       <div class="pulse-card"><div class="pulse-kicker">HIGH SCORE</div><div class="pulse-value">${fmt(highestGame?.score,2)}</div><div class="pulse-meta">${highestGame ? esc(personName(highestGame.person_id)) : "—"}</div></div>
     </div>
     <div class="grid-2" style="margin-top:18px">
-      <section class="card"><div class="card-head"><div><h2>Regular Season</h2><div class="subtle">Official standings and points</div></div></div><div class="table-wrap"><table><thead><tr><th>#</th><th>Owner</th><th>Seed</th><th>W-L-T</th><th>PF</th><th>PA</th></tr></thead><tbody>${standings.map((x,i)=>`<tr class="clickable" onclick="location.hash='owner/${encodeURIComponent(x.person_id)}'"><td>${i+1}</td><td><div class="owner-link">${esc(personName(x.person_id))}</div><div class="team-name">${esc(teamRows.find(t=>t.team_id===x.team_id)?.team_name||"")}</div></td><td>${teamRows.find(t=>t.team_id===x.team_id)?.playoff_seed ?? "—"}</td><td class="record">${x.wins}-${x.losses}${x.ties?`-${x.ties}`:""}</td><td>${fmt(x.points_for,2)}</td><td>${fmt(x.points_against,2)}</td></tr>`).join("")}</tbody></table></div></section>
+      <section class="card"><div class="card-head"><div><h2>Regular Season</h2><div class="subtle">Official standings and points</div></div></div><div class="table-wrap"><table><thead><tr><th>#</th><th>Owner</th><th>Seed</th><th>Playoff Finish</th><th>W-L-T</th><th>PF</th><th>PA</th></tr></thead><tbody>${standings.map((x,i)=>`<tr class="clickable" onclick="location.hash='owner/${encodeURIComponent(x.person_id)}'"><td>${i+1}</td><td><div class="owner-link">${esc(personName(x.person_id))}</div><div class="team-name">${esc(teamRows.find(t=>t.team_id===x.team_id)?.team_name||"")}</div></td><td>${teamRows.find(t=>t.team_id===x.team_id)?.playoff_seed ?? "—"}</td><td>${(() => { const f=playoffFinishForSeason(season)[x.team_id]; return f ? f+(f===1?'st':f===2?'nd':f===3?'rd':'th') : '—'; })()}</td><td class="record">${x.wins}-${x.losses}${x.ties?`-${x.ties}`:""}</td><td>${fmt(x.points_for,2)}</td><td>${fmt(x.points_against,2)}</td></tr>`).join("")}</tbody></table></div></section>
       <section class="card"><div class="card-head"><div><h2>Championship Path</h2><div class="subtle">${championship ? "Final bracket · official championship record" : "Completed playoff games"}</div></div></div><div class="card-body">${playoffRows || `<div class="empty">No playoff games have been played yet.</div>`}</div></section>
     </div>
   `;
@@ -497,8 +490,16 @@ function renderCareer() {
     const titles = DATA.champCounts[x.person_id]?.count || 0;
     const podium = DATA.podiumCounts?.[x.person_id] || {};
     const avgFinish = seasons.length ? seasons.reduce((sum, t) => sum + Number(t.rank), 0) / seasons.length : null;
+    const playoffResults = seasons
+      .map(t => playoffFinishForSeason(t.season)[t.team_id])
+      .filter(v => Number.isFinite(Number(v)))
+      .map(Number);
+    const avgPlayoffFinish = playoffResults.length
+      ? playoffResults.reduce((sum, v) => sum + v, 0) / playoffResults.length
+      : null;
+    const bestPlayoffFinish = playoffResults.length ? Math.min(...playoffResults) : null;
     const playoffApps = rec.playoff_appearances || 0;
-    return {...x, games, avgFinish, wins:x.actual_wins||0, losses:x.actual_losses||0, ties:x.actual_ties||0, pointsFor:x.points_for||0, pointsAgainst:x.points_against||0, ppg:games?(x.points_for||0)/games:0, playoffApps, playoffRate:x.seasons?playoffApps/x.seasons:0, titles, runnerUps:podium.runner_ups||0};
+    return {...x, games, avgFinish, avgPlayoffFinish, bestPlayoffFinish, wins:x.actual_wins||0, losses:x.actual_losses||0, ties:x.actual_ties||0, pointsFor:x.points_for||0, pointsAgainst:x.points_against||0, ppg:games?(x.points_for||0)/games:0, playoffApps, playoffRate:x.seasons?playoffApps/x.seasons:0, titles, runnerUps:podium.runner_ups||0};
   });
 
   $("#app").innerHTML = `
@@ -507,7 +508,7 @@ function renderCareer() {
       <div class="controls"><input id="careerSearch" placeholder="Search owner…" /><select id="careerSort">
         <option value="seasons">Seasons</option><option value="wins">Total wins</option><option value="actual_win_pct">Win %</option><option value="avgFinish">Avg regular-season finish</option><option value="pointsFor">Points for</option><option value="titles">Championships</option>
       </select></div>
-      <div class="table-wrap"><table><thead><tr><th>Owner</th><th>Seasons</th><th>Record</th><th>Win %</th><th>Avg Finish</th><th>PF</th><th>PA</th><th>PPG</th><th>Playoffs</th><th>Titles</th><th>Runner Up</th></tr></thead><tbody id="careerRows"></tbody></table></div>
+      <div class="table-wrap"><table><thead><tr><th>Owner</th><th>Seasons</th><th>Record</th><th>Win %</th><th>Avg Finish</th><th>Avg Playoff Finish</th><th>PF</th><th>PA</th><th>PPG</th><th>Playoffs</th><th>Titles</th><th>Runner Up</th></tr></thead><tbody id="careerRows"></tbody></table></div>
     </section>`;
   const careerRowsBody = $("#careerRows");
   function paintCareerTable() {
@@ -528,13 +529,14 @@ function renderCareer() {
         <td class="record">${x.wins}-${x.losses}${x.ties ? ' - '+x.ties : ''}</td>
         <td>${pct(x.actual_win_pct)}</td>
         <td>${x.avgFinish != null ? fmt(x.avgFinish,1) : '—'}</td>
+        <td>${x.avgPlayoffFinish != null ? fmt(x.avgPlayoffFinish,1) : '—'}</td>
         <td>${fmt(x.pointsFor,1)}</td>
         <td>${fmt(x.pointsAgainst,1)}</td>
         <td>${fmt(x.ppg,1)}</td>
         <td>${x.playoffApps} (${pct(x.playoffRate)})</td>
         <td>${x.titles}</td>
         <td>${x.runnerUps}</td>
-      </tr>`).join('') || '<tr><td colspan="11">No owners found.</td></tr>';
+      </tr>`).join('') || '<tr><td colspan="12">No owners found.</td></tr>';
   }
   $("#careerSearch").addEventListener('input',paintCareerTable);
   $("#careerSort").addEventListener('change',paintCareerTable);
