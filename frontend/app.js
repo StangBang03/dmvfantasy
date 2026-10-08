@@ -718,7 +718,7 @@ function renderRecords() {
   const mostPlayoffs = best(careerRows, "playoff_appearances", true);
   const mostOneSeeds = best(careerRows, "one_seeds", true);
   const mostTop3 = best(careerRows, "top3_seeds", true);
-  const mostWins = best(careerRows, "wins", true);
+  const mostWins = best(careerRows, "actual_wins", true);
   const bestWinPct = best(qualified, "actual_win_pct", true);
   const bestPlayoffRate = best(qualified, "playoff_rate", true);
   const bestOneSeedRate = best(qualified, "one_seed_rate", true);
