@@ -521,7 +521,20 @@ function renderCareer() {
       if(sort==="titles") return b.titles-a.titles || b.runnerUps-a.runnerUps;
       return b.seasons-a.seasons || b.wins-a.wins;
     });
-    careerRowsBody.innerHTML=filtered.map(x=>'<tr class="clickable" onclick="location.hash=\\'owner/'+encodeURIComponent(x.person_id)+'\\'"><td><strong>'+esc(x.person_name)+'</strong></td><td>'+x.seasons+'</td><td class="record">'+x.wins+'-'+x.losses+(x.ties?' - '+x.ties:'')+'</td><td>'+pct(x.actual_win_pct)+'</td><td>'+(x.avgFinish!=null?fmt(x.avgFinish,1):'—')+'</td><td>'+fmt(x.pointsFor,1)+'</td><td>'+fmt(x.pointsAgainst,1)+'</td><td>'+fmt(x.ppg,1)+'</td><td>'+x.playoffApps+' ('+pct(x.playoffRate)+')</td><td>'+x.titles+'</td><td>'+x.runnerUps+'</td></tr>').join('') || '<tr><td colspan="11">No owners found.</td></tr>';
+    careerRowsBody.innerHTML = filtered.map(x => `
+      <tr class="clickable" onclick="location.hash='owner/${encodeURIComponent(x.person_id)}'">
+        <td><strong>${esc(x.person_name)}</strong></td>
+        <td>${x.seasons}</td>
+        <td class="record">${x.wins}-${x.losses}${x.ties ? ' - '+x.ties : ''}</td>
+        <td>${pct(x.actual_win_pct)}</td>
+        <td>${x.avgFinish != null ? fmt(x.avgFinish,1) : '—'}</td>
+        <td>${fmt(x.pointsFor,1)}</td>
+        <td>${fmt(x.pointsAgainst,1)}</td>
+        <td>${fmt(x.ppg,1)}</td>
+        <td>${x.playoffApps} (${pct(x.playoffRate)})</td>
+        <td>${x.titles}</td>
+        <td>${x.runnerUps}</td>
+      </tr>`).join('') || '<tr><td colspan="11">No owners found.</td></tr>';
   }
   $("#careerSearch").addEventListener('input',paintCareerTable);
   $("#careerSort").addEventListener('change',paintCareerTable);
