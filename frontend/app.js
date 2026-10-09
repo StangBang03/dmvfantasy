@@ -611,7 +611,7 @@ function renderOwner(id) {
     else v.losses++;
   });
   const allTimeVsRows = Object.entries(allTimeVs)
-    .filter(([pid,v]) => v.games > 0 && DATA.owners?.some(o => o.person_id === pid))
+    .filter(([pid,v]) => v.games > 0 && DATA.people?.some(o => o.person_id === pid))
     .sort((a,b) => b[1].games-a[1].games || personName(a[0]).localeCompare(personName(b[0])))
     .map(([pid,v]) => '<tr><td><a class="owner-link" href="#owner/'+encodeURIComponent(pid)+'">'+esc(personName(pid))+'</a></td><td>'+v.games+'</td><td>'+v.wins+'-'+v.losses+(v.ties?' - '+v.ties:'')+'</td><td>'+pct(v.wins/v.games)+'</td><td>'+fmt(v.pf,1)+'</td><td>'+fmt(v.pa,1)+'</td><td>'+fmt(v.pf/v.games,1)+'</td><td>'+fmt(v.pa/v.games,1)+'</td></tr>').join('');
 
