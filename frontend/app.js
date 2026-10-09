@@ -593,6 +593,27 @@ function renderOwner(id) {
     else h.losses++;
   });
   const rivals=Object.entries(h2h).filter(([k,v])=>v.games>0).sort((a,b)=>b[1].games-a[1].games).slice(0,8);
+  const allTimeVs = {};
+  DATA.matchups.filter(m => m.winner !== 'UNDECIDED' && m.away_team_id != null && m.home_person_id && m.away_person_id &&
+    (m.home_person_id === id || m.away_person_id === id) &&
+    Number.isFinite(Number(m.home_score)) && Number.isFinite(Number(m.away_score))
+  ).forEach(m => {
+    const isHome = m.home_person_id === id;
+    const opponent = isHome ? m.away_person_id : m.home_person_id;
+    if (!opponent || opponent === id) return;
+    allTimeVs[opponent] ??= {games:0,wins:0,losses:0,ties:0,pf:0,pa:0};
+    const v = allTimeVs[opponent];
+    const ownScore = Number(isHome ? m.home_score : m.away_score);
+    const oppScore = Number(isHome ? m.away_score : m.home_score);
+    v.games++; v.pf += ownScore; v.pa += oppScore;
+    if (m.winner === 'TIE') v.ties++;
+    else if ((m.winner === 'HOME' && isHome) || (m.winner === 'AWAY' && !isHome)) v.wins++;
+    else v.losses++;
+  });
+  const allTimeVsRows = Object.entries(allTimeVs)
+    .filter(([pid,v]) => v.games > 0 && DATA.owners?.some(o => o.person_id === pid))
+    .sort((a,b) => b[1].games-a[1].games || personName(a[0]).localeCompare(personName(b[0])))
+    .map(([pid,v]) => '<tr><td><a class="owner-link" href="#owner/'+encodeURIComponent(pid)+'">'+esc(personName(pid))+'</a></td><td>'+v.games+'</td><td>'+v.wins+'-'+v.losses+(v.ties?' - '+v.ties:'')+'</td><td>'+pct(v.wins/v.games)+'</td><td>'+fmt(v.pf,1)+'</td><td>'+fmt(v.pa,1)+'</td><td>'+fmt(v.pf/v.games,1)+'</td><td>'+fmt(v.pa/v.games,1)+'</td></tr>').join('');
 
   const current = DATA.advanced_stats.season.find(s=>s.person_id===id && s.season===2026);
   const draftAvg=draft.avg_first_round_pick;
@@ -640,6 +661,7 @@ function renderOwner(id) {
         '<div class="rank-row"><div class="rank-main"><strong>Playoff appearances</strong><small>Historical seasons</small></div><b>'+playoffApps+'</b></div>'+
       '</div></section>'+
     '</div>'+
+    '<section class="card" style="margin-top:18px"><div class="card-head"><div><h2>All-Time vs. Managers</h2><div class="subtle">All completed regular-season, playoff and consolation matchups</div></div></div><div class="table-wrap"><table><thead><tr><th>Manager</th><th>Games</th><th>Record</th><th>Win %</th><th>PF</th><th>PA</th><th>PF/G</th><th>PA/G</th></tr></thead><tbody>'+ (allTimeVsRows || '<tr><td colspan="8">No completed head-to-head matchups.</td></tr>') +'</tbody></table></div></section>'+
     '<div class="grid-2" style="margin-top:18px">'+
       '<section class="card"><div class="card-head"><h2>Most Played Opponents</h2></div><div class="card-body">'+rivals.map(([pid,v])=>'<div class="champ-row"><div class="avatar" style="width:32px;height:32px;border-radius:9px;font-size:10px">'+initials(personName(pid))+'</div><div class="champ-name"><a class="owner-link" href="#owner/'+encodeURIComponent(pid)+'">'+esc(personName(pid))+'</a><div class="champ-years">'+v.games+' games · '+v.wins+'-'+v.losses+(v.ties?' - '+v.ties:'')+'</div></div><div class="record">'+(v.games?pct(v.wins/v.games):'—')+'</div></div>').join('') || '<div class="empty">No H2H data.</div>'+'</div></section>'+
     '</div>'+
