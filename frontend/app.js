@@ -586,8 +586,8 @@ function renderOwner(id) {
     const opponent = m.home_person_id===id ? m.away_person_id : m.home_person_id;
     if (!opponent) return;
     h2h[opponent] ??= {games:0,wins:0,losses:0,ties:0};
+    if(m.winner==='UNDECIDED' || m.away_team_id==null) return;
     const h=h2h[opponent]; h.games++;
-    if(m.winner==='UNDECIDED') return;
     if((m.winner==='HOME' && m.home_person_id===id)||(m.winner==='AWAY'&&m.away_person_id===id)) h.wins++;
     else if(m.winner==='TIE') h.ties++;
     else h.losses++;
