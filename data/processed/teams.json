@@ -2141,8 +2141,13 @@
     "division_id": 0,
     "draft_day": null,
     "draft_slot": null,
-    "playoff_seed": 1,
-    "rank": null
+    "playoff_seed": 3,
+    "rank": null,
+    "wins": 3,
+    "losses": 1,
+    "ties": 0,
+    "points_for": 544.54,
+    "points_against": 476.76
   },
   {
     "season": 2026,
@@ -2154,8 +2159,13 @@
     "division_id": 0,
     "draft_day": null,
     "draft_slot": null,
-    "playoff_seed": 9,
-    "rank": null
+    "playoff_seed": 8,
+    "rank": null,
+    "wins": 2,
+    "losses": 2,
+    "ties": 0,
+    "points_for": 426.67999999999995,
+    "points_against": 424.14
   },
   {
     "season": 2026,
@@ -2167,8 +2177,13 @@
     "division_id": 0,
     "draft_day": null,
     "draft_slot": null,
-    "playoff_seed": 10,
-    "rank": null
+    "playoff_seed": 12,
+    "rank": null,
+    "wins": 0,
+    "losses": 4,
+    "ties": 0,
+    "points_for": 442.52,
+    "points_against": 547.94
   },
   {
     "season": 2026,
@@ -2180,8 +2195,13 @@
     "division_id": 0,
     "draft_day": null,
     "draft_slot": null,
-    "playoff_seed": 3,
-    "rank": null
+    "playoff_seed": 7,
+    "rank": null,
+    "wins": 2,
+    "losses": 2,
+    "ties": 0,
+    "points_for": 462.08,
+    "points_against": 459.65999999999997
   },
   {
     "season": 2026,
@@ -2193,8 +2213,13 @@
     "division_id": 0,
     "draft_day": null,
     "draft_slot": null,
-    "playoff_seed": 7,
-    "rank": null
+    "playoff_seed": 6,
+    "rank": null,
+    "wins": 2,
+    "losses": 2,
+    "ties": 0,
+    "points_for": 504.26,
+    "points_against": 461.68000000000006
   },
   {
     "season": 2026,
@@ -2206,8 +2231,13 @@
     "division_id": 0,
     "draft_day": null,
     "draft_slot": null,
-    "playoff_seed": 2,
-    "rank": null
+    "playoff_seed": 5,
+    "rank": null,
+    "wins": 3,
+    "losses": 1,
+    "ties": 0,
+    "points_for": 486.48,
+    "points_against": 436.16
   },
   {
     "season": 2026,
@@ -2219,8 +2249,13 @@
     "division_id": 0,
     "draft_day": null,
     "draft_slot": null,
-    "playoff_seed": 5,
-    "rank": null
+    "playoff_seed": 1,
+    "rank": null,
+    "wins": 3,
+    "losses": 1,
+    "ties": 0,
+    "points_for": 612.2,
+    "points_against": 485.1
   },
   {
     "season": 2026,
@@ -2232,8 +2267,13 @@
     "division_id": 0,
     "draft_day": null,
     "draft_slot": null,
-    "playoff_seed": 8,
-    "rank": null
+    "playoff_seed": 4,
+    "rank": null,
+    "wins": 3,
+    "losses": 1,
+    "ties": 0,
+    "points_for": 520.36,
+    "points_against": 438.53999999999996
   },
   {
     "season": 2026,
@@ -2245,8 +2285,13 @@
     "division_id": 0,
     "draft_day": null,
     "draft_slot": null,
-    "playoff_seed": 12,
-    "rank": null
+    "playoff_seed": 11,
+    "rank": null,
+    "wins": 1,
+    "losses": 3,
+    "ties": 0,
+    "points_for": 356.82000000000005,
+    "points_against": 511.22
   },
   {
     "season": 2026,
@@ -2258,8 +2303,13 @@
     "division_id": 0,
     "draft_day": null,
     "draft_slot": null,
-    "playoff_seed": 11,
-    "rank": null
+    "playoff_seed": 10,
+    "rank": null,
+    "wins": 1,
+    "losses": 3,
+    "ties": 0,
+    "points_for": 432.78,
+    "points_against": 481.34000000000003
   },
   {
     "season": 2026,
@@ -2271,8 +2321,13 @@
     "division_id": 0,
     "draft_day": null,
     "draft_slot": null,
-    "playoff_seed": 4,
-    "rank": null
+    "playoff_seed": 2,
+    "rank": null,
+    "wins": 3,
+    "losses": 1,
+    "ties": 0,
+    "points_for": 581.92,
+    "points_against": 565.72
   },
   {
     "season": 2026,
@@ -2284,7 +2339,12 @@
     "division_id": 0,
     "draft_day": null,
     "draft_slot": null,
-    "playoff_seed": 6,
-    "rank": null
+    "playoff_seed": 9,
+    "rank": null,
+    "wins": 1,
+    "losses": 3,
+    "ties": 0,
+    "points_for": 453.96000000000004,
+    "points_against": 536.34
   }
 ]
