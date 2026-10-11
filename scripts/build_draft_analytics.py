@@ -4,7 +4,7 @@ import statistics
 from pathlib import Path
 from collections import defaultdict, Counter
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 ANALYTICS = DATA / "analytics"
 
