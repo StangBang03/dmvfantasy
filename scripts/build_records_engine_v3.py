@@ -2,7 +2,7 @@ import json
 from collections import defaultdict
 from pathlib import Path
 
-PROJECT = Path(r"C:\Users\yatesd01\OneDrive - Montgomery County Government\Documents\Fantasy\ffl-site")
+PROJECT = Path(__file__).resolve().parents[1]
 PROCESSED = PROJECT / "data" / "processed"
 ANALYTICS = PROJECT / "data" / "analytics"
 
