@@ -123,20 +123,22 @@ def main():
         raise RuntimeError("No teams found in current-season ESPN response.")
     team_person = {t["team_id"]: t["person_id"] for t in current_teams}
 
+    # mStandings can return a different/partial shape than mTeam for this league.
+    # The mTeam view above already contains the authoritative current overall records
+    # and cumulative points, so use it to build the standings rows instead of writing nulls.
     current_standings = []
-    for team in standings_view.get("teams", []):
-        record = team.get("record", {}).get("overall", {})
+    for team in current_teams:
         current_standings.append({
             "season": YEAR,
-            "team_id": team.get("id"),
-            "person_id": team_person.get(team.get("id")),
-            "wins": record.get("wins"),
-            "losses": record.get("losses"),
-            "ties": record.get("ties"),
-            "points_for": record.get("pointsFor"),
-            "points_against": record.get("pointsAgainst"),
+            "team_id": team.get("team_id"),
+            "person_id": team.get("person_id"),
+            "wins": team.get("wins"),
+            "losses": team.get("losses"),
+            "ties": team.get("ties"),
+            "points_for": team.get("points_for"),
+            "points_against": team.get("points_against"),
             "rank": team.get("rank"),
-            "playoff_seed": team.get("playoffSeed"),
+            "playoff_seed": team.get("playoff_seed"),
             "final_standing": None,
         })
 
