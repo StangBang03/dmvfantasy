@@ -40,7 +40,6 @@ jobs:
 
       - name: Rebuild analytics
         run: |
-          python scripts/build_analytics.py
           python scripts/build_advanced_analytics.py
           python scripts/build_records_engine_v3.py
           python scripts/build_draft_analytics.py
