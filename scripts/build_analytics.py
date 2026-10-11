@@ -4,7 +4,7 @@ from collections import defaultdict
 from statistics import mean
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 PROCESSED = ROOT / "data" / "processed"
 ANALYTICS = ROOT / "data" / "analytics"
 
