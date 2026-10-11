@@ -8,6 +8,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 concurrency:
   group: refresh-current-season
@@ -16,6 +18,9 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     timeout-minutes: 20
     steps:
       - name: Checkout repository
@@ -55,3 +60,23 @@ jobs:
             git commit -m "Refresh 2026 fantasy season data"
             git push
           fi
+
+      # GITHUB_TOKEN pushes do not trigger a separate push workflow, so deploy here too.
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Prepare site
+        run: |
+          mkdir -p _site/data/analytics _site/data/processed
+          cp -R frontend/. _site/
+          cp -R data/analytics/. _site/data/analytics/
+          cp -R data/processed/. _site/data/processed/
+
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+      - name: Deploy site
+        id: deployment
+        uses: actions/deploy-pages@v4
