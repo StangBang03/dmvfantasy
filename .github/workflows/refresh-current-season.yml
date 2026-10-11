@@ -1,0 +1,58 @@
+name: Refresh Current FFL Season
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Every Tuesday at 12:30 UTC (8:30 AM Eastern during daylight time).
+    - cron: "30 12 * * 2"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-current-season
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          ref: main
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip requests
+
+      - name: Refresh current season from ESPN
+        env:
+          ESPN_S2: ${{ secrets.ESPN_S2 }}
+          ESPN_SWID: ${{ secrets.ESPN_SWID }}
+          FFL_SEASON: "2026"
+        run: python scripts/refresh_current_season.py
+
+      - name: Rebuild analytics
+        run: |
+          python scripts/build_analytics.py
+          python scripts/build_advanced_analytics.py
+          python scripts/build_records_engine_v3.py
+          python scripts/build_draft_analytics.py
+
+      - name: Commit refreshed data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/processed data/analytics
+          if git diff --cached --quiet; then
+            echo "No data changes to commit."
+          else
+            git commit -m "Refresh 2026 fantasy season data"
+            git push
+          fi
