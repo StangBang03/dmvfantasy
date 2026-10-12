@@ -463,7 +463,7 @@ function renderOwners() {
       const c = DATA.champCounts[x.person_id]?.count || 0;
       const rec = DATA.owner_records.find(r=>r.person_id===x.person_id) || {};
       const teamRows = DATA.teams.filter(t=>t.person_id===x.person_id && t.season<=2025 && t.playoff_seed!=null);
-      const top3Finishes = teamRows.filter(t=>t.playoff_seed<=3).length;
+      const top3Finishes = (DATA.podiums||[]).filter(p=>p.champion_person_id===x.person_id||p.runner_up_person_id===x.person_id||p.third_place_person_id===x.person_id).length;
       const draft = DATA.draft_analytics.career.find(d=>d.person_id===x.person_id) || {};
       return `<article class="owner-card" onclick="location.hash='owner/${encodeURIComponent(x.person_id)}'">
         <div class="owner-card-top">
