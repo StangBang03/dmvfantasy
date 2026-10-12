@@ -449,7 +449,7 @@ function renderSeason(season) {
   `;
 }
 function renderOwners() {
-  const career = [...DATA.advanced_stats.career].sort((a,b)=>{const an=personName(a.person_id).trim().split(/\s+/),bn=personName(b.person_id).trim().split(/\s+/);const lastA=an.pop()||"",lastB=bn.pop()||"";return lastA.localeCompare(lastB)||an.join(" ").localeCompare(bn.join(" ");});
+  const career = [...DATA.advanced_stats.career].sort((a,b)=>{const an=personName(a.person_id).trim().split(/\s+/),bn=personName(b.person_id).trim().split(/\s+/);const lastA=an.pop()||"",lastB=bn.pop()||"";return lastA.localeCompare(lastB)||an.join(" ").localeCompare(bn.join(" "));});
   $("#app").innerHTML = `
     <div class="page-head"><div><div class="eyebrow">People</div><h1>Owners</h1><p>League résumés, championships, playoff history and draft positioning.</p></div></div>
     <div class="controls"><input id="ownerSearch" placeholder="Search owner…" /></div>
