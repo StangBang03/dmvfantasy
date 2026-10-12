@@ -472,9 +472,9 @@ function renderOwners() {
         </div>
         <div class="owner-metrics">
           <div class="owner-metric"><b>${pct(x.actual_win_pct)}</b><span>WIN %</span></div>
-          <div class="owner-metric"><b>${rec.playoff_appearances||0}</b><span>PLAYOFFS</span></div>
-          <div class="owner-metric"><b>${oneSeeds}</b><span>#1 SEEDS</span></div>
-          <div class="owner-metric"><b>${draft.avg_first_round_pick!=null?fmt(draft.avg_first_round_pick,1):'—'}</b><span>AVERAGE DRAFT PICK</span></div>
+          <div class="owner-metric"><b>${rec.playoff_appearances||0}</b><span>PLAYOFF APPEARANCES</span></div>
+          <div class="owner-metric"><b>${oneSeeds}</b><span>REG SEASON 1 SEEDS</span></div>
+          <div class="owner-metric"><b>${draft.avg_first_round_pick!=null?fmt(draft.avg_first_round_pick,1):'—'}</b><span>AVG DRAFT POSITION</span></div>
         </div>
       </article>`;
     }).join("") || '<div class="empty">No owners found.</div>';
