@@ -448,7 +448,7 @@ function renderSeason(season) {
   `;
 }
 function renderOwners() {
-  const career = [...DATA.advanced_stats.career].sort((a,b)=>a.person_name.localeCompare(b.person_name));
+  const career = [...DATA.advanced_stats.career].sort((a,b)=>personName(a.person_id).localeCompare(personName(b.person_id)));
   $("#app").innerHTML = `
     <div class="page-head"><div><div class="eyebrow">People</div><h1>Owners</h1><p>League résumés, championships, playoff history and draft positioning.</p></div></div>
     <div class="controls"><input id="ownerSearch" placeholder="Search owner…" /></div>
@@ -457,7 +457,7 @@ function renderOwners() {
   const grid = $("#ownerGrid");
   function paint() {
     const q = $("#ownerSearch").value.toLowerCase().trim();
-    const filtered = career.filter(x => x.person_name.toLowerCase().includes(q));
+    const filtered = career.filter(x => personName(x.person_id).toLowerCase().includes(q));
     grid.innerHTML = filtered.map(x=>{
       const c = DATA.champCounts[x.person_id]?.count || 0;
       const rec = DATA.owner_records.find(r=>r.person_id===x.person_id) || {};
@@ -466,7 +466,7 @@ function renderOwners() {
       const draft = DATA.draft_analytics.career.find(d=>d.person_id===x.person_id) || {};
       return `<article class="owner-card" onclick="location.hash='owner/${encodeURIComponent(x.person_id)}'">
         <div class="owner-card-top">
-          <div style="display:flex;gap:11px;align-items:center"><div class="avatar">${initials(x.person_name)}</div><div><h3>${esc(x.person_name)}</h3><div class="mini">${x.seasons} season${x.seasons===1?'':'s'}</div></div></div>
+          <div style="display:flex;gap:11px;align-items:center"><div class="avatar">${initials(personName(x.person_id))}</div><div><h3>${esc(personName(x.person_id))}</h3><div class="mini">${x.seasons} season${x.seasons===1?'':'s'}</div></div></div>
           <div>${c ? `<span class="badge">🏆 ${c}</span>` : ''}</div>
         </div>
         <div class="owner-metrics">
