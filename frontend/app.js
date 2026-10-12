@@ -463,7 +463,7 @@ function renderOwners() {
       const c = DATA.champCounts[x.person_id]?.count || 0;
       const rec = DATA.owner_records.find(r=>r.person_id===x.person_id) || {};
       const teamRows = DATA.teams.filter(t=>t.person_id===x.person_id && t.season<=2025 && t.playoff_seed!=null);
-      const oneSeeds = teamRows.filter(t=>t.playoff_seed===1).length;
+      const top3Finishes = teamRows.filter(t=>t.playoff_seed<=3).length;
       const draft = DATA.draft_analytics.career.find(d=>d.person_id===x.person_id) || {};
       return `<article class="owner-card" onclick="location.hash='owner/${encodeURIComponent(x.person_id)}'">
         <div class="owner-card-top">
@@ -471,10 +471,10 @@ function renderOwners() {
           <div>${c ? `<span class="badge">🏆 ${c}</span>` : ''}</div>
         </div>
         <div class="owner-metrics">
-          <div class="owner-metric"><b>${pct(x.actual_win_pct)}</b><span>WIN %</span></div>
-          <div class="owner-metric"><b>${rec.playoff_appearances||0}</b><span>PLAYOFF APPEARANCES</span></div>
-          <div class="owner-metric"><b>${oneSeeds}</b><span>REG SEASON 1 SEEDS</span></div>
-          <div class="owner-metric"><b>${draft.avg_first_round_pick!=null?fmt(draft.avg_first_round_pick,1):'—'}</b><span>AVG DRAFT POSITION</span></div>
+          <div class="owner-metric"><b>${pct(x.actual_win_pct)}</b><span>Win %</span></div>
+          <div class="owner-metric"><b>${rec.playoff_appearances||0}</b><span>Playoff Appearances</span></div>
+          <div class="owner-metric"><b>${top3Finishes}</b><span>Top 3 Finishes</span></div>
+          <div class="owner-metric"><b>${draft.avg_first_round_pick!=null?fmt(draft.avg_first_round_pick,1):'—'}</b><span>Avg Draft Position</span></div>
         </div>
       </article>`;
     }).join("") || '<div class="empty">No owners found.</div>';
