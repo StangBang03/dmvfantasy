@@ -20375,14 +20375,14 @@
     "matchup_period_id": 5,
     "scoring_period_id": null,
     "playoff_tier_type": "NONE",
-    "winner": "UNDECIDED",
-    "winner_team_id": null,
+    "winner": "AWAY",
+    "winner_team_id": 1,
     "home_team_id": 20,
     "away_team_id": 1,
     "home_person_id": "espn_9c0c1c2669ce43f5b65102d1e36b8d0b",
     "away_person_id": "espn_90d70961630440c3b59bb020c6eb36de",
-    "home_score": 0.0,
-    "away_score": 0.0
+    "home_score": 139.9,
+    "away_score": 149.84
   },
   {
     "season": 2026,
@@ -20390,14 +20390,14 @@
     "matchup_period_id": 5,
     "scoring_period_id": null,
     "playoff_tier_type": "NONE",
-    "winner": "UNDECIDED",
-    "winner_team_id": null,
+    "winner": "HOME",
+    "winner_team_id": 3,
     "home_team_id": 3,
     "away_team_id": 16,
     "home_person_id": "espn_96f0556caec04058a8ed59682ed5a33d",
     "away_person_id": "espn_55540c8225724955940c8225723955e3",
-    "home_score": 0.0,
-    "away_score": 0.0
+    "home_score": 149.24,
+    "away_score": 115.06
   },
   {
     "season": 2026,
@@ -20405,14 +20405,14 @@
     "matchup_period_id": 5,
     "scoring_period_id": null,
     "playoff_tier_type": "NONE",
-    "winner": "UNDECIDED",
-    "winner_team_id": null,
+    "winner": "AWAY",
+    "winner_team_id": 11,
     "home_team_id": 15,
     "away_team_id": 11,
     "home_person_id": "person_001",
     "away_person_id": "espn_c996a1d4280b42eea48f424b8a27bb53",
-    "home_score": 0.0,
-    "away_score": 0.0
+    "home_score": 120.42,
+    "away_score": 127.46
   },
   {
     "season": 2026,
@@ -20420,14 +20420,14 @@
     "matchup_period_id": 5,
     "scoring_period_id": null,
     "playoff_tier_type": "NONE",
-    "winner": "UNDECIDED",
-    "winner_team_id": null,
+    "winner": "AWAY",
+    "winner_team_id": 14,
     "home_team_id": 6,
     "away_team_id": 14,
     "home_person_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
     "away_person_id": "espn_5c772829a646413e8a8088ebfb82dc74",
-    "home_score": 0.0,
-    "away_score": 0.0
+    "home_score": 117.64,
+    "away_score": 158.2
   },
   {
     "season": 2026,
@@ -20435,14 +20435,14 @@
     "matchup_period_id": 5,
     "scoring_period_id": null,
     "playoff_tier_type": "NONE",
-    "winner": "UNDECIDED",
-    "winner_team_id": null,
+    "winner": "AWAY",
+    "winner_team_id": 18,
     "home_team_id": 17,
     "away_team_id": 18,
     "home_person_id": "espn_bdc4c12b724f4aa59b571905a72e4582",
     "away_person_id": "espn_a0b8716a2ce14556b8716a2ce1e5568d",
-    "home_score": 0.0,
-    "away_score": 0.0
+    "home_score": 97.24,
+    "away_score": 144.1
   },
   {
     "season": 2026,
@@ -20450,14 +20450,14 @@
     "matchup_period_id": 5,
     "scoring_period_id": null,
     "playoff_tier_type": "NONE",
-    "winner": "UNDECIDED",
-    "winner_team_id": null,
+    "winner": "HOME",
+    "winner_team_id": 8,
     "home_team_id": 8,
     "away_team_id": 19,
     "home_person_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
     "away_person_id": "espn_5c24f9e28d594018b8037b5d72fc94b6",
-    "home_score": 0.0,
-    "away_score": 0.0
+    "home_score": 195.88,
+    "away_score": 147.4
   },
   {
     "season": 2026,

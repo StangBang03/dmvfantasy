@@ -357,7 +357,7 @@
     {
       "season": 2011,
       "person_id": "espn_b8d9ff7f8eb74694a6ed72dfa21e8e28",
-      "person_name": "zach d",
+      "person_name": "Zach Davis",
       "regular_season_games": 13,
       "actual_wins": 8,
       "actual_losses": 5,
@@ -677,7 +677,7 @@
     {
       "season": 2012,
       "person_id": "espn_9e6adcd9fd68496293cd68dd623d791d",
-      "person_name": "robbie law",
+      "person_name": "Robbie Law",
       "regular_season_games": 13,
       "actual_wins": 1,
       "actual_losses": 12,
@@ -1357,7 +1357,7 @@
     {
       "season": 2014,
       "person_id": "espn_c7ebdf32bccd4649abdf32bccd8649f0",
-      "person_name": "J Ram",
+      "person_name": "Jeremy Ramlagan",
       "regular_season_games": 13,
       "actual_wins": 5,
       "actual_losses": 8,
@@ -1757,7 +1757,7 @@
     {
       "season": 2015,
       "person_id": "espn_c7ebdf32bccd4649abdf32bccd8649f0",
-      "person_name": "J Ram",
+      "person_name": "Jeremy Ramlagan",
       "regular_season_games": 13,
       "actual_wins": 3,
       "actual_losses": 10,
@@ -5437,7 +5437,7 @@
     {
       "season": 2023,
       "person_id": "espn_a0b8716a2ce14556b8716a2ce1e5568d",
-      "person_name": "gregory trakas",
+      "person_name": "Gregory Trakas",
       "regular_season_games": 14,
       "actual_wins": 6,
       "actual_losses": 8,
@@ -5917,7 +5917,7 @@
     {
       "season": 2024,
       "person_id": "espn_a0b8716a2ce14556b8716a2ce1e5568d",
-      "person_name": "gregory trakas",
+      "person_name": "Gregory Trakas",
       "regular_season_games": 14,
       "actual_wins": 7,
       "actual_losses": 7,
@@ -6397,7 +6397,7 @@
     {
       "season": 2025,
       "person_id": "espn_a0b8716a2ce14556b8716a2ce1e5568d",
-      "person_name": "gregory trakas",
+      "person_name": "Gregory Trakas",
       "regular_season_games": 14,
       "actual_wins": 7,
       "actual_losses": 7,
@@ -7033,7 +7033,7 @@
     },
     {
       "person_id": "espn_9e6adcd9fd68496293cd68dd623d791d",
-      "person_name": "robbie law",
+      "person_name": "Robbie Law",
       "seasons": 1,
       "regular_season_games": 13,
       "actual_wins": 1,
@@ -7062,7 +7062,7 @@
     },
     {
       "person_id": "espn_a0b8716a2ce14556b8716a2ce1e5568d",
-      "person_name": "gregory trakas",
+      "person_name": "Gregory Trakas",
       "seasons": 3,
       "regular_season_games": 42,
       "actual_wins": 20,
@@ -7091,7 +7091,7 @@
     },
     {
       "person_id": "espn_b8d9ff7f8eb74694a6ed72dfa21e8e28",
-      "person_name": "zach d",
+      "person_name": "Zach Davis",
       "seasons": 1,
       "regular_season_games": 13,
       "actual_wins": 8,
@@ -7178,7 +7178,7 @@
     },
     {
       "person_id": "espn_c7ebdf32bccd4649abdf32bccd8649f0",
-      "person_name": "J Ram",
+      "person_name": "Jeremy Ramlagan",
       "seasons": 2,
       "regular_season_games": 26,
       "actual_wins": 8,
