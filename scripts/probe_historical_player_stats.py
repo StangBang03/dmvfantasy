@@ -14,7 +14,7 @@ ESPN_S2 = os.getenv("ESPN_S2")
 ESPN_SWID = os.getenv("ESPN_SWID")
 
 if not ESPN_S2 or not ESPN_SWID:
-    raise RuntimeError("Missing ESPN_S2 or ESPN_SWID in .env")
+    raise RuntimeError("Missing ESPN_S2 or ESPN_SWID environment variables")
 
 session = requests.Session()
 session.cookies.update({"espn_s2": ESPN_S2, "SWID": ESPN_SWID})
@@ -24,10 +24,18 @@ session.headers.update({
 })
 
 
-def season_url(year):
+def season_request(year, week):
     if year >= 2018:
-        return f"{BASE_URL}/seasons/{year}/segments/0/leagues/{LEAGUE_ID}"
-    return f"{BASE_URL}/leagueHistory/{LEAGUE_ID}"
+        url = f"{BASE_URL}/seasons/{year}/segments/0/leagues/{LEAGUE_ID}"
+        params = {"view": "mRoster", "scoringPeriodId": week}
+    else:
+        url = f"{BASE_URL}/leagueHistory/{LEAGUE_ID}"
+        params = {
+            "seasonId": year,
+            "view": "mRoster",
+            "scoringPeriodId": week,
+        }
+    return url, params
 
 
 def unwrap(payload):
@@ -38,22 +46,13 @@ def unwrap(payload):
 
 def main():
     print("Historical ESPN weekly-player-data probe")
-    print("This makes read-only requests and does not change repository data.\n")
+    print("Read-only requests; no repository data is changed.\n")
 
     for year in SEASONS:
         for week in WEEKS_TO_TEST:
-            if week == 17 and year < 2012:
-                # 2011 had a 17-week NFL regular season, but keep the test
-                # range consistent; the endpoint's response will tell us
-                # whether ESPN has useful stats for that scoring period.
-                pass
-
             try:
-                response = session.get(
-                    season_url(year),
-                    params={"view": "mRoster", "scoringPeriodId": week},
-                    timeout=45,
-                )
+                url, params = season_request(year, week)
+                response = session.get(url, params=params, timeout=45)
                 print(f"{year} week {week}: HTTP {response.status_code}, {len(response.content):,} bytes")
                 response.raise_for_status()
                 data = unwrap(response.json())
@@ -95,8 +94,8 @@ def main():
             time.sleep(0.35)
         print()
 
-    print("Compare the requested-week row counts. If they are nonzero for old seasons,")
-    print("we can update the collector to pull each scoring period instead of only the default roster response.")
+    print("Compare requested-week row counts. Nonzero counts for older seasons mean")
+    print("we can test collecting each scoring period instead of only the default roster response.")
 
 
 if __name__ == "__main__":
