@@ -23,12 +23,18 @@ session.headers.update({"Accept": "application/json", "User-Agent": "Mozilla/5.0
 
 
 def request_details(year, week, view):
+    # ESPN's mBoxscore view needs both period parameters. For football,
+    # matchup periods and scoring periods are usually the same week.
+    params = {
+        "view": view,
+        "scoringPeriodId": week,
+        "matchupPeriodId": week,
+    }
     if year >= 2018:
         url = f"{BASE_URL}/seasons/{year}/segments/0/leagues/{LEAGUE_ID}"
-        params = {"view": view, "scoringPeriodId": week}
     else:
         url = f"{BASE_URL}/leagueHistory/{LEAGUE_ID}"
-        params = {"seasonId": year, "view": view, "scoringPeriodId": week}
+        params["seasonId"] = year
     return url, params
 
 
@@ -51,12 +57,40 @@ def walk(value):
 def inspect_payload(payload, requested_week):
     data = unwrap(payload)
     teams = data.get("teams", []) if isinstance(data, dict) else []
+    schedule = data.get("schedule", []) if isinstance(data, dict) else []
     roster_entries = 0
     player_objects = []
     stat_objects = []
     weekly_stat_rows = 0
     matching_week_rows = 0
+    applied_total_objects = []
+    boxscore_entries = []
     sample = None
+
+    for team in teams:
+        roster = team.get("roster") or {}
+        roster_entries += len(roster.get("entries") or [])
+
+    # mBoxscore stores weekly player scoring under schedule[].home/away
+    # .rosterForCurrentScoringPeriod.entries[].playerPoolEntry.
+    for matchup in schedule:
+        if not isinstance(matchup, dict):
+            continue
+        for side in ("home", "away"):
+            team_box = matchup.get(side) or {}
+            current_roster = team_box.get("rosterForCurrentScoringPeriod") or {}
+            for entry in current_roster.get("entries") or []:
+                pool = entry.get("playerPoolEntry") or {}
+                player = pool.get("player") or {}
+                points = pool.get("appliedStatTotal")
+                if player or points is not None:
+                    boxscore_entries.append({
+                        "name": player.get("fullName"),
+                        "playerId": entry.get("playerId") or player.get("id"),
+                        "appliedStatTotal": points,
+                        "stats": pool.get("stats"),
+                        "lineupSlotId": entry.get("lineupSlotId"),
+                    })
 
     for obj in walk(payload):
         if isinstance(obj.get("fullName"), str) or isinstance(obj.get("playerName"), str):
@@ -77,31 +111,31 @@ def inspect_payload(payload, requested_week):
                                 "appliedTotal": stat.get("appliedTotal"),
                                 "statKeys": len(stat.get("stats") or {}),
                             }
+        if "appliedStatTotal" in obj:
+            applied_total_objects.append(obj.get("appliedStatTotal"))
 
-    for team in teams:
-        roster = team.get("roster") or {}
-        roster_entries += len(roster.get("entries") or [])
-
-    player_sample = None
-    for player in player_objects:
-        if player.get("stats") or player.get("points") is not None:
-            player_sample = {
-                "name": player.get("fullName") or player.get("playerName"),
-                "keys": list(player.keys())[:35],
-                "stats_type": type(player.get("stats")).__name__,
-                "stats_sample": str(player.get("stats"))[:450],
-                "points": player.get("points"),
-            }
-            break
-
-    return len(teams), roster_entries, len(player_objects), weekly_stat_rows, matching_week_rows, sample, player_sample, len(stat_objects)
+    return {
+        "teams": len(teams),
+        "roster_entries": roster_entries,
+        "player_objects": len(player_objects),
+        "stat_objects": len(stat_objects),
+        "weekly_stat_rows": weekly_stat_rows,
+        "requested_week_rows": matching_week_rows,
+        "weekly_sample": sample,
+        "boxscore_entries": len(boxscore_entries),
+        "boxscore_points_count": sum(x["appliedStatTotal"] is not None for x in boxscore_entries),
+        "boxscore_points_sum": round(sum(x["appliedStatTotal"] for x in boxscore_entries if isinstance(x["appliedStatTotal"], (int, float))), 2),
+        "boxscore_player_samples": boxscore_entries[:4],
+        "applied_total_objects": len(applied_total_objects),
+        "applied_total_sample": applied_total_objects[:10],
+    }
 
 
 def main():
     print("ESPN historical player-stat endpoint probe")
     print("Read-only requests; no repository data is changed.")
     print("Tests roster, matchup and boxscore views for 2011-2017.")
-    print("Includes a small sample of boxscore player-object structure.\n")
+    print("Uses BOTH scoringPeriodId and matchupPeriodId; inspects matchup boxscore entries.\n")
 
     for year in SEASONS:
         for week in WEEKS_TO_TEST:
@@ -112,22 +146,26 @@ def main():
                     print(f"{year} week {week} view {view}: HTTP {response.status_code}, {len(response.content):,} bytes")
                     response.raise_for_status()
                     result = inspect_payload(response.json(), week)
-                    teams, roster_entries, player_count, weekly_rows, matching_rows, sample, player_sample, stat_count = result
                     print(
-                        f"  teams={teams}, roster_entries={roster_entries}, "
-                        f"player_objects={player_count}, stat_objects={stat_count}, "
-                        f"weekly_stat_rows={weekly_rows}, requested_week_rows={matching_rows}"
+                        f"  teams={result['teams']}, roster_entries={result['roster_entries']}, "
+                        f"player_objects={result['player_objects']}, stat_objects={result['stat_objects']}, "
+                        f"weekly_stat_rows={result['weekly_stat_rows']}, requested_week_rows={result['requested_week_rows']}, "
+                        f"boxscore_entries={result['boxscore_entries']}, "
+                        f"boxscore_points_count={result['boxscore_points_count']}, "
+                        f"boxscore_points_sum={result['boxscore_points_sum']}, "
+                        f"applied_total_objects={result['applied_total_objects']}"
                     )
-                    if sample:
-                        print(f"  weekly_sample={sample}")
-                    if view == "mBoxscore" and week == 1:
-                        print(f"  boxscore_player_sample={player_sample}")
+                    if result["weekly_sample"]:
+                        print(f"  weekly_sample={result['weekly_sample']}")
+                    if view == "mBoxscore" and week in (1, 8):
+                        print(f"  boxscore_player_samples={result['boxscore_player_samples']}")
+                        print(f"  applied_total_sample={result['applied_total_sample']}")
                 except Exception as exc:
                     print(f"{year} week {week} view {view}: ERROR {type(exc).__name__}: {exc}")
                 time.sleep(0.2)
         print()
 
-    print("Use player-object samples to identify the actual scoring fields exposed by old boxscore responses.")
+    print("If boxscore_entries and applied points are populated, the endpoint exposes weekly scoring for extraction.")
 
 
 if __name__ == "__main__":
