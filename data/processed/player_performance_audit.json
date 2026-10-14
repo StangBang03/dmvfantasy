@@ -93,21 +93,1167 @@
     {
       "season": 2026,
       "teams": 12,
-      "roster_rows": 205,
-      "unique_players": 205
+      "roster_rows": 206,
+      "unique_players": 206
     }
   ],
-  "total_roster_rows": 2918,
-  "unique_player_seasons": 2918,
-  "season_actual_rows": 2918,
-  "weekly_actual_rows": 1776,
-  "missing_season_actual": [],
+  "total_roster_rows": 2919,
+  "unique_player_seasons": 3148,
+  "season_actual_rows": 2919,
+  "weekly_actual_rows": 12117,
+  "missing_season_actual": [
+    {
+      "season": 2011,
+      "player_id": -16021,
+      "player_name": "Eagles D/ST"
+    },
+    {
+      "season": 2011,
+      "player_id": -16018,
+      "player_name": "Saints D/ST"
+    },
+    {
+      "season": 2011,
+      "player_id": -16009,
+      "player_name": "Packers D/ST"
+    },
+    {
+      "season": 2011,
+      "player_id": -16008,
+      "player_name": "Lions D/ST"
+    },
+    {
+      "season": 2011,
+      "player_id": 1097,
+      "player_name": "Adam Vinatieri"
+    },
+    {
+      "season": 2011,
+      "player_id": 1494,
+      "player_name": "Hines Ward"
+    },
+    {
+      "season": 2011,
+      "player_id": 2138,
+      "player_name": "Thomas Jones"
+    },
+    {
+      "season": 2011,
+      "player_id": 2564,
+      "player_name": "Santana Moss"
+    },
+    {
+      "season": 2011,
+      "player_id": 4482,
+      "player_name": "Dallas Clark"
+    },
+    {
+      "season": 2011,
+      "player_id": 4680,
+      "player_name": "Josh Brown"
+    },
+    {
+      "season": 2011,
+      "player_id": 5532,
+      "player_name": "Roy Williams"
+    },
+    {
+      "season": 2011,
+      "player_id": 5590,
+      "player_name": "Nate Kaeding"
+    },
+    {
+      "season": 2011,
+      "player_id": 8417,
+      "player_name": "Ronnie Brown"
+    },
+    {
+      "season": 2011,
+      "player_id": 8523,
+      "player_name": "Marion Barber"
+    },
+    {
+      "season": 2011,
+      "player_id": 8644,
+      "player_name": "Matt Cassel"
+    },
+    {
+      "season": 2011,
+      "player_id": 9235,
+      "player_name": "Rob Bironas"
+    },
+    {
+      "season": 2011,
+      "player_id": 9597,
+      "player_name": "Jay Cutler"
+    },
+    {
+      "season": 2011,
+      "player_id": 9614,
+      "player_name": "Marcedes Lewis"
+    },
+    {
+      "season": 2011,
+      "player_id": 9616,
+      "player_name": "Joseph Addai"
+    },
+    {
+      "season": 2011,
+      "player_id": 10482,
+      "player_name": "Zach Miller"
+    },
+    {
+      "season": 2011,
+      "player_id": 10488,
+      "player_name": "Sidney Rice"
+    },
+    {
+      "season": 2011,
+      "player_id": 11329,
+      "player_name": "Mario Manningham"
+    },
+    {
+      "season": 2011,
+      "player_id": 11362,
+      "player_name": "Ryan Torain"
+    },
+    {
+      "season": 2011,
+      "player_id": 11383,
+      "player_name": "Tim Hightower"
+    },
+    {
+      "season": 2011,
+      "player_id": 11439,
+      "player_name": "Pierre Garcon"
+    },
+    {
+      "season": 2011,
+      "player_id": 11543,
+      "player_name": "Garrett Hartley"
+    },
+    {
+      "season": 2011,
+      "player_id": 11658,
+      "player_name": "Mike Tolbert"
+    },
+    {
+      "season": 2011,
+      "player_id": 12516,
+      "player_name": "Knowshon Moreno"
+    },
+    {
+      "season": 2011,
+      "player_id": 12678,
+      "player_name": "Johnny Knox"
+    },
+    {
+      "season": 2011,
+      "player_id": 13214,
+      "player_name": "James Starks"
+    },
+    {
+      "season": 2012,
+      "player_id": -16021,
+      "player_name": "Eagles D/ST"
+    },
+    {
+      "season": 2012,
+      "player_id": -16004,
+      "player_name": "Bengals D/ST"
+    },
+    {
+      "season": 2012,
+      "player_id": -16001,
+      "player_name": "Falcons D/ST"
+    },
+    {
+      "season": 2012,
+      "player_id": 1231,
+      "player_name": "Tony Gonzalez"
+    },
+    {
+      "season": 2012,
+      "player_id": 2549,
+      "player_name": "Michael Vick"
+    },
+    {
+      "season": 2012,
+      "player_id": 9235,
+      "player_name": "Rob Bironas"
+    },
+    {
+      "season": 2012,
+      "player_id": 9597,
+      "player_name": "Jay Cutler"
+    },
+    {
+      "season": 2012,
+      "player_id": 9611,
+      "player_name": "Santonio Holmes"
+    },
+    {
+      "season": 2012,
+      "player_id": 10195,
+      "player_name": "Fred Jackson"
+    },
+    {
+      "season": 2012,
+      "player_id": 10467,
+      "player_name": "Dwayne Bowe"
+    },
+    {
+      "season": 2012,
+      "player_id": 10636,
+      "player_name": "Mason Crosby"
+    },
+    {
+      "season": 2012,
+      "player_id": 10713,
+      "player_name": "Pierre Thomas"
+    },
+    {
+      "season": 2012,
+      "player_id": 11282,
+      "player_name": "Fred Davis"
+    },
+    {
+      "season": 2012,
+      "player_id": 11329,
+      "player_name": "Mario Manningham"
+    },
+    {
+      "season": 2012,
+      "player_id": 11373,
+      "player_name": "Jacob Tamme"
+    },
+    {
+      "season": 2012,
+      "player_id": 11678,
+      "player_name": "Davone Bess"
+    },
+    {
+      "season": 2012,
+      "player_id": 12489,
+      "player_name": "Donald Brown"
+    },
+    {
+      "season": 2012,
+      "player_id": 12525,
+      "player_name": "Beanie Wells"
+    },
+    {
+      "season": 2012,
+      "player_id": 12537,
+      "player_name": "Jared Cook"
+    },
+    {
+      "season": 2012,
+      "player_id": 12898,
+      "player_name": "Isaac Redman"
+    },
+    {
+      "season": 2012,
+      "player_id": 14322,
+      "player_name": "Dan Bailey"
+    },
+    {
+      "season": 2013,
+      "player_id": -16023,
+      "player_name": "Steelers D/ST"
+    },
+    {
+      "season": 2013,
+      "player_id": -16017,
+      "player_name": "Patriots D/ST"
+    },
+    {
+      "season": 2013,
+      "player_id": 2148,
+      "player_name": "Sebastian Janikowski"
+    },
+    {
+      "season": 2013,
+      "player_id": 2549,
+      "player_name": "Michael Vick"
+    },
+    {
+      "season": 2013,
+      "player_id": 2578,
+      "player_name": "Reggie Wayne"
+    },
+    {
+      "season": 2013,
+      "player_id": 2622,
+      "player_name": "Steve Smith"
+    },
+    {
+      "season": 2013,
+      "player_id": 4333,
+      "player_name": "Matt Bryant"
+    },
+    {
+      "season": 2013,
+      "player_id": 5209,
+      "player_name": "Tony Romo"
+    },
+    {
+      "season": 2013,
+      "player_id": 5536,
+      "player_name": "Ben Roethlisberger"
+    },
+    {
+      "season": 2013,
+      "player_id": 8544,
+      "player_name": "Darren Sproles"
+    },
+    {
+      "season": 2013,
+      "player_id": 9684,
+      "player_name": "Owen Daniels"
+    },
+    {
+      "season": 2013,
+      "player_id": 9838,
+      "player_name": "Marques Colston"
+    },
+    {
+      "season": 2013,
+      "player_id": 10488,
+      "player_name": "Sidney Rice"
+    },
+    {
+      "season": 2013,
+      "player_id": 11458,
+      "player_name": "Steve Johnson"
+    },
+    {
+      "season": 2013,
+      "player_id": 11674,
+      "player_name": "Danny Amendola"
+    },
+    {
+      "season": 2013,
+      "player_id": 12569,
+      "player_name": "Percy Harvin"
+    },
+    {
+      "season": 2013,
+      "player_id": 12586,
+      "player_name": "Hakeem Nicks"
+    },
+    {
+      "season": 2013,
+      "player_id": 13217,
+      "player_name": "Golden Tate"
+    },
+    {
+      "season": 2013,
+      "player_id": 13295,
+      "player_name": "Emmanuel Sanders"
+    },
+    {
+      "season": 2013,
+      "player_id": 14001,
+      "player_name": "Colin Kaepernick"
+    },
+    {
+      "season": 2013,
+      "player_id": 14053,
+      "player_name": "Randall Cobb"
+    },
+    {
+      "season": 2013,
+      "player_id": 14054,
+      "player_name": "Kyle Rudolph"
+    },
+    {
+      "season": 2013,
+      "player_id": 14184,
+      "player_name": "Cecil Shorts"
+    },
+    {
+      "season": 2013,
+      "player_id": 14875,
+      "player_name": "Robert Griffin III"
+    },
+    {
+      "season": 2013,
+      "player_id": 14887,
+      "player_name": "David Wilson"
+    },
+    {
+      "season": 2013,
+      "player_id": 14891,
+      "player_name": "Bernard Pierce"
+    },
+    {
+      "season": 2013,
+      "player_id": 14993,
+      "player_name": "Greg Zuerlein"
+    },
+    {
+      "season": 2013,
+      "player_id": 15058,
+      "player_name": "Blair Walsh"
+    },
+    {
+      "season": 2013,
+      "player_id": 15111,
+      "player_name": "Daryl Richardson"
+    },
+    {
+      "season": 2014,
+      "player_id": -16029,
+      "player_name": "Panthers D/ST"
+    },
+    {
+      "season": 2014,
+      "player_id": -16017,
+      "player_name": "Patriots D/ST"
+    },
+    {
+      "season": 2014,
+      "player_id": -16014,
+      "player_name": "Rams D/ST"
+    },
+    {
+      "season": 2014,
+      "player_id": -16012,
+      "player_name": "Chiefs D/ST"
+    },
+    {
+      "season": 2014,
+      "player_id": -16004,
+      "player_name": "Bengals D/ST"
+    },
+    {
+      "season": 2014,
+      "player_id": 5941,
+      "player_name": "Wes Welker"
+    },
+    {
+      "season": 2014,
+      "player_id": 8444,
+      "player_name": "Heath Miller"
+    },
+    {
+      "season": 2014,
+      "player_id": 9329,
+      "player_name": "Nick Novak"
+    },
+    {
+      "season": 2014,
+      "player_id": 9597,
+      "player_name": "Jay Cutler"
+    },
+    {
+      "season": 2014,
+      "player_id": 10467,
+      "player_name": "Dwayne Bowe"
+    },
+    {
+      "season": 2014,
+      "player_id": 10636,
+      "player_name": "Mason Crosby"
+    },
+    {
+      "season": 2014,
+      "player_id": 10713,
+      "player_name": "Pierre Thomas"
+    },
+    {
+      "season": 2014,
+      "player_id": 11674,
+      "player_name": "Danny Amendola"
+    },
+    {
+      "season": 2014,
+      "player_id": 11923,
+      "player_name": "Steven Hauschka"
+    },
+    {
+      "season": 2014,
+      "player_id": 12489,
+      "player_name": "Donald Brown"
+    },
+    {
+      "season": 2014,
+      "player_id": 12500,
+      "player_name": "Shonn Greene"
+    },
+    {
+      "season": 2014,
+      "player_id": 13203,
+      "player_name": "C.J. Spiller"
+    },
+    {
+      "season": 2014,
+      "player_id": 13210,
+      "player_name": "Ben Tate"
+    },
+    {
+      "season": 2014,
+      "player_id": 13213,
+      "player_name": "LeGarrette Blount"
+    },
+    {
+      "season": 2014,
+      "player_id": 13231,
+      "player_name": "Dennis Pitta"
+    },
+    {
+      "season": 2014,
+      "player_id": 14017,
+      "player_name": "Shane Vereen"
+    },
+    {
+      "season": 2014,
+      "player_id": 14054,
+      "player_name": "Kyle Rudolph"
+    },
+    {
+      "season": 2014,
+      "player_id": 14875,
+      "player_name": "Robert Griffin"
+    },
+    {
+      "season": 2014,
+      "player_id": 14877,
+      "player_name": "Nick Foles"
+    },
+    {
+      "season": 2014,
+      "player_id": 14891,
+      "player_name": "Bernard Pierce"
+    },
+    {
+      "season": 2014,
+      "player_id": 14908,
+      "player_name": "Michael Floyd"
+    },
+    {
+      "season": 2014,
+      "player_id": 14911,
+      "player_name": "Rueben Randle"
+    },
+    {
+      "season": 2014,
+      "player_id": 15058,
+      "player_name": "Blair Walsh"
+    },
+    {
+      "season": 2014,
+      "player_id": 15807,
+      "player_name": "Cordarrelle Patterson"
+    },
+    {
+      "season": 2014,
+      "player_id": 15823,
+      "player_name": "Montee Ball"
+    },
+    {
+      "season": 2014,
+      "player_id": 15878,
+      "player_name": "Terrance Williams"
+    },
+    {
+      "season": 2014,
+      "player_id": 15996,
+      "player_name": "Zac Stacy"
+    },
+    {
+      "season": 2014,
+      "player_id": 16530,
+      "player_name": "Khiry Robinson"
+    },
+    {
+      "season": 2014,
+      "player_id": 16731,
+      "player_name": "Brandin Cooks"
+    },
+    {
+      "season": 2014,
+      "player_id": 16794,
+      "player_name": "Bishop Sankey"
+    },
+    {
+      "season": 2015,
+      "player_id": -16033,
+      "player_name": "Ravens D/ST"
+    },
+    {
+      "season": 2015,
+      "player_id": -16021,
+      "player_name": "Eagles D/ST"
+    },
+    {
+      "season": 2015,
+      "player_id": -16015,
+      "player_name": "Dolphins D/ST"
+    },
+    {
+      "season": 2015,
+      "player_id": -16002,
+      "player_name": "Bills D/ST"
+    },
+    {
+      "season": 2015,
+      "player_id": 1097,
+      "player_name": "Adam Vinatieri"
+    },
+    {
+      "season": 2015,
+      "player_id": 1428,
+      "player_name": "Peyton Manning"
+    },
+    {
+      "season": 2015,
+      "player_id": 4461,
+      "player_name": "Andre Johnson"
+    },
+    {
+      "season": 2015,
+      "player_id": 4512,
+      "player_name": "Anquan Boldin"
+    },
+    {
+      "season": 2015,
+      "player_id": 5209,
+      "player_name": "Tony Romo"
+    },
+    {
+      "season": 2015,
+      "player_id": 11122,
+      "player_name": "Matt Prater"
+    },
+    {
+      "season": 2015,
+      "player_id": 11467,
+      "player_name": "Justin Forsett"
+    },
+    {
+      "season": 2015,
+      "player_id": 12497,
+      "player_name": "Arian Foster"
+    },
+    {
+      "season": 2015,
+      "player_id": 13197,
+      "player_name": "Sam Bradford"
+    },
+    {
+      "season": 2015,
+      "player_id": 13203,
+      "player_name": "C.J. Spiller"
+    },
+    {
+      "season": 2015,
+      "player_id": 13232,
+      "player_name": "Jimmy Graham"
+    },
+    {
+      "season": 2015,
+      "player_id": 14032,
+      "player_name": "Torrey Smith"
+    },
+    {
+      "season": 2015,
+      "player_id": 14322,
+      "player_name": "Dan Bailey"
+    },
+    {
+      "season": 2015,
+      "player_id": 14876,
+      "player_name": "Ryan Tannehill"
+    },
+    {
+      "season": 2015,
+      "player_id": 14909,
+      "player_name": "Kendall Wright"
+    },
+    {
+      "season": 2015,
+      "player_id": 15058,
+      "player_name": "Blair Walsh"
+    },
+    {
+      "season": 2015,
+      "player_id": 15818,
+      "player_name": "Keenan Allen"
+    },
+    {
+      "season": 2015,
+      "player_id": 15825,
+      "player_name": "Le'Veon Bell"
+    },
+    {
+      "season": 2015,
+      "player_id": 15835,
+      "player_name": "Zach Ertz"
+    },
+    {
+      "season": 2015,
+      "player_id": 15893,
+      "player_name": "Andre Ellington"
+    },
+    {
+      "season": 2015,
+      "player_id": 16013,
+      "player_name": "Joseph Randle"
+    },
+    {
+      "season": 2015,
+      "player_id": 17082,
+      "player_name": "Cody Parkey"
+    },
+    {
+      "season": 2015,
+      "player_id": 17133,
+      "player_name": "Isaiah Crowell"
+    },
+    {
+      "season": 2015,
+      "player_id": 2969962,
+      "player_name": "Duke Johnson Jr."
+    },
+    {
+      "season": 2015,
+      "player_id": 2979477,
+      "player_name": "Tevin Coleman"
+    },
+    {
+      "season": 2016,
+      "player_id": -16034,
+      "player_name": "Texans D/ST"
+    },
+    {
+      "season": 2016,
+      "player_id": -16029,
+      "player_name": "Panthers D/ST"
+    },
+    {
+      "season": 2016,
+      "player_id": -16027,
+      "player_name": "Buccaneers D/ST"
+    },
+    {
+      "season": 2016,
+      "player_id": 11252,
+      "player_name": "Joe Flacco"
+    },
+    {
+      "season": 2016,
+      "player_id": 11307,
+      "player_name": "Jamaal Charles"
+    },
+    {
+      "season": 2016,
+      "player_id": 11364,
+      "player_name": "Gary Barnidge"
+    },
+    {
+      "season": 2016,
+      "player_id": 11788,
+      "player_name": "Danny Woodhead"
+    },
+    {
+      "season": 2016,
+      "player_id": 12460,
+      "player_name": "Graham Gano"
+    },
+    {
+      "season": 2016,
+      "player_id": 12537,
+      "player_name": "Jared Cook"
+    },
+    {
+      "season": 2016,
+      "player_id": 12699,
+      "player_name": "Zach Miller"
+    },
+    {
+      "season": 2016,
+      "player_id": 13271,
+      "player_name": "Eric Decker"
+    },
+    {
+      "season": 2016,
+      "player_id": 14204,
+      "player_name": "Julius Thomas"
+    },
+    {
+      "season": 2016,
+      "player_id": 14900,
+      "player_name": "Coby Fleener"
+    },
+    {
+      "season": 2016,
+      "player_id": 14901,
+      "player_name": "Dwayne Allen"
+    },
+    {
+      "season": 2016,
+      "player_id": 14908,
+      "player_name": "Michael Floyd"
+    },
+    {
+      "season": 2016,
+      "player_id": 15058,
+      "player_name": "Blair Walsh"
+    },
+    {
+      "season": 2016,
+      "player_id": 15062,
+      "player_name": "Travis Benjamin"
+    },
+    {
+      "season": 2016,
+      "player_id": 15818,
+      "player_name": "Keenan Allen"
+    },
+    {
+      "season": 2016,
+      "player_id": 15826,
+      "player_name": "Giovani Bernard"
+    },
+    {
+      "season": 2016,
+      "player_id": 15848,
+      "player_name": "Eddie Lacy"
+    },
+    {
+      "season": 2016,
+      "player_id": 15855,
+      "player_name": "Christine Michael"
+    },
+    {
+      "season": 2016,
+      "player_id": 16016,
+      "player_name": "Kenny Stills"
+    },
+    {
+      "season": 2016,
+      "player_id": 16040,
+      "player_name": "C.J. Anderson"
+    },
+    {
+      "season": 2016,
+      "player_id": 16804,
+      "player_name": "John Brown"
+    },
+    {
+      "season": 2016,
+      "player_id": 16976,
+      "player_name": "Chandler Catanzaro"
+    },
+    {
+      "season": 2016,
+      "player_id": 17372,
+      "player_name": "Chris Boswell"
+    },
+    {
+      "season": 2016,
+      "player_id": 2577327,
+      "player_name": "Tyler Lockett"
+    },
+    {
+      "season": 2017,
+      "player_id": -16034,
+      "player_name": "Texans D/ST"
+    },
+    {
+      "season": 2017,
+      "player_id": -16027,
+      "player_name": "Buccaneers D/ST"
+    },
+    {
+      "season": 2017,
+      "player_id": -16022,
+      "player_name": "Cardinals D/ST"
+    },
+    {
+      "season": 2017,
+      "player_id": -16015,
+      "player_name": "Dolphins D/ST"
+    },
+    {
+      "season": 2017,
+      "player_id": -16013,
+      "player_name": "Raiders D/ST"
+    },
+    {
+      "season": 2017,
+      "player_id": -16004,
+      "player_name": "Bengals D/ST"
+    },
+    {
+      "season": 2017,
+      "player_id": -16001,
+      "player_name": "Falcons D/ST"
+    },
+    {
+      "season": 2017,
+      "player_id": 4459,
+      "player_name": "Carson Palmer"
+    },
+    {
+      "season": 2017,
+      "player_id": 5526,
+      "player_name": "Eli Manning"
+    },
+    {
+      "season": 2017,
+      "player_id": 9354,
+      "player_name": "Robbie Gould"
+    },
+    {
+      "season": 2017,
+      "player_id": 9592,
+      "player_name": "Vernon Davis"
+    },
+    {
+      "season": 2017,
+      "player_id": 9705,
+      "player_name": "Brandon Marshall"
+    },
+    {
+      "season": 2017,
+      "player_id": 10452,
+      "player_name": "Adrian Peterson"
+    },
+    {
+      "season": 2017,
+      "player_id": 10636,
+      "player_name": "Mason Crosby"
+    },
+    {
+      "season": 2017,
+      "player_id": 11238,
+      "player_name": "Darren McFadden"
+    },
+    {
+      "season": 2017,
+      "player_id": 11258,
+      "player_name": "Chris Johnson"
+    },
+    {
+      "season": 2017,
+      "player_id": 11295,
+      "player_name": "Martellus Bennett"
+    },
+    {
+      "season": 2017,
+      "player_id": 11674,
+      "player_name": "Danny Amendola"
+    },
+    {
+      "season": 2017,
+      "player_id": 11923,
+      "player_name": "Stephen Hauschka"
+    },
+    {
+      "season": 2017,
+      "player_id": 12579,
+      "player_name": "Jeremy Maclin"
+    },
+    {
+      "season": 2017,
+      "player_id": 12699,
+      "player_name": "Zach Miller"
+    },
+    {
+      "season": 2017,
+      "player_id": 13271,
+      "player_name": "Eric Decker"
+    },
+    {
+      "season": 2017,
+      "player_id": 13272,
+      "player_name": "Ed Dickson"
+    },
+    {
+      "season": 2017,
+      "player_id": 13587,
+      "player_name": "Chris Ivory"
+    },
+    {
+      "season": 2017,
+      "player_id": 14163,
+      "player_name": "Tyrod Taylor"
+    },
+    {
+      "season": 2017,
+      "player_id": 14193,
+      "player_name": "Jacquizz Rodgers"
+    },
+    {
+      "season": 2017,
+      "player_id": 14322,
+      "player_name": "Dan Bailey"
+    },
+    {
+      "season": 2017,
+      "player_id": 14851,
+      "player_name": "Terrelle Pryor Sr."
+    },
+    {
+      "season": 2017,
+      "player_id": 14900,
+      "player_name": "Coby Fleener"
+    },
+    {
+      "season": 2017,
+      "player_id": 15058,
+      "player_name": "Blair Walsh"
+    },
+    {
+      "season": 2017,
+      "player_id": 15245,
+      "player_name": "Giorgio Tavecchio"
+    },
+    {
+      "season": 2017,
+      "player_id": 15788,
+      "player_name": "Tyler Eifert"
+    },
+    {
+      "season": 2017,
+      "player_id": 15860,
+      "player_name": "Jordan Reed"
+    },
+    {
+      "season": 2017,
+      "player_id": 15893,
+      "player_name": "Andre Ellington"
+    },
+    {
+      "season": 2017,
+      "player_id": 15965,
+      "player_name": "Dustin Hopkins"
+    },
+    {
+      "season": 2017,
+      "player_id": 16725,
+      "player_name": "Sammy Watkins"
+    },
+    {
+      "season": 2017,
+      "player_id": 16730,
+      "player_name": "Kelvin Benjamin"
+    },
+    {
+      "season": 2017,
+      "player_id": 16733,
+      "player_name": "Odell Beckham Jr."
+    },
+    {
+      "season": 2017,
+      "player_id": 16757,
+      "player_name": "Derek Carr"
+    },
+    {
+      "season": 2017,
+      "player_id": 16783,
+      "player_name": "Terrance West"
+    },
+    {
+      "season": 2017,
+      "player_id": 16800,
+      "player_name": "Davante Adams"
+    },
+    {
+      "season": 2017,
+      "player_id": 17427,
+      "player_name": "Cairo Santos"
+    },
+    {
+      "season": 2017,
+      "player_id": 2573079,
+      "player_name": "Carson Wentz"
+    },
+    {
+      "season": 2017,
+      "player_id": 2576980,
+      "player_name": "Marcus Mariota"
+    },
+    {
+      "season": 2017,
+      "player_id": 2577189,
+      "player_name": "Brett Hundley"
+    },
+    {
+      "season": 2017,
+      "player_id": 2577253,
+      "player_name": "Javorius Allen"
+    },
+    {
+      "season": 2017,
+      "player_id": 2577327,
+      "player_name": "Tyler Lockett"
+    },
+    {
+      "season": 2017,
+      "player_id": 2577417,
+      "player_name": "Dak Prescott"
+    },
+    {
+      "season": 2017,
+      "player_id": 2582410,
+      "player_name": "Tyler Kroft"
+    },
+    {
+      "season": 2017,
+      "player_id": 2969939,
+      "player_name": "Jameis Winston"
+    },
+    {
+      "season": 2017,
+      "player_id": 2971573,
+      "player_name": "Ka'imi Fairbairn"
+    },
+    {
+      "season": 2017,
+      "player_id": 3042494,
+      "player_name": "Elijah McGuire"
+    },
+    {
+      "season": 2017,
+      "player_id": 3042778,
+      "player_name": "Corey Davis"
+    },
+    {
+      "season": 2017,
+      "player_id": 3046439,
+      "player_name": "Hunter Henry"
+    },
+    {
+      "season": 2017,
+      "player_id": 3052876,
+      "player_name": "Will Fuller V"
+    },
+    {
+      "season": 2017,
+      "player_id": 3066158,
+      "player_name": "Tarik Cohen"
+    },
+    {
+      "season": 2017,
+      "player_id": 3122840,
+      "player_name": "Deshaun Watson"
+    },
+    {
+      "season": 2017,
+      "player_id": 3919596,
+      "player_name": "Chris Carson"
+    }
+  ],
   "duplicate_player_seasons": [],
   "source_counts": {
-    "actual": 2918
+    "actual": 2919
   },
   "split_counts": {
-    "season_total": 2918,
-    "weekly": 1776
+    "season_total": 2919,
+    "weekly": 12117
   }
 }
