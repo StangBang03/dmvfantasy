@@ -2,6 +2,13 @@ name: Collect Historical Weekly Player Stats
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - scripts/collect_historical_weekly_stats.py
+      - scripts/build_player_performance.py
+      - .github/workflows/collect-historical-weekly-stats.yml
 
 permissions:
   contents: write
