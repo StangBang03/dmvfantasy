@@ -64,6 +64,7 @@ def inspect_payload(payload, requested_week):
     weekly_stat_rows = 0
     matching_week_rows = 0
     applied_total_objects = []
+    applied_total_samples = []
     boxscore_entries = []
     sample = None
 
@@ -111,8 +112,20 @@ def inspect_payload(payload, requested_week):
                                 "appliedTotal": stat.get("appliedTotal"),
                                 "statKeys": len(stat.get("stats") or {}),
                             }
-        if "appliedStatTotal" in obj:
-            applied_total_objects.append(obj.get("appliedStatTotal"))
+        if "appliedTotal" in obj or "appliedStatTotal" in obj:
+            value = obj.get("appliedTotal", obj.get("appliedStatTotal"))
+            applied_total_objects.append(value)
+            if len(applied_total_samples) < 8:
+                applied_total_samples.append({
+                    "keys": list(obj.keys())[:25],
+                    "scoringPeriodId": obj.get("scoringPeriodId"),
+                    "seasonId": obj.get("seasonId"),
+                    "statSplitTypeId": obj.get("statSplitTypeId"),
+                    "statSourceId": obj.get("statSourceId"),
+                    "appliedTotal": obj.get("appliedTotal"),
+                    "appliedStatTotal": obj.get("appliedStatTotal"),
+                    "stats_sample": str(obj.get("stats"))[:180],
+                })
 
     return {
         "teams": len(teams),
@@ -127,7 +140,7 @@ def inspect_payload(payload, requested_week):
         "boxscore_points_sum": round(sum(x["appliedStatTotal"] for x in boxscore_entries if isinstance(x["appliedStatTotal"], (int, float))), 2),
         "boxscore_player_samples": boxscore_entries[:4],
         "applied_total_objects": len(applied_total_objects),
-        "applied_total_sample": applied_total_objects[:10],
+        "applied_total_sample": applied_total_samples,
     }
 
 
@@ -165,7 +178,7 @@ def main():
                 time.sleep(0.2)
         print()
 
-    print("If boxscore_entries and applied points are populated, the endpoint exposes weekly scoring for extraction.")
+    print("Inspect appliedTotal objects to identify weekly points and their scoring-period metadata.")
 
 
 if __name__ == "__main__":
