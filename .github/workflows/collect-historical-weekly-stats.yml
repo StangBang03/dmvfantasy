@@ -1,0 +1,84 @@
+name: Collect Historical Weekly Player Stats
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: collect-historical-weekly-stats
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          ref: main
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip requests python-dotenv
+
+      - name: Collect season rosters needed by the player-performance builder
+        env:
+          ESPN_S2: ${{ secrets.ESPN_S2 }}
+          ESPN_SWID: ${{ secrets.ESPN_SWID }}
+        run: python scripts/collect_rosters.py
+
+      - name: Collect historical weekly points (2011-2017)
+        env:
+          ESPN_S2: ${{ secrets.ESPN_S2 }}
+          ESPN_SWID: ${{ secrets.ESPN_SWID }}
+        run: python scripts/collect_historical_weekly_stats.py
+
+      - name: Rebuild player performance and analytics
+        run: |
+          python scripts/build_player_performance.py
+          python scripts/build_advanced_analytics.py
+          python scripts/build_records_engine_v3.py
+          python scripts/build_draft_analytics.py
+
+      - name: Commit processed data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/processed data/analytics
+          if git diff --cached --quiet; then
+            echo "No data changes to commit."
+          else
+            git commit -m "Add historical weekly player performance data"
+            git push
+          fi
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Prepare site
+        run: |
+          mkdir -p _site/data/analytics _site/data/processed
+          cp -R frontend/. _site/
+          cp -R data/analytics/. _site/data/analytics/
+          cp -R data/processed/. _site/data/processed/
+
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+      - name: Deploy site
+        id: deployment
+        uses: actions/deploy-pages@v4
