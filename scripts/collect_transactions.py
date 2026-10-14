@@ -58,7 +58,21 @@ def fetch_transactions(year, scoring_period):
         )
         return None
 
-    return response.json()
+    data = response.json()
+
+    # ESPN's legacy leagueHistory endpoint (2011-2017) wraps
+    # the league object in a one-element list; modern seasons return
+    # the object directly. Normalize both formats for the builder.
+    if isinstance(data, list) and len(data) == 1 and isinstance(data[0], dict):
+        data = data[0]
+
+    if not isinstance(data, dict):
+        raise RuntimeError(
+            f"Unexpected ESPN transaction response for {year} "
+            f"scoring period {scoring_period}: {type(data).__name__}"
+        )
+
+    return data
 
 
 def main():
