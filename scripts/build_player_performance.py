@@ -78,6 +78,17 @@ def extract_stats(stats):
     return season_actual, weekly_actual
 
 
+def walk_objects(value):
+    """Yield nested dicts in ESPN's JSON response."""
+    if isinstance(value, dict):
+        yield value
+        for child in value.values():
+            yield from walk_objects(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from walk_objects(child)
+
+
 def player_metadata(player):
     return {
         "player_id": player.get("id"),
@@ -267,6 +278,67 @@ def main():
             f"{season_roster_rows} roster rows, "
             f"{len(season_players)} unique players"
         )
+
+    # Merge historical weekly fantasy points collected from mBoxscore.
+    weekly_raw_dir = Path("data/raw/weekly_boxscore")
+    historical_weekly_rows = 0
+    if weekly_raw_dir.exists():
+        for year_dir in sorted(weekly_raw_dir.iterdir()):
+            if not year_dir.is_dir():
+                continue
+            year = int(year_dir.name)
+            for file in sorted(year_dir.glob("week-*.json")):
+                try:
+                    week = int(file.stem.split("-")[-1])
+                    payload = load_json(file)
+                except (ValueError, OSError, json.JSONDecodeError) as exc:
+                    print(f"WARNING: could not read weekly file {file}: {exc}")
+                    continue
+
+                # ESPN boxscore payloads contain playerPoolEntry-like objects
+                # with player metadata and appliedStatTotal (fantasy points).
+                seen_in_file = set()
+                for obj in walk_objects(payload):
+                    player = obj.get("player")
+                    points = clean_number(obj.get("appliedStatTotal"))
+                    if not isinstance(player, dict) or points is None:
+                        continue
+                    player_id = player.get("id", obj.get("id"))
+                    if player_id is None:
+                        continue
+                    player_id = int(player_id)
+                    if player_id in seen_in_file:
+                        continue
+                    seen_in_file.add(player_id)
+                    key = (year, player_id)
+
+                    if key not in records:
+                        record = player_metadata(player)
+                        record.update({
+                            "season": year,
+                            "player_id": player_id,
+                            "roster_team_ids": [],
+                            "acquisition_types": [],
+                            "season_fantasy_points": None,
+                            "season_applied_average": None,
+                            "season_stats": {},
+                            "weeks": {},
+                        })
+                        records[key] = record
+
+                    record = records[key]
+                    # Weekly boxscore points are authoritative for this
+                    # scoring period; replace only the matching week.
+                    record["weeks"][str(week)] = {
+                        "scoring_period": week,
+                        "fantasy_points": points,
+                        "stats": {},
+                        "applied_average": None,
+                        "source": "mBoxscore.appliedStatTotal",
+                    }
+                    historical_weekly_rows += 1
+
+        print(f"Historical mBoxscore weekly rows merged: {historical_weekly_rows}")
 
     # Finalize records and build flat weekly table.
     for (year, player_id), record in sorted(records.items()):
