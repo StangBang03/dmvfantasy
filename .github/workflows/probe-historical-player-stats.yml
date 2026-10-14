@@ -2,6 +2,12 @@ name: Probe Historical Player Stats
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - scripts/probe_historical_player_stats.py
+      - .github/workflows/probe-historical-player-stats.yml
 
 permissions:
   contents: read
