@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 LEAGUE_ID = 112536
-YEARS = range(2018, 2026)
+YEARS = range(2011, 2026)
 
 BASE_URL = (
     "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl"
@@ -173,10 +173,16 @@ def get_player_cards(year, scoring_period, player_ids):
     """
     results = []
 
-    url = (
-        f"{BASE_URL}/seasons/{year}"
-        f"/segments/0/leagues/{LEAGUE_ID}"
-    )
+    if year >= 2018:
+        url = (
+            f"{BASE_URL}/seasons/{year}"
+            f"/segments/0/leagues/{LEAGUE_ID}"
+        )
+    else:
+        url = (
+            f"{BASE_URL}/leagueHistory/{LEAGUE_ID}"
+            f"?seasonId={year}"
+        )
 
     # Keep batches conservative. Player cards can be large.
     batch_size = 50
@@ -224,6 +230,9 @@ def get_player_cards(year, scoring_period, player_ids):
                         json.dumps(fantasy_filter)
                 },
             )
+            # Legacy leagueHistory responses wrap the league in a list.
+            if isinstance(data, list) and len(data) == 1:
+                data = data[0]
 
             with output_file.open(
                 "w",
@@ -428,7 +437,9 @@ def main():
     for year in YEARS:
         trade_periods = sorted(periods.get(year, []))
 
-        if not trade_periods:
+        # Probe player-card transaction history for every legacy season,
+        # even when mTransactions2 contains no visible trade periods.
+        if not trade_periods and year >= 2018:
             continue
 
         player_ids = player_ids_by_year[year]
