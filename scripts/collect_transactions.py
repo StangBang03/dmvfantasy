@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 LEAGUE_ID = "112536"
-START_YEAR = 2018
+START_YEAR = 2011
 END_YEAR = 2025
 
 BASE = "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl"
@@ -26,9 +26,15 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def get_url(year):
+    if year >= 2018:
+        return (
+            f"{BASE}/seasons/{year}/segments/0/"
+            f"leagues/{LEAGUE_ID}"
+        )
+
     return (
-        f"{BASE}/seasons/{year}/segments/0/"
-        f"leagues/{LEAGUE_ID}"
+        f"{BASE}/leagueHistory/{LEAGUE_ID}"
+        f"?seasonId={year}"
     )
 
 
