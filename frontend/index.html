@@ -54,6 +54,15 @@
     </main>
   </div>
 
-  <script src="app.js?v=20261016-1"></script>
+  <script src="app.js?v=20261016-2"></script>
+  <script>
+    // Failsafe: never leave visitors staring at the loading spinner indefinitely.
+    window.setTimeout(() => {
+      const app = document.getElementById("app");
+      if (app && app.querySelector(".loading")) {
+        app.innerHTML = '<div class="empty"><h2>The site did not finish starting.</h2><p>The page loaded, but its JavaScript or league data did not complete. Try refreshing once. If this message remains, open the browser console or contact the site maintainer.</p></div>';
+      }
+    }, 12000);
+  </script>
 </body>
 </html>
