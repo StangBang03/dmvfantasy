@@ -1094,7 +1094,12 @@ function renderMatchups() {
 }
 
 
-window.addEventListener('hashchange', render);
+window.addEventListener('hashchange', () => {
+  // Route changes should start at the top, including on mobile where the page
+  // can otherwise retain the previous route's scroll position.
+  window.scrollTo(0, 0);
+  render();
+});
 $("#mobileMenu").addEventListener('click',()=>$(".sidebar").classList.toggle('open'));
 document.querySelectorAll(".sidebar nav a").forEach(link=>{
   link.addEventListener("click",()=>$(".sidebar").classList.remove("open"));
