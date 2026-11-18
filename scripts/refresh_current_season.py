@@ -76,6 +76,11 @@ def load_owner_map(people):
         if key in owner_to_person and owner_to_person[key] != person_id:
             raise RuntimeError("ESPN_OWNER_MAP_JSON contains conflicting owner mappings.")
         owner_to_person[key] = person_id
+    unmapped_people = known_people - set(owner_to_person.values())
+    if unmapped_people:
+        raise RuntimeError(
+            f"{len(unmapped_people)} canonical owner(s) have no private ESPN identity mapping."
+        )
     return owner_to_person
 
 def main():
