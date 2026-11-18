@@ -1,0 +1,42 @@
+name: Probe Historical Weekly Stat Views
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - scripts/probe_historical_weekly_views.py
+      - .github/workflows/probe-historical-weekly-views.yml
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: probe-historical-weekly-views
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --upgrade pip requests python-dotenv
+      - name: Probe ESPN weekly stats endpoints
+        env:
+          ESPN_S2: ${{ secrets.ESPN_S2 }}
+          ESPN_SWID: ${{ secrets.ESPN_SWID }}
+        run: python scripts/probe_historical_weekly_views.py
+      - name: Upload weekly views probe
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: historical-weekly-views-probe
+          path: artifacts/weekly_views/
+          if-no-files-found: warn
+          retention-days: 30
