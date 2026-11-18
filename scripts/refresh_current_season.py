@@ -220,6 +220,20 @@ def main():
         raise RuntimeError("No standings rows found; refusing to replace current-season data.")
     if not current_drafts:
         raise RuntimeError("No current-season draft picks found; refusing to replace current-season data.")
+    if any(
+        pick.get("team_id") is None
+        or pick.get("person_id") is None
+        or pick.get("player_id") is None
+        or pick.get("overall_pick") is None
+        for pick in current_drafts
+    ):
+        raise RuntimeError(
+            "A current-season draft pick is missing its team, owner, player, "
+            "or overall-pick reference."
+        )
+    overall_picks = [pick["overall_pick"] for pick in current_drafts]
+    if len(set(overall_picks)) != len(overall_picks):
+        raise RuntimeError("Duplicate overall pick numbers in current-season draft response.")
 
     def replace_season(rows, current):
         return [r for r in rows if r.get("season") != YEAR] + current
