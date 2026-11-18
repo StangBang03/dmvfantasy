@@ -51,47 +51,82 @@ def pair(value):
 
 
 def stat_values(raw):
-    pyd=num(raw.get("passingYards"))
-    ryd=num(raw.get("rushingYards"))
-    recyd=num(raw.get("receivingYards"))
-    ptd=num(raw.get("passingTouchdowns"))
-    rtd=num(raw.get("rushingTouchdowns"))
-    rectd=num(raw.get("receivingTouchdowns"))
-    receptions=num(raw.get("receptions"))
-    fumbles_lost=num(raw.get("fumblesLost")) if "fumblesLost" in raw else None
-    values={
-        4:ptd, 8:int(pyd/25), 17:1 if 300<=pyd<400 else 0, 18:1 if pyd>=400 else 0,
-        20:num(raw.get("interceptions")), 25:rtd, 28:int(ryd/10),
-        37:1 if 100<=ryd<200 else 0, 38:1 if ryd>=200 else 0,
-        41:receptions, 43:rectd, 48:int(recyd/10),
-        53:receptions, 56:1 if 100<=recyd<200 else 0, 57:1 if recyd>=200 else 0,
-    }
-    if fumbles_lost is not None: values[72]=fumbles_lost
-    fg_fields=[
-        ("fieldGoalsMade1_19-fieldGoalAttempts1_19",1),
-        ("fieldGoalsMade20_29-fieldGoalAttempts20_29",1),
-        ("fieldGoalsMade30_39-fieldGoalAttempts30_39",1),
-        ("fieldGoalsMade40_49-fieldGoalAttempts40_49",1),
-        ("fieldGoalsMade50_59-fieldGoalAttempts50_59",1),
-        ("fieldGoalsMade60Plus-fieldGoalAttempts60Plus",1),
-    ]
-    made={}; attempts={}
-    for name,_ in fg_fields:
-        if name in raw:
-            m,a=pair(raw[name])
-            stem=name.split("-")[0].replace("fieldGoalsMade","")
-            made[stem]=m; attempts[stem]=a
-    if made:
-        values[74]=made.get("50_59",0)+made.get("60Plus",0)
-        values[75]=attempts.get("50_59",0)+attempts.get("60Plus",0)
-        values[77]=made.get("40_49",0)
-        values[80]=made.get("1_19",0)+made.get("20_29",0)+made.get("30_39",0)
-        values[85]=sum(attempts.values())-sum(made.values())
-    if "extraPointsMade-extraPointAttempts" in raw:
-        m,a=pair(raw["extraPointsMade-extraPointAttempts"])
-        values[86]=m; values[88]=a-m
-    return values
+    """Translate ESPN athlete-gamelog fields into the league's ESPN stat IDs.
 
+    This is intentionally limited to stats exposed by the athlete gamelog.
+    Missing categories remain visible in reconciliation rather than being
+    guessed or silently synthesized.
+    """
+    pyd = num(raw.get("passingYards"))
+    ryd = num(raw.get("rushingYards"))
+    recyd = num(raw.get("receivingYards"))
+    ptd = num(raw.get("passingTouchdowns"))
+    rtd = num(raw.get("rushingTouchdowns"))
+    rectd = num(raw.get("receivingTouchdowns"))
+    receptions = num(raw.get("receptions"))
+    fumbles_lost = num(raw.get("fumblesLost")) if "fumblesLost" in raw else None
+
+    values = {
+        4: ptd,
+        8: int(pyd / 25),
+        15: sum(1 for _ in [1] if num(raw.get("longPassing")) >= 40 and ptd > 0),
+        16: sum(1 for _ in [1] if num(raw.get("longPassing")) >= 50 and ptd > 0),
+        17: 1 if 300 <= pyd < 400 else 0,
+        18: 1 if pyd >= 400 else 0,
+        20: num(raw.get("interceptions")),
+        25: rtd,
+        26: num(raw.get("rushing2PtConversions", 0)),
+        28: int(ryd / 10),
+        35: 1 if num(raw.get("longRushing")) >= 40 and rtd > 0 else 0,
+        36: 1 if num(raw.get("longRushing")) >= 50 and rtd > 0 else 0,
+        37: 1 if 100 <= ryd < 200 else 0,
+        38: 1 if ryd >= 200 else 0,
+        41: receptions,
+        43: rectd,
+        44: num(raw.get("receiving2PtConversions", 0)),
+        45: 1 if num(raw.get("longReception")) >= 40 and rectd > 0 else 0,
+        46: 1 if num(raw.get("longReception")) >= 50 and rectd > 0 else 0,
+        48: int(recyd / 10),
+        53: receptions,
+        56: 1 if 100 <= recyd < 200 else 0,
+        57: 1 if recyd >= 200 else 0,
+    }
+    if fumbles_lost is not None:
+        values[72] = fumbles_lost
+
+    # ESPN's older gamelog exposes a single 50+ yard bucket, not a separate
+    # 50-59 / 60+ split. Map it to ESPN's 50+ scoring IDs.
+    fg_fields = {
+        "1_19": "fieldGoalsMade1_19-fieldGoalAttempts1_19",
+        "20_29": "fieldGoalsMade20_29-fieldGoalAttempts20_29",
+        "30_39": "fieldGoalsMade30_39-fieldGoalAttempts30_39",
+        "40_49": "fieldGoalsMade40_49-fieldGoalAttempts40_49",
+        "50_plus": "fieldGoalsMade50-fieldGoalAttempts50",
+    }
+    made, attempts = {}, {}
+    for bucket, field in fg_fields.items():
+        if field in raw:
+            made[bucket], attempts[bucket] = pair(raw[field])
+    if made:
+        values[74] = made.get("50_plus", 0)
+        values[75] = attempts.get("50_plus", 0)
+        values[76] = attempts.get("50_plus", 0) - made.get("50_plus", 0)
+        values[77] = made.get("40_49", 0)
+        values[78] = attempts.get("40_49", 0)
+        values[79] = attempts.get("40_49", 0) - made.get("40_49", 0)
+        values[80] = made.get("1_19", 0) + made.get("20_29", 0) + made.get("30_39", 0)
+        values[81] = attempts.get("1_19", 0) + attempts.get("20_29", 0) + attempts.get("30_39", 0)
+        values[82] = values[81] - values[80]
+        values[83] = sum(made.values())
+        values[84] = sum(attempts.values())
+        values[85] = values[84] - values[83]
+
+    if "extraPointsMade-extraPointAttempts" in raw:
+        made_pat, attempts_pat = pair(raw["extraPointsMade-extraPointAttempts"])
+        values[86] = made_pat
+        values[87] = attempts_pat
+        values[88] = attempts_pat - made_pat
+    return values
 
 def calc_points(values,items):
     total=0.0
