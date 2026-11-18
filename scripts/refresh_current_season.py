@@ -45,7 +45,7 @@ def write_json_batch(outputs):
             temp_path = Path(temp_name)
             with os.fdopen(fd, "w", encoding="utf-8") as handle:
                 json.dump(value, handle, indent=2, ensure_ascii=False)
-                handle.write("\\n")
+                handle.write("\n")
                 handle.flush()
                 os.fsync(handle.fileno())
             staged.append((temp_path, path))
