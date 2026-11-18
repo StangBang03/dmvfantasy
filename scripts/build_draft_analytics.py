@@ -1,6 +1,7 @@
 import json
-import math
 import statistics
+import os
+import tempfile
 from pathlib import Path
 from collections import defaultdict, Counter
 
@@ -343,16 +344,26 @@ records = {
     "most_repeat_player_targets": repeat_records[:10],
 }
 
-# Validation
-assert len(drafts) == 2816 - sum(
-    1 for d in load(DATA / "draft_picks.json") if d["season"] == current_season
-) if (DATA / "draft_picks.json").exists() else True
+# Validation: source totals and canonical references must reconcile before output.
+if not historical_seasons:
+    raise RuntimeError("No historical seasons found; refusing to replace draft analytics.")
+if not drafts:
+    raise RuntimeError("No historical draft picks found; refusing to replace draft analytics.")
+
+unknown_people = sorted({d.get("person_id") for d in drafts} - set(people_by_id))
+if unknown_people:
+    raise RuntimeError(f"Draft picks reference {len(unknown_people)} unknown canonical owner(s).")
 
 for season, info in season_info.items():
     rows = [d for d in drafts if d["season"] == season]
-    assert len(rows) == info["picks"]
-    assert len({d["overall_pick"] for d in rows}) == info["picks"]
-    assert len({d["team_id"] for d in rows}) == info["teams"]
+    if len(rows) != info["picks"]:
+        raise RuntimeError(f"Draft row count mismatch for {season}.")
+    if len({d["overall_pick"] for d in rows}) != info["picks"]:
+        raise RuntimeError(f"Duplicate or missing overall picks for {season}.")
+    if len({d["team_id"] for d in rows}) != info["teams"]:
+        raise RuntimeError(f"Team count mismatch for {season}.")
+    if any(d.get("person_id") not in people_by_id for d in rows):
+        raise RuntimeError(f"Unresolved canonical owner reference for {season}.")
 
 output = {
     "meta": {
@@ -393,8 +404,19 @@ output = {
 
 ANALYTICS.mkdir(parents=True, exist_ok=True)
 out = ANALYTICS / "draft_analytics.json"
-with open(out, "w", encoding="utf-8") as f:
-    json.dump(output, f, indent=2)
+fd, temp_name = tempfile.mkstemp(
+    prefix=".draft_analytics.", suffix=".tmp", dir=ANALYTICS
+)
+try:
+    with os.fdopen(fd, "w", encoding="utf-8") as f:
+        json.dump(output, f, indent=2, ensure_ascii=False)
+        f.write("\\n")
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(temp_name, out)
+except Exception:
+    Path(temp_name).unlink(missing_ok=True)
+    raise
 
 print("=== DRAFT ANALYTICS ENGINE ===")
 print(f"Historical seasons: {historical_seasons[0]}-{historical_seasons[-1]} ({len(historical_seasons)})")
