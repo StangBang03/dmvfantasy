@@ -30,18 +30,26 @@ def main():
             d=unwrap(r.json()); schedule=d.get("schedule") or []
             item["matchup_periods"]=sorted({m.get("matchupPeriodId") for m in schedule if m.get("matchupPeriodId") is not None})
             item["schedule_count"]=len(schedule)
-            if schedule:
-                m=schedule[0]; item["matchup_keys"]=list(m.keys())
+            roster_summary=[]
+            for matchup in schedule:
+                period=matchup.get("matchupPeriodId")
+                entry={"matchup_period":period,"id":matchup.get("id")}
                 for side in ("home","away"):
-                    team=m.get(side) or {}
-                    item[side]={
-                        "keys":list(team.keys()),
+                    team=matchup.get(side) or {}
+                    mp=(team.get("rosterForMatchupPeriod") or {}).get("entries") or []
+                    cp=(team.get("rosterForCurrentScoringPeriod") or {}).get("entries") or []
+                    entry[side]={
                         "team_id":team.get("teamId"),
-                        "points":team.get("points"),
-                        "pointsByScoringPeriod":team.get("pointsByScoringPeriod"),
-                        "rosterForMatchupPeriod":summarize((team.get("rosterForMatchupPeriod") or {}).get("entries")),
-                        "rosterForCurrentScoringPeriod":summarize((team.get("rosterForCurrentScoringPeriod") or {}).get("entries")),
+                        "matchup_entries":len(mp),
+                        "current_entries":len(cp),
+                        "matchup_sample":summarize(mp[:1]),
+                        "current_sample":summarize(cp[:1]),
                     }
+                if entry["home"]["matchup_entries"] or entry["home"]["current_entries"] or entry["away"]["matchup_entries"] or entry["away"]["current_entries"]:
+                    roster_summary.append(entry)
+            item["schedule_roster_count"]=len(roster_summary)
+            item["schedule_roster_sample"]=roster_summary[:4]
+            item["periods_with_roster"] = sorted({x["matchup_period"] for x in roster_summary})
         else:item["body"]=r.text[:300]
         rows.append(item)
         print(year,week,r.status_code,item.get("matchup_periods"),item.get("home",{}).get("keys"))
