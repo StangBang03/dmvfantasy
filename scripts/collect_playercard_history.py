@@ -13,6 +13,7 @@ INPUT = Path("data/processed/player_performance.json")
 OUT = Path("artifacts/player_card_history")
 BATCH_SIZE = 50
 SEASON_TYPES = 18
+CURRENT_SEASON = 2026
 
 session = requests.Session()
 session.cookies.update({
@@ -37,11 +38,37 @@ def unwrap(payload):
 
 
 def player_rows(payload):
+    return unwrap(payload).get("players") or []
+
+
+def get_season_window(year):
+    if year != CURRENT_SEASON:
+        return None
+    url = f"{BASE}/seasons/{year}/segments/0/leagues/{LEAGUE_ID}"
+    response = session.get(url, params=[("view", "mStatus")], timeout=90)
+    response.raise_for_status()
+    payload = response.json()
     data = unwrap(payload)
-    return data.get("players") or []
+    status = data.get("status") or {}
+    current = status.get("currentMatchupPeriod")
+    latest = status.get("latestScoringPeriod")
+    active = bool(status.get("isActive"))
+    if active and current is not None:
+        max_week = max(0, int(current) - 1)
+    elif latest is not None:
+        max_week = int(latest)
+    else:
+        max_week = int(status.get("finalScoringPeriod") or 18)
+    return {
+        "current_matchup_period": current,
+        "latest_scoring_period": latest,
+        "final_scoring_period": status.get("finalScoringPeriod"),
+        "is_active": active,
+        "max_completed_week": max_week,
+    }
 
 
-def parse_entry(item, year):
+def parse_entry(item, year, max_week=None):
     player = item.get("player") or item
     stats = player.get("stats") or item.get("stats") or []
     season_total = None
@@ -50,6 +77,9 @@ def parse_entry(item, year):
     for stat in stats:
         if not isinstance(stat, dict) or stat.get("statSourceId") != 0:
             continue
+        # Player-card responses can contain the prior season's weekly splits too.
+        if stat.get("seasonId") is not None and int(stat.get("seasonId")) != year:
+            continue
         split = stat.get("statSplitTypeId")
         scoring_period = stat.get("scoringPeriodId")
         stat_values = stat.get("stats") or stat.get("appliedStats") or {}
@@ -57,10 +87,15 @@ def parse_entry(item, year):
             season_total = stat.get("appliedTotal")
             season_stats = stat_values
         elif split == 1 and scoring_period is not None:
+            scoring_period = int(scoring_period)
+            if max_week is not None and scoring_period > max_week:
+                continue
             weekly.append({
-                "scoring_period": int(scoring_period),
+                "scoring_period": scoring_period,
                 "points": stat.get("appliedTotal"),
                 "stats": stat_values,
+                "stat_id": stat.get("id"),
+                "season_id": stat.get("seasonId"),
             })
     return {
         "season": year,
@@ -97,6 +132,8 @@ def main():
     }
 
     for year in sorted(ids_by_year):
+        window = get_season_window(year)
+        max_week = window["max_completed_week"] if window else None
         ids = sorted(ids_by_year[year])
         url, base_params = endpoint(year)
         returned = {}
@@ -119,7 +156,7 @@ def main():
                 response.raise_for_status()
                 payload = response.json()
                 for item in player_rows(payload):
-                    parsed = parse_entry(item, year)
+                    parsed = parse_entry(item, year, max_week=max_week)
                     if parsed["player_id"] is not None:
                         returned[int(parsed["player_id"])] = parsed
             except Exception as exc:
@@ -132,11 +169,11 @@ def main():
             time.sleep(0.12)
 
         missing = sorted(set(ids) - set(returned))
-        duplicate_count = len(returned) - len(set(returned))
         weekly_by_period = Counter()
         season_missing = []
         season_mismatches = []
         weekly_mismatches = []
+        season_sum_mismatches = []
         for pid, parsed in returned.items():
             source_record = source_records.get((year, pid), {})
             season_totals.append({
@@ -158,7 +195,11 @@ def main():
                         "existing": existing,
                         "playercard": parsed["season_total"],
                     })
+            weekly_sum = 0.0
+            has_weekly = False
             for week in parsed["weekly"]:
+                has_weekly = True
+                weekly_sum += float(week["points"] or 0)
                 weekly_by_period[week["scoring_period"]] += 1
                 weekly_rows.append({
                     "season": year,
@@ -167,6 +208,8 @@ def main():
                     "player_name": parsed["player_name"] or source_record.get("name"),
                     "pro_team_id": parsed["pro_team_id"],
                     "points": week["points"],
+                    "stat_id": week["stat_id"],
+                    "season_id": week["season_id"],
                     "stats_json": json.dumps(week["stats"], separators=(",", ":")),
                 })
                 existing_weeks = source_record.get("weeks") or {}
@@ -180,12 +223,21 @@ def main():
                             "existing": existing_points,
                             "playercard": week["points"],
                         })
+            if has_weekly and parsed["season_total"] is not None and abs(weekly_sum - float(parsed["season_total"])) > 0.02:
+                season_sum_mismatches.append({
+                    "player_id": pid,
+                    "season_total": parsed["season_total"],
+                    "weekly_sum": round(weekly_sum, 4),
+                    "difference": round(float(parsed["season_total"]) - weekly_sum, 4),
+                })
 
         audit["seasons"][str(year)] = {
             "source_player_ids": len(ids),
             "requested_batches": requested_batches,
             "returned_player_ids": len(returned),
             "missing_player_ids": missing,
+            "max_completed_week": max_week,
+            "season_window": window,
             "weekly_rows": sum(weekly_by_period.values()),
             "weeks_present": sorted(weekly_by_period),
             "weekly_rows_by_period": dict(sorted(weekly_by_period.items())),
@@ -194,13 +246,14 @@ def main():
             "season_total_mismatch_sample": season_mismatches[:20],
             "weekly_mismatch_count": len(weekly_mismatches),
             "weekly_mismatch_sample": weekly_mismatches[:20],
+            "season_sum_mismatch_count": len(season_sum_mismatches),
+            "season_sum_mismatch_sample": season_sum_mismatches[:20],
         }
         print(
-            f"{year}: requested {len(ids)} players in {requested_batches} batches; "
-            f"returned={len(returned)} missing={len(missing)}; "
-            f"weekly rows={sum(weekly_by_period.values())}; "
-            f"weeks={sorted(weekly_by_period)}; "
-            f"season mismatches={len(season_mismatches)}; weekly mismatches={len(weekly_mismatches)}"
+            f"{year}: requested={len(ids)} returned={len(returned)} missing={len(missing)}; "
+            f"weekly rows={sum(weekly_by_period.values())}; weeks={sorted(weekly_by_period)}; "
+            f"season mismatches={len(season_mismatches)}; weekly mismatches={len(weekly_mismatches)}; "
+            f"season-vs-weekly-sum mismatches={len(season_sum_mismatches)}"
         )
 
     with (OUT / "player_card_season_totals.csv").open("w", newline="", encoding="utf-8") as f:
