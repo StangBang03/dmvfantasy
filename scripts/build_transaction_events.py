@@ -1,4 +1,6 @@
 import json
+import os
+import tempfile
 from pathlib import Path
 
 SOURCE_DIR = Path("data/raw/transactions")
@@ -169,6 +171,11 @@ def main():
                         "tx": tx,
                     }
                 )
+
+    if not source_rows:
+        raise SystemExit(
+            "No historical transaction records were loaded; refusing empty build."
+        )
 
     all_transactions = [row["tx"] for row in source_rows]
     tx_by_id = build_related_trade_items(all_transactions)
@@ -426,16 +433,25 @@ def main():
     # Write output.
     # ------------------------------------------------------------
 
-    with OUTPUT_FILE.open(
-        "w",
-        encoding="utf-8",
-    ) as f:
-        json.dump(
-            events,
-            f,
-            indent=2,
-            ensure_ascii=False,
-        )
+    temp_path = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=OUTPUT_DIR,
+            prefix=f".{OUTPUT_FILE.name}.",
+            suffix=".tmp",
+            delete=False,
+        ) as handle:
+            temp_path = Path(handle.name)
+            json.dump(events, handle, indent=2, ensure_ascii=False)
+            handle.write("\\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temp_path, OUTPUT_FILE)
+    finally:
+        if temp_path and temp_path.exists():
+            temp_path.unlink()
 
     # ------------------------------------------------------------
     # Summary.
