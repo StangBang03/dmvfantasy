@@ -1,6 +1,7 @@
 import json
 import os
 import time
+from collections import Counter
 from pathlib import Path
 
 import requests
@@ -9,22 +10,14 @@ from dotenv import load_dotenv
 LEAGUE_ID = 112536
 BASE = "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl"
 OUT = Path("artifacts/weekly_views")
+# Probe the offset behavior (query SP = target SP + 1) on modern seasons,
+# and the old leagueHistory route where weekly splits appear unavailable.
 CASES = [
-    {"season": 2014, "scoring_period": 14},
-    {"season": 2014, "scoring_period": 15},
-    {"season": 2014, "scoring_period": 16},
-    {"season": 2014, "scoring_period": 17},
-    {"season": 2017, "scoring_period": 16},
-    {"season": 2018, "scoring_period": 17},
-    {"season": 2025, "scoring_period": 10},
-]
-COMBOS = [
-    ("mBoxscore", "scoring_only", None),
-    ("mBoxscore", "matchup_14", 14),
-    ("mBoxscore", "matchup_15", 15),
-    ("mBoxscore", "matchup_16", 16),
-    ("mBoxscore", "matchup_17", 17),
-    ("mRoster", "scoring_only", None),
+    (2014, 14), (2014, 15), (2014, 16), (2014, 17),
+    (2017, 15), (2017, 16),
+    (2018, 16), (2018, 17),
+    (2021, 17), (2021, 18),
+    (2025, 9), (2025, 10), (2025, 17), (2025, 18),
 ]
 load_dotenv()
 s2, swid = os.getenv("ESPN_S2"), os.getenv("ESPN_SWID")
@@ -47,88 +40,111 @@ def unwrap(value):
     return value if isinstance(value, dict) else {}
 
 
-def summarize_player(player, pool, entry):
+def stat_summary(player, requested_period):
     stats = player.get("stats") or []
-    return {
-        "player_id": entry.get("playerId") or player.get("id"),
-        "player_name": player.get("fullName") or player.get("full"),
-        "slot": entry.get("lineupSlotId"),
-        "appliedStat": pool.get("appliedStat"),
-        "appliedStatTotal": pool.get("appliedStatTotal"),
-        "stats": [
-            {
-                "scoringPeriodId": x.get("scoringPeriodId"),
-                "statSplitTypeId": x.get("statSplitTypeId"),
-                "statSourceId": x.get("statSourceId"),
-                "appliedTotal": x.get("appliedTotal"),
-                "appliedAverage": x.get("appliedAverage"),
-            }
-            for x in stats if isinstance(x, dict)
-        ],
-    }
+    actual = Counter()
+    projected = Counter()
+    samples = []
+    for item in stats:
+        if not isinstance(item, dict) or item.get("statSplitTypeId") != 1:
+            continue
+        source = item.get("statSourceId")
+        period = item.get("scoringPeriodId")
+        if source == 0:
+            actual[period] += 1
+            if period in (requested_period - 1, requested_period):
+                samples.append({
+                    "scoringPeriodId": period,
+                    "statSourceId": source,
+                    "appliedTotal": item.get("appliedTotal"),
+                })
+        elif source == 1:
+            projected[period] += 1
+    return actual, projected, samples
+
+
+def roster_rows(roster, team_id, key, matchup=None, side=None):
+    rows = []
+    if not isinstance(roster, dict):
+        return rows
+    for entry in roster.get("entries") or []:
+        pool = entry.get("playerPoolEntry") or {}
+        player = pool.get("player") or {}
+        actual, projected, stat_samples = stat_summary(player, 0)
+        rows.append({
+            "team_id": team_id,
+            "roster_key": key,
+            "matchup_id": matchup,
+            "side": side,
+            "player_id": entry.get("playerId") or player.get("id"),
+            "player_name": player.get("fullName") or player.get("full"),
+            "lineup_slot_id": entry.get("lineupSlotId"),
+            "appliedStat": pool.get("appliedStat"),
+            "appliedStatTotal": pool.get("appliedStatTotal"),
+            "actual_week_stat_periods": sorted(int(x) for x in actual if x is not None),
+            "projected_week_stat_periods": sorted(int(x) for x in projected if x is not None),
+            "stat_samples": stat_samples,
+        })
+    return rows
 
 
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     results = []
-    for case in CASES:
-        year, sp = case["season"], case["scoring_period"]
-        for view, label, mp in COMBOS:
-            params = [("view", view), ("scoringPeriodId", str(sp))]
-            if year < 2018:
-                params.append(("seasonId", str(year)))
-            if mp is not None:
-                params.append(("matchupPeriodId", str(mp)))
-            response = session.get(league_url(year), params=params, timeout=60)
-            response.raise_for_status()
-            data = unwrap(response.json())
-            rows = []
-            if view == "mRoster":
-                teams = data.get("teams") or []
-                for team in teams:
-                    roster = team.get("roster") or {}
-                    for entry in roster.get("entries") or []:
-                        pool = entry.get("playerPoolEntry") or {}
-                        player = pool.get("player") or {}
-                        rows.append({"team_id": team.get("id"), **summarize_player(player, pool, entry)})
-            else:
-                for matchup in data.get("schedule") or []:
-                    for side_name in ("home", "away"):
-                        side = matchup.get(side_name) or {}
-                        roster = side.get("rosterForMatchupPeriod") or side.get("rosterForCurrentScoringPeriod") or {}
-                        for entry in roster.get("entries") or []:
-                            pool = entry.get("playerPoolEntry") or {}
-                            player = pool.get("player") or {}
-                            rows.append({
-                                "team_id": side.get("teamId"),
-                                "matchup_id": matchup.get("id"),
-                                "returned_matchup_period": matchup.get("matchupPeriodId"),
-                                "side": side_name,
-                                **summarize_player(player, pool, entry),
-                            })
-            result = {
-                "season": year, "requested_scoring_period": sp,
-                "view": view, "label": label, "requested_matchup_period": mp,
-                "http_status": response.status_code,
-                "response_bytes": len(response.content),
-                "top_keys": list(data.keys()),
-                "returned_scoring_period": data.get("scoringPeriodId"),
-                "teams": len(data.get("teams") or []),
-                "rows": len(rows),
-                "rows_with_appliedStat": sum(r["appliedStat"] is not None for r in rows),
-                "rows_with_appliedStatTotal": sum(r["appliedStatTotal"] is not None for r in rows),
-                "rows_with_weekly_actual_stats": sum(any(s.get("statSplitTypeId") == 1 and s.get("scoringPeriodId") == sp and s.get("statSourceId") == 0 for s in r["stats"]) for r in rows),
-                "sample_rows": rows[:3],
-            }
-            results.append(result)
-            print(
-                f"{year} SP{sp} {view}/{label}: HTTP {response.status_code}; "
-                f"rows={len(rows)} appliedStat={result['rows_with_appliedStat']} "
-                f"appliedStatTotal={result['rows_with_appliedStatTotal']} "
-                f"weekly_actual={result['rows_with_weekly_actual_stats']} "
-                f"returnedSP={result['returned_scoring_period']}"
-            )
-            time.sleep(0.15)
+    for index, (year, target_week) in enumerate(CASES, 1):
+        query_period = target_week + 1
+        params = [("view", "mRoster"), ("scoringPeriodId", str(query_period))]
+        if year < 2018:
+            params.append(("seasonId", str(year)))
+        response = session.get(league_url(year), params=params, timeout=60)
+        response.raise_for_status()
+        data = unwrap(response.json())
+        mroster_rows = []
+        for team in data.get("teams") or []:
+            mroster_rows.extend(roster_rows(team.get("roster"), team.get("id"), "mRoster"))
+        actual_period_counts = Counter()
+        for row in mroster_rows:
+            for period in row["actual_week_stat_periods"]:
+                actual_period_counts[period] += 1
+
+        box_params = [("view", "mBoxscore"), ("view", "mMatchupScore"), ("scoringPeriodId", str(target_week))]
+        if year < 2018:
+            box_params.append(("seasonId", str(year)))
+        box_response = session.get(league_url(year), params=box_params, timeout=60)
+        box_response.raise_for_status()
+        box_data = unwrap(box_response.json())
+        box_rows = []
+        roster_key_counts = Counter()
+        for matchup in box_data.get("schedule") or []:
+            for side_name in ("home", "away"):
+                side = matchup.get(side_name) or {}
+                for key in ("rosterForCurrentScoringPeriod", "rosterForMatchupPeriod"):
+                    rows = roster_rows(side.get(key), side.get("teamId"), key, matchup.get("id"), side_name)
+                    roster_key_counts[key] += len(rows)
+                    box_rows.extend(rows)
+
+        result = {
+            "season": year,
+            "target_week": target_week,
+            "mRoster_query_scoring_period": query_period,
+            "mRoster_http": response.status_code,
+            "mRoster_rows": len(mroster_rows),
+            "mRoster_actual_week_stat_counts": dict(sorted(actual_period_counts.items(), key=lambda x: int(x[0]))),
+            "mRoster_sample": mroster_rows[:3],
+            "mBoxscore_http": box_response.status_code,
+            "mBoxscore_requested_scoring_period": target_week,
+            "mBoxscore_roster_key_counts": dict(roster_key_counts),
+            "mBoxscore_sample": box_rows[:3],
+        }
+        results.append(result)
+        print(
+            f"[{index}/{len(CASES)}] {year} target week {target_week}: "
+            f"mRoster query SP{query_period}, rows={len(mroster_rows)}, "
+            f"actual stats={dict(actual_period_counts)}; "
+            f"mBoxscore roster keys={dict(roster_key_counts)}"
+        )
+        time.sleep(0.2)
+
     path = OUT / "weekly_views_probe.json"
     path.write_text(json.dumps(results, indent=2), encoding="utf-8")
     print(f"Wrote {path}")
