@@ -1,0 +1,43 @@
+name: Validate ESPN Player-Card Season Scoring
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - audit/historical-player-data
+    paths:
+      - data/raw/playercard_history/**
+      - scripts/validate_playercard_season_totals.py
+      - .github/workflows/validate-playercard-season-totals.yml
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: validate-playercard-season-totals
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --upgrade pip requests
+      - name: Validate player season totals against league scoring settings
+        env:
+          ESPN_S2: ${{ secrets.ESPN_S2 }}
+          ESPN_SWID: ${{ secrets.ESPN_SWID }}
+        run: python scripts/validate_playercard_season_totals.py
+      - name: Upload scoring validation
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playercard-scoring-validation
+          path: artifacts/playercard_scoring_validation/
+          if-no-files-found: warn
+          retention-days: 30
