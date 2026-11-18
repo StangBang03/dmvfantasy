@@ -15,19 +15,27 @@ PERSON_REFERENCE_KEYS = {
 }
 
 
-def walk(value, path, errors, references):
+IDENTITY_VALUE_KEYS = {
+    "person_id", "espn_id", "espn_owner_id", "primary_owner_espn_id",
+    "member_id", "owner_id", "owner_ids", "member_ids", "swid", "swid_id",
+}
+
+
+def walk(value, path, errors, references, field_name=None):
     if isinstance(value, dict):
         for key, child in value.items():
             if key in FORBIDDEN_KEYS:
                 errors.append(f"{path}: forbidden field {key}")
             if key in PERSON_REFERENCE_KEYS and isinstance(child, str):
                 references.add(child)
-            walk(child, path, errors, references)
+            walk(child, path, errors, references, key)
     elif isinstance(value, list):
         for child in value:
-            walk(child, path, errors, references)
+            walk(child, path, errors, references, field_name)
     elif isinstance(value, str):
-        if value.startswith("espn_") or GUID.fullmatch(value):
+        if value.startswith("espn_") or (
+            field_name in IDENTITY_VALUE_KEYS and GUID.fullmatch(value)
+        ):
             errors.append(f"{path}: exposed ESPN-derived identifier")
 
 
