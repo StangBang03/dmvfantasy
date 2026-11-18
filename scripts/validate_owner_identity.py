@@ -123,7 +123,7 @@ def main():
     if unresolved:
         errors.append(f"Unresolved canonical person references: {len(unresolved)}")
     if errors:
-        raise SystemExit("\\n".join(errors))
+        raise SystemExit("\n".join(errors))
     print(
         f"PASS: {len(person_ids)} canonical people; all owner references resolve; "
         "no public ESPN owner identifiers found."
