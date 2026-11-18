@@ -63,3 +63,4 @@ build/
 # Identity diagnostics contain private ESPN owner identifiers
 data/owner_identity_audit.json
 data/identity_reconciliation.json
+espn-owner-map.json
