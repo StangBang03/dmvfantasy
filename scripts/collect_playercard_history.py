@@ -387,7 +387,7 @@ def main():
             },
             "players": archive_players,
         }
-        raw_archive_dir = ROOT / "playercard_history"
+        raw_archive_dir = Path("data/raw/playercard_history")
         raw_archive_dir.mkdir(parents=True, exist_ok=True)
         with gzip.open(raw_archive_dir / f"playercard_{year}.json.gz", "wt", encoding="utf-8") as archive_file:
             json.dump(archive, archive_file, ensure_ascii=False, separators=(",", ":"))
