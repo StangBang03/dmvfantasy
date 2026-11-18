@@ -1,4 +1,5 @@
 import csv
+import gzip
 import json
 import os
 import time
@@ -353,6 +354,43 @@ def main():
                     "weekly_sum": round(weekly_sum, 4),
                     "difference": round(float(parsed["season_total"]) - weekly_sum, 4),
                 })
+
+        archive_players = []
+        for pid, parsed in sorted(returned.items()):
+            source_record = source_records.get((year, pid), {})
+            archive_players.append({
+                "player_id": pid,
+                "player_name": parsed["player_name"] or source_record.get("name"),
+                "position_id": parsed["position"],
+                "pro_team_id": parsed["pro_team_id"],
+                "sources": sorted(sources_by_year[year].get(pid, set())),
+                "season_total": parsed["season_total"],
+                "season_stats": parsed["season_stats"],
+                "weeks": {
+                    str(week["scoring_period"]): {
+                        "scoring_period": week["scoring_period"],
+                        "fantasy_points": week["points"],
+                        "stats": week["stats"],
+                        "stat_id": week["stat_id"],
+                        "season_id": week["season_id"],
+                    }
+                    for week in parsed["weekly"]
+                },
+            })
+        archive = {
+            "meta": {
+                "league_id": LEAGUE_ID,
+                "season": year,
+                "source": "ESPN kona_playercard actual stats",
+                "max_completed_week": max_week,
+                "player_count": len(archive_players),
+            },
+            "players": archive_players,
+        }
+        raw_archive_dir = ROOT / "playercard_history"
+        raw_archive_dir.mkdir(parents=True, exist_ok=True)
+        with gzip.open(raw_archive_dir / f"playercard_{year}.json.gz", "wt", encoding="utf-8") as archive_file:
+            json.dump(archive, archive_file, ensure_ascii=False, separators=(",", ":"))
 
         audit["seasons"][str(year)] = {
             "existing_player_performance_ids": len({int(r["player_id"]) for r in pp_rows if int(r["season"]) == year}),
