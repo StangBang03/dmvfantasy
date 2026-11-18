@@ -201,7 +201,6 @@ def apply_scoring_plays(event, player_week_values, dst_week_values, dst_player_b
     def dst_target(team_id):
         player_id = dst_player_by_team.get(int(team_id))
         if player_id is None:
-            unmatched.append({"event_id": event.get("event_id"), "team_id": int(team_id), "reason": "scoring play team has no fantasy DST record"})
             return None
         return dst_week_values[(player_id, week)]
 
@@ -266,6 +265,27 @@ def apply_scoring_plays(event, player_week_values, dst_week_values, dst_player_b
         if ("blocked punt" in low_type or "blocked field goal" in low_type or "blocked kick" in low_type) and is_td:
             target = dst_target(team_id)
             if target is not None: add_value(target, 93)
+
+        # Older ESPN summaries expose successful 2-point plays as separate scoring events.
+        if low_type == "two point pass" and "is good" in low_text and "no good" not in low_text:
+            conversion = re.match(r"^(.*?)\s+Pass to\s+(.*?)\s+For Two-Point Conversion", text, re.I)
+            if conversion:
+                passer_id = resolve_player(team_id, conversion.group(1), name_lookup)
+                receiver_id = resolve_player(team_id, conversion.group(2), name_lookup)
+                if passer_id is not None:
+                    add_value(player_week_values[(passer_id, week)], 19)
+                if receiver_id is not None:
+                    add_value(player_week_values[(receiver_id, week)], 44)
+                if passer_id is None or receiver_id is None:
+                    unmatched.append({"event_id": event.get("event_id"), "text": text, "reason": "separate passing two-point conversion resolution"})
+        elif low_type == "two point rush" and "is good" in low_text and "no good" not in low_text:
+            conversion = re.match(r"^(.*?)\s+Run For Two-Point Conversion", text, re.I)
+            if conversion:
+                runner_id = resolve_player(team_id, conversion.group(1), name_lookup)
+                if runner_id is not None:
+                    add_value(player_week_values[(runner_id, week)], 26)
+                else:
+                    unmatched.append({"event_id": event.get("event_id"), "text": text, "reason": "separate rushing two-point conversion resolution"})
 
         conversion_match = re.search(r"\((.*?)\)\s*$", text)
         conversion = conversion_match.group(1) if conversion_match else ""
