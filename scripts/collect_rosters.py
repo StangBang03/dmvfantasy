@@ -85,20 +85,37 @@ def main():
         url = get_url(year)
 
         try:
-            response = session.get(
-                url,
-                params={"view": "mRoster"},
-                timeout=60,
-            )
+            response = None
+            last_error = None
+            for attempt in range(1, 4):
+                try:
+                    response = session.get(
+                        url,
+                        params={"view": "mRoster"},
+                        timeout=60,
+                    )
+                    response.raise_for_status()
+                    raw = response.json()
+                    break
+                except (requests.RequestException, ValueError) as exc:
+                    last_error = exc
+                    if attempt < 3:
+                        delay = attempt * 2
+                        print(
+                            f"  Attempt {attempt}/3 failed; "
+                            f"retrying in {delay}s"
+                        )
+                        time.sleep(delay)
+            else:
+                raise RuntimeError(
+                    f"Request failed after 3 attempts "
+                    f"({type(last_error).__name__})."
+                ) from last_error
 
             print(
                 f"  HTTP {response.status_code}"
                 f"  {len(response.content):,} bytes"
             )
-
-            response.raise_for_status()
-
-            raw = response.json()
             data = unwrap(raw)
 
             if not data:
