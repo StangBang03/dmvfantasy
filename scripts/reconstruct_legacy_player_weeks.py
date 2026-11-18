@@ -108,97 +108,102 @@ def resolve_player(team_id, name, lookup):
     return None
 
 
-def extract_player_values(stats):
-    """Map ESPN common athlete gamelog fields into this league's ESPN stat IDs."""
-    stats = stats or {}
+def extract_player_values(groups):
+    """Extract player scoring stats from ESPN's game-summary boxscore."""
+    groups = groups or {}
+    passing = groups.get("passing") or {}
+    rushing = groups.get("rushing") or {}
+    receiving = groups.get("receiving") or {}
+    fumbles = groups.get("fumbles") or {}
+    kick_returns = groups.get("kickReturns") or {}
+    punt_returns = groups.get("puntReturns") or {}
     values = {}
 
-    passing_yards = n(stats.get("passingYards"))
-    rushing_yards = n(stats.get("rushingYards"))
-    receiving_yards = n(stats.get("receivingYards"))
-    receptions = n(stats.get("receptions"))
+    passing_yards = n(passing.get("passingYards"))
+    rushing_yards = n(rushing.get("rushingYards"))
+    receiving_yards = n(receiving.get("receivingYards"))
+    receptions = n(receiving.get("receptions"))
 
-    values[4] = n(stats.get("passingTouchdowns"))
+    values[4] = n(passing.get("passingTouchdowns"))
     values[8] = int(passing_yards / 25)
     values[17] = 1 if 300 <= passing_yards < 400 else 0
     values[18] = 1 if passing_yards >= 400 else 0
-    values[20] = n(stats.get("interceptions"))
-
-    values[25] = n(stats.get("rushingTouchdowns"))
+    values[20] = n(passing.get("interceptions"))
+    values[25] = n(rushing.get("rushingTouchdowns"))
     values[28] = int(rushing_yards / 10)
     values[37] = 1 if 100 <= rushing_yards < 200 else 0
     values[38] = 1 if rushing_yards >= 200 else 0
-
     values[41] = receptions
-    values[43] = n(stats.get("receivingTouchdowns"))
+    values[43] = n(receiving.get("receivingTouchdowns"))
     values[48] = int(receiving_yards / 10)
     values[53] = receptions
     values[56] = 1 if 100 <= receiving_yards < 200 else 0
     values[57] = 1 if receiving_yards >= 200 else 0
+    values[72] = n(fumbles.get("fumblesLost"))
+    values[101] = n(kick_returns.get("kickReturnTouchdowns"))
+    values[102] = n(punt_returns.get("puntReturnTouchdowns"))
+    values[117] = int(n(kick_returns.get("kickReturnYards")) / 25)
+    values[119] = int(n(punt_returns.get("puntReturnYards")) / 25)
+    return values
 
-    values[72] = n(stats.get("fumblesLost"))
 
-    kick_return_yards = n(stats.get("kickReturnYards"))
-    punt_return_yards = n(stats.get("puntReturnYards"))
-    values[101] = n(stats.get("kickReturnTouchdowns"))
-    values[102] = n(stats.get("puntReturnTouchdowns"))
-    values[117] = int(kick_return_yards / 25)
-    values[119] = int(punt_return_yards / 25)
-
+def extract_kicking_values(stats):
+    """Use detailed athlete gamelog distance splits for kicker scoring."""
+    stats = stats or {}
     def fg(names):
         for name in names:
             if name in stats:
                 return pair(stats[name])
-        return 0.0, 0.0
+        return None
 
-    made_1_19, att_1_19 = fg(["fieldGoalsMade1_19-fieldGoalAttempts1_19"])
-    made_20_29, att_20_29 = fg(["fieldGoalsMade20_29-fieldGoalAttempts20_29"])
-    made_30_39, att_30_39 = fg(["fieldGoalsMade30_39-fieldGoalAttempts30_39"])
-    made_40_49, att_40_49 = fg(["fieldGoalsMade40_49-fieldGoalAttempts40_49"])
-    made_50, att_50 = fg([
-        "fieldGoalsMade50-fieldGoalAttempts50",
-        "fieldGoalsMade50_59-fieldGoalAttempts50_59",
-    ])
-    made_60, att_60 = fg(["fieldGoalsMade60Plus-fieldGoalAttempts60Plus"])
+    fg_1_19 = fg(["fieldGoalsMade1_19-fieldGoalAttempts1_19"])
+    fg_20_29 = fg(["fieldGoalsMade20_29-fieldGoalAttempts20_29"])
+    fg_30_39 = fg(["fieldGoalsMade30_39-fieldGoalAttempts30_39"])
+    fg_40_49 = fg(["fieldGoalsMade40_49-fieldGoalAttempts40_49"])
+    fg_50 = fg(["fieldGoalsMade50-fieldGoalAttempts50", "fieldGoalsMade50_59-fieldGoalAttempts50_59"])
+    fg_60 = fg(["fieldGoalsMade60Plus-fieldGoalAttempts60Plus"])
+    pat = fg(["extraPointsMade-extraPointAttempts"])
 
-    made_50_plus = made_50 + made_60
-    att_50_plus = att_50 + att_60
-    made_40s = made_40_49
-    att_40s = att_40_49
+    if not any(x is not None for x in (fg_1_19, fg_20_29, fg_30_39, fg_40_49, fg_50, fg_60, pat)):
+        return {}
+
+    made_1_19, att_1_19 = fg_1_19 or (0.0, 0.0)
+    made_20_29, att_20_29 = fg_20_29 or (0.0, 0.0)
+    made_30_39, att_30_39 = fg_30_39 or (0.0, 0.0)
+    made_40_49, att_40_49 = fg_40_49 or (0.0, 0.0)
+    made_50, att_50 = fg_50 or (0.0, 0.0)
+    made_60, att_60 = fg_60 or (0.0, 0.0)
+    made_pat, att_pat = pat or (0.0, 0.0)
+
+    made_50_plus, att_50_plus = made_50 + made_60, att_50 + att_60
     made_under_40 = made_1_19 + made_20_29 + made_30_39
     att_under_40 = att_1_19 + att_20_29 + att_30_39
-    made_total = made_50_plus + made_40s + made_under_40
-    att_total = att_50_plus + att_40s + att_under_40
+    made_total = made_50_plus + made_40_49 + made_under_40
+    att_total = att_50_plus + att_40_49 + att_under_40
 
-    # ESPN's scoring stat IDs distinguish both makes and attempts by distance.
-    values[74] = made_50_plus
-    values[75] = att_50_plus
-    values[76] = att_50_plus - made_50_plus
-    values[77] = made_40s
-    values[78] = att_40s
-    values[79] = att_40s - made_40s
-    values[80] = made_under_40
-    values[81] = att_under_40
-    values[82] = att_under_40 - made_under_40
-    values[83] = made_total
-    values[84] = att_total
-    values[85] = att_total - made_total
-
-    made_pat, att_pat = fg(["extraPointsMade-extraPointAttempts"])
-    values[86] = made_pat
-    values[87] = att_pat
-    values[88] = att_pat - made_pat
-    return values
-
+    return {
+        74: made_50_plus, 75: att_50_plus, 76: att_50_plus - made_50_plus,
+        77: made_40_49, 78: att_40_49, 79: att_40_49 - made_40_49,
+        80: made_under_40, 81: att_under_40, 82: att_under_40 - made_under_40,
+        83: made_total, 84: att_total, 85: att_total - made_total,
+        86: made_pat, 87: att_pat, 88: att_pat - made_pat,
+    }
 
 def add_value(target, stat_id, value=1):
     target[int(stat_id)] += n(value)
 
 
-def apply_scoring_plays(event, player_week_values, dst_week_values, name_lookup, unmatched):
+def apply_scoring_plays(event, player_week_values, dst_week_values, dst_player_by_team, name_lookup, unmatched):
     week = int(event.get("week") or 0)
     if not 1 <= week <= 17:
         return
+
+    def dst_target(team_id):
+        player_id = dst_player_by_team.get(int(team_id))
+        if player_id is None:
+            unmatched.append({"event_id": event.get("event_id"), "team_id": int(team_id), "reason": "scoring play team has no fantasy DST record"})
+            return None
+        return dst_week_values[(player_id, week)]
 
     for play in event.get("scoring_plays") or []:
         team_id = play.get("team_id")
@@ -211,7 +216,6 @@ def apply_scoring_plays(event, player_week_values, dst_week_values, name_lookup,
         low_text = text.lower()
         is_td = "touchdown" in low_type or "touchdown" in low_text
 
-        # Long passing and rushing touchdown bonuses.
         pass_match = re.match(r"^(.*?)\s+(\d+)\s+Yd pass from (.*?)(?:\s+\(|$)", text, re.I)
         if is_td and pass_match:
             receiver_name, yardage, passer_name = pass_match.group(1), int(pass_match.group(2)), pass_match.group(3)
@@ -232,8 +236,8 @@ def apply_scoring_plays(event, player_week_values, dst_week_values, name_lookup,
 
         run_match = re.match(r"^(.*?)\s+(\d+)\s+Yd Run\b", text, re.I)
         if is_td and run_match:
-            runner_name, yardage = run_match.group(1), int(run_match.group(2))
-            runner_id = resolve_player(team_id, runner_name, name_lookup)
+            runner_id = resolve_player(team_id, run_match.group(1), name_lookup)
+            yardage = int(run_match.group(2))
             if runner_id is not None:
                 if yardage >= 40:
                     add_value(player_week_values[(runner_id, week)], 35)
@@ -242,26 +246,27 @@ def apply_scoring_plays(event, player_week_values, dst_week_values, name_lookup,
             else:
                 unmatched.append({"event_id": event.get("event_id"), "text": text, "reason": "rushing TD player resolution"})
 
-        # Defensive and special-teams touchdown credits.
         if "kickoff return touchdown" in low_type or ("kickoff return" in low_text and is_td):
-            add_value(dst_week_values[(team_id, week)], 101)
+            target = dst_target(team_id)
+            if target is not None: add_value(target, 101)
         if "punt return touchdown" in low_type or ("punt return" in low_text and is_td):
-            add_value(dst_week_values[(team_id, week)], 102)
+            target = dst_target(team_id)
+            if target is not None: add_value(target, 102)
         if "interception return touchdown" in low_type or ("interception return" in low_text and is_td):
-            add_value(dst_week_values[(team_id, week)], 103)
+            target = dst_target(team_id)
+            if target is not None: add_value(target, 103)
         if "fumble return touchdown" in low_type or ("fumble return" in low_text and is_td):
-            add_value(dst_week_values[(team_id, week)], 104)
+            target = dst_target(team_id)
+            if target is not None: add_value(target, 104)
             fumble_match = re.match(r"^(.*?)\s+\d+\s+Yd Fumble Return\b", text, re.I)
             if fumble_match:
                 player_id = resolve_player(team_id, fumble_match.group(1), name_lookup)
-                if player_id is not None:
-                    add_value(player_week_values[(player_id, week)], 63)
-                else:
-                    unmatched.append({"event_id": event.get("event_id"), "text": text, "reason": "fumble return player resolution"})
+                if player_id is not None: add_value(player_week_values[(player_id, week)], 63)
+                else: unmatched.append({"event_id": event.get("event_id"), "text": text, "reason": "fumble return player resolution"})
         if ("blocked punt" in low_type or "blocked field goal" in low_type or "blocked kick" in low_type) and is_td:
-            add_value(dst_week_values[(team_id, week)], 93)
+            target = dst_target(team_id)
+            if target is not None: add_value(target, 93)
 
-        # ESPN encodes the conversion result in parentheses on the touchdown play.
         conversion_match = re.search(r"\((.*?)\)\s*$", text)
         conversion = conversion_match.group(1) if conversion_match else ""
         conversion_low = conversion.lower()
@@ -272,29 +277,27 @@ def apply_scoring_plays(event, player_week_values, dst_week_values, name_lookup,
             if pass_conversion:
                 passer_id = resolve_player(team_id, pass_conversion.group(1), name_lookup)
                 receiver_id = resolve_player(team_id, pass_conversion.group(2), name_lookup)
-                if passer_id is not None:
-                    add_value(player_week_values[(passer_id, week)], 19)
-                if receiver_id is not None:
-                    add_value(player_week_values[(receiver_id, week)], 44)
+                if passer_id is not None: add_value(player_week_values[(passer_id, week)], 19)
+                if receiver_id is not None: add_value(player_week_values[(receiver_id, week)], 44)
                 if passer_id is None or receiver_id is None:
                     unmatched.append({"event_id": event.get("event_id"), "text": text, "reason": "passing two-point conversion resolution"})
             elif run_conversion:
                 runner_id = resolve_player(team_id, run_conversion.group(1), name_lookup)
-                if runner_id is not None:
-                    add_value(player_week_values[(runner_id, week)], 26)
-                else:
-                    unmatched.append({"event_id": event.get("event_id"), "text": text, "reason": "rushing two-point conversion resolution"})
+                if runner_id is not None: add_value(player_week_values[(runner_id, week)], 26)
+                else: unmatched.append({"event_id": event.get("event_id"), "text": text, "reason": "rushing two-point conversion resolution"})
             elif return_conversion:
-                add_value(dst_week_values[(team_id, week)], 206)
+                target = dst_target(team_id)
+                if target is not None: add_value(target, 206)
             else:
                 unmatched.append({"event_id": event.get("event_id"), "text": text, "reason": "unclassified successful two-point conversion"})
 
         if "safety" in low_type or "safety" in low_text:
-            if "one-point" in low_type or "one point" in low_type or "one-point" in low_text or "one point" in low_text:
-                add_value(dst_week_values[(team_id, week)], 209)
-            else:
-                add_value(dst_week_values[(team_id, week)], 98)
-
+            target = dst_target(team_id)
+            if target is not None:
+                if "one-point" in low_type or "one point" in low_type or "one-point" in low_text or "one point" in low_text:
+                    add_value(target, 209)
+                else:
+                    add_value(target, 98)
 
 def dst_values_for_event(event, dst_team_ids, extra_defense):
     result = {}
@@ -418,6 +421,7 @@ def main():
         player_week_values = defaultdict(lambda: defaultdict(float))
         dst_week_values = defaultdict(lambda: defaultdict(float))
         missing_player_logs = []
+        kicking_week_values = defaultdict(dict)
         for player_id in players:
             if player_id < 0:
                 continue
@@ -429,10 +433,9 @@ def main():
                 week = int(event.get("week") or 0)
                 if not 1 <= week <= 17:
                     continue
-                values = extract_player_values(event.get("stats") or {})
-                target = player_week_values[(player_id, week)]
-                for stat_id, value in values.items():
-                    target[int(stat_id)] += n(value)
+                kicking_values = extract_kicking_values(event.get("stats") or {})
+                if kicking_values:
+                    kicking_week_values[(player_id, week)] = kicking_values
 
         unmatched = []
         failed_events = []
@@ -451,11 +454,21 @@ def main():
                         int(player["player_id"]),
                         player.get("name") or "",
                     ))
-            apply_scoring_plays(event, player_week_values, dst_week_values, name_lookup, unmatched)
+                player_id = int(player.get("player_id") or 0)
+                if player_id in players and player_id > 0:
+                    base_values = extract_player_values(player.get("groups") or {})
+                    target = player_week_values[(player_id, week)]
+                    for stat_id, value in base_values.items():
+                        target[int(stat_id)] += n(value)
+            apply_scoring_plays(event, player_week_values, dst_week_values, dst_player_by_team, name_lookup, unmatched)
             for team_id, values in dst_values_for_event(event, dst_team_ids, extra_defense).items():
                 target = dst_week_values[(dst_player_by_team[team_id], week)]
                 for stat_id, value in values.items():
                     target[int(stat_id)] += n(value)
+
+        # Overlay exact kicking distance splits and PATs from athlete game logs.
+        for player_week, kicking_values in kicking_week_values.items():
+            player_week_values[player_week].update(kicking_values)
 
         season_records = []
         mismatch_count = 0
