@@ -182,6 +182,8 @@ def main():
         with gzip.open(ARTIFACT_OUT/raw_path.name,"wt",encoding="utf-8") as f: json.dump(output,f,ensure_ascii=False,separators=(",",":"))
         audit["seasons"][str(year)]={
             "player_gamelog_event_ids":sum(1 for v in event_meta.values() if v.get("source")=="player_gamelog"),
+            "dst_schedule_only_event_ids":sum(1 for v in event_meta.values() if v.get("source")=="dst_team_schedule"),
+            "events_also_in_dst_schedule":sum(1 for v in event_meta.values() if v.get("dst_team_schedule")),
             "dst_team_ids":dst_team_ids,
             "unique_event_ids":len(ids),
             "http_status_counts":dict(status_counts),
