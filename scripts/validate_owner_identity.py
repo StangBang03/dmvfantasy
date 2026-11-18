@@ -119,7 +119,7 @@ def main():
         if not directory.is_dir():
             errors.append(f"Missing required data directory: {directory.name}")
             continue
-        for path in sorted(directory.glob("*.json")):
+        for path in sorted(directory.rglob("*.json")):
             try:
                 data = json.loads(path.read_text(encoding="utf-8"))
             except (OSError, json.JSONDecodeError) as exc:
