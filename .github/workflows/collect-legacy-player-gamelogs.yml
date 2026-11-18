@@ -33,11 +33,16 @@ jobs:
           ESPN_S2: ${{ secrets.ESPN_S2 }}
           ESPN_SWID: ${{ secrets.ESPN_SWID }}
         run: python scripts/collect_legacy_player_gamelogs.py
+      - name: Reconcile gamelog totals against player-card season totals
+        env:
+          ESPN_S2: ${{ secrets.ESPN_S2 }}
+          ESPN_SWID: ${{ secrets.ESPN_SWID }}
+        run: python scripts/analyze_legacy_gamelog_reconciliation.py
       - name: Upload legacy player gamelog audit
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: legacy-player-gamelogs
-          path: artifacts/legacy_player_gamelogs/
+          path: artifacts/legacy_player_gamelogs/\n            artifacts/legacy_gamelog_reconciliation/
           if-no-files-found: warn
           retention-days: 30
