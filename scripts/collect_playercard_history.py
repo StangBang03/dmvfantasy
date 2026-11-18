@@ -9,7 +9,7 @@ import requests
 
 LEAGUE_ID = 112536
 BASE = "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl"
-INPUT = Path("data/processed/player_performance.json")
+ROOT = Path("data/processed")
 OUT = Path("artifacts/player_card_history")
 BATCH_SIZE = 50
 SEASON_TYPES = 18
@@ -25,40 +25,41 @@ if not session.cookies.get("espn_s2") or not session.cookies.get("SWID"):
     raise RuntimeError("Missing ESPN_S2 or ESPN_SWID")
 
 
-def endpoint(year):
-    if year >= 2018:
-        return f"{BASE}/seasons/{year}/segments/0/leagues/{LEAGUE_ID}", [("view", "kona_playercard"), ("scoringPeriodId", "0")]
-    return f"{BASE}/leagueHistory/{LEAGUE_ID}", [("view", "kona_playercard"), ("seasonId", str(year)), ("scoringPeriodId", "0")]
+def load_json(name, default):
+    path = ROOT / name
+    if not path.exists():
+        return default
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def unwrap(payload):
-    if isinstance(payload, list) and len(payload) == 1 and isinstance(payload[0], dict) and "players" in payload[0]:
+    if isinstance(payload, list) and len(payload) == 1 and isinstance(payload[0], dict):
         return payload[0]
     return payload if isinstance(payload, dict) else {}
 
 
-def player_rows(payload):
-    return unwrap(payload).get("players") or []
+def endpoint(year, view):
+    if year >= 2018:
+        return f"{BASE}/seasons/{year}/segments/0/leagues/{LEAGUE_ID}", [("view", view)]
+    return f"{BASE}/leagueHistory/{LEAGUE_ID}", [("view", view), ("seasonId", str(year))]
 
 
-def get_season_window(year):
-    if year != CURRENT_SEASON:
-        return None
-    url = f"{BASE}/seasons/{year}/segments/0/leagues/{LEAGUE_ID}"
-    response = session.get(url, params=[("view", "mStatus")], timeout=90)
+def get_status_window(year):
+    url, params = endpoint(year, "mStatus")
+    response = session.get(url, params=params, timeout=90)
     response.raise_for_status()
-    payload = response.json()
-    data = unwrap(payload)
-    status = data.get("status") or {}
+    status = unwrap(response.json()).get("status") or {}
     current = status.get("currentMatchupPeriod")
     latest = status.get("latestScoringPeriod")
     active = bool(status.get("isActive"))
     if active and current is not None:
         max_week = max(0, int(current) - 1)
+    elif status.get("finalScoringPeriod") is not None:
+        max_week = int(status["finalScoringPeriod"])
     elif latest is not None:
         max_week = int(latest)
     else:
-        max_week = int(status.get("finalScoringPeriod") or 18)
+        max_week = 18
     return {
         "current_matchup_period": current,
         "latest_scoring_period": latest,
@@ -66,6 +67,54 @@ def get_season_window(year):
         "is_active": active,
         "max_completed_week": max_week,
     }
+
+
+def get_scoring_periods(year):
+    url, params = endpoint(year, "mMatchupScore")
+    response = session.get(url, params=params, timeout=90)
+    response.raise_for_status()
+    data = unwrap(response.json())
+    periods = set()
+    for matchup in data.get("schedule") or []:
+        for side in ("home", "away"):
+            team = matchup.get(side) or {}
+            for key in (team.get("pointsByScoringPeriod") or {}):
+                try:
+                    periods.add(int(key))
+                except (TypeError, ValueError):
+                    pass
+    return sorted(periods)
+
+
+def get_roster_snapshot(year, scoring_period):
+    url, base_params = endpoint(year, "mRoster")
+    params = base_params + [("scoringPeriodId", str(scoring_period))]
+    response = session.get(url, params=params, timeout=90)
+    response.raise_for_status()
+    data = unwrap(response.json())
+    rows = []
+    for team in data.get("teams") or []:
+        team_id = team.get("id")
+        roster = team.get("roster") or {}
+        for entry in roster.get("entries") or []:
+            pool = entry.get("playerPoolEntry") or {}
+            player = pool.get("player") or {}
+            pid = player.get("id") or entry.get("playerId")
+            if pid is None:
+                continue
+            rows.append({
+                "season": year,
+                "scoring_period": scoring_period,
+                "player_id": int(pid),
+                "player_name": player.get("fullName") or player.get("full") or player.get("last"),
+                "team_id": team_id,
+                "pro_team_id": player.get("proTeamId"),
+                "position_id": player.get("defaultPositionId"),
+                "lineup_slot_id": entry.get("lineupSlotId"),
+                "acquisition_type": entry.get("acquisitionType"),
+                "acquisition_date": entry.get("acquisitionDate"),
+            })
+    return rows
 
 
 def parse_entry(item, year, max_week=None):
@@ -77,7 +126,6 @@ def parse_entry(item, year, max_week=None):
     for stat in stats:
         if not isinstance(stat, dict) or stat.get("statSourceId") != 0:
             continue
-        # Player-card responses can contain the prior season's weekly splits too.
         if stat.get("seasonId") is not None and int(stat.get("seasonId")) != year:
             continue
         split = stat.get("statSplitTypeId")
@@ -110,32 +158,105 @@ def parse_entry(item, year, max_week=None):
     }
 
 
+def add_ids(ids_by_year, sources_by_year, year, rows, source, id_key="player_id"):
+    for row in rows or []:
+        try:
+            pid = int(row[id_key])
+            y = int(row.get("season", year))
+        except (KeyError, TypeError, ValueError):
+            continue
+        ids_by_year[y].add(pid)
+        sources_by_year[y][pid].add(source)
+
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
-    source = json.loads(INPUT.read_text(encoding="utf-8"))
-    records = source.get("player_seasons") or []
+    performance = load_json("player_performance.json", {})
+    pp_rows = performance.get("player_seasons") or []
+    ownership = load_json("ownership_ledger.json", [])
+    transactions = load_json("transaction_events.json", [])
+    drafts = load_json("draft_picks.json", [])
+    supplemental = load_json("supplemental_trade_events.json", [])
+
     ids_by_year = defaultdict(set)
+    sources_by_year = defaultdict(lambda: defaultdict(set))
     source_records = {}
-    for record in records:
+    for record in pp_rows:
         year = int(record.get("season"))
         pid = int(record.get("player_id"))
         ids_by_year[year].add(pid)
+        sources_by_year[year][pid].add("player_performance")
         source_records[(year, pid)] = record
+    add_ids(ids_by_year, sources_by_year, None, ownership, "ownership_ledger")
+    add_ids(ids_by_year, sources_by_year, None, transactions, "transaction_events")
+    add_ids(ids_by_year, sources_by_year, None, drafts, "draft_picks")
+    add_ids(ids_by_year, sources_by_year, None, supplemental, "supplemental_trade_events")
+
+    roster_rows = []
+    roster_audit = {}
+    for year in sorted(set(ids_by_year)):
+        if year < 2018:
+            # Legacy mRoster is a season-end snapshot; its period parameter
+            # does not produce distinct historical roster states.
+            periods = [1]
+            max_week = None
+            window = None
+        else:
+            window = get_status_window(year)
+            periods = get_scoring_periods(year)
+            max_week = window["max_completed_week"]
+            periods = [p for p in periods if p <= max_week]
+        snapshot_counts = {}
+        for period in periods:
+            try:
+                rows = get_roster_snapshot(year, period)
+                roster_rows.extend(rows)
+                snapshot_counts[str(period)] = len(rows)
+                for row in rows:
+                    pid = row["player_id"]
+                    ids_by_year[year].add(pid)
+                    sources_by_year[year][pid].add("mRoster_snapshot")
+            except Exception as exc:
+                roster_audit.setdefault(str(year), {}).setdefault("errors", []).append({
+                    "scoring_period": period,
+                    "error": f"{type(exc).__name__}: {exc}",
+                })
+            time.sleep(0.1)
+        roster_audit[str(year)] = {
+            **roster_audit.get(str(year), {}),
+            "periods_queried": periods,
+            "snapshot_entry_counts": snapshot_counts,
+            "snapshot_unique_players": len({r["player_id"] for r in roster_rows if r["season"] == year}),
+            "season_window": window,
+        }
+        print(
+            f"{year}: mRoster periods={len(periods)}; "
+            f"snapshot unique={roster_audit[str(year)]['snapshot_unique_players']}; "
+            f"expanded IDs={len(ids_by_year[year])}"
+        )
 
     season_totals = []
     weekly_rows = []
     audit = {
-        "source_player_seasons": len(records),
+        "existing_player_performance_records": len(pp_rows),
+        "source_record_counts": {
+            "ownership_ledger": len(ownership),
+            "transaction_events": len(transactions),
+            "draft_picks": len(drafts),
+            "supplemental_trade_events": len(supplemental),
+        },
         "batch_size": BATCH_SIZE,
+        "roster_snapshots": roster_audit,
         "seasons": {},
         "errors": [],
     }
 
     for year in sorted(ids_by_year):
-        window = get_season_window(year)
+        window = get_status_window(year) if year == CURRENT_SEASON else None
         max_week = window["max_completed_week"] if window else None
         ids = sorted(ids_by_year[year])
-        url, base_params = endpoint(year)
+        url, base_params = endpoint(year, "kona_playercard")
+        base_params.append(("scoringPeriodId", "0"))
         returned = {}
         requested_batches = 0
         for offset in range(0, len(ids), BATCH_SIZE):
@@ -154,8 +275,7 @@ def main():
             try:
                 response = session.get(url, params=base_params, timeout=90)
                 response.raise_for_status()
-                payload = response.json()
-                for item in player_rows(payload):
+                for item in (unwrap(response.json()).get("players") or []):
                     parsed = parse_entry(item, year, max_week=max_week)
                     if parsed["player_id"] is not None:
                         returned[int(parsed["player_id"])] = parsed
@@ -176,12 +296,14 @@ def main():
         season_sum_mismatches = []
         for pid, parsed in returned.items():
             source_record = source_records.get((year, pid), {})
+            source_names = sorted(sources_by_year[year].get(pid, set()))
             season_totals.append({
                 "season": year,
                 "player_id": pid,
                 "player_name": parsed["player_name"] or source_record.get("name"),
                 "pro_team_id": parsed["pro_team_id"],
                 "on_team_id": parsed["on_team_id"],
+                "sources": "|".join(source_names),
                 "season_total": parsed["season_total"],
                 "season_stats_json": json.dumps(parsed["season_stats"], separators=(",", ":")),
             })
@@ -207,6 +329,7 @@ def main():
                     "player_id": pid,
                     "player_name": parsed["player_name"] or source_record.get("name"),
                     "pro_team_id": parsed["pro_team_id"],
+                    "sources": "|".join(source_names),
                     "points": week["points"],
                     "stat_id": week["stat_id"],
                     "season_id": week["season_id"],
@@ -232,7 +355,12 @@ def main():
                 })
 
         audit["seasons"][str(year)] = {
-            "source_player_ids": len(ids),
+            "existing_player_performance_ids": len({int(r["player_id"]) for r in pp_rows if int(r["season"]) == year}),
+            "expanded_requested_player_ids": len(ids),
+            "id_source_counts": {
+                source: sum(1 for pid in ids if source in sources_by_year[year].get(pid, set()))
+                for source in ("player_performance", "ownership_ledger", "transaction_events", "draft_picks", "supplemental_trade_events", "mRoster_snapshot")
+            },
             "requested_batches": requested_batches,
             "returned_player_ids": len(returned),
             "missing_player_ids": missing,
@@ -266,8 +394,13 @@ def main():
         if weekly_rows:
             writer.writeheader()
             writer.writerows(weekly_rows)
+    with (OUT / "roster_snapshot_rows.csv").open("w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=list(roster_rows[0]) if roster_rows else [])
+        if roster_rows:
+            writer.writeheader()
+            writer.writerows(roster_rows)
     (OUT / "player_card_history_audit.json").write_text(json.dumps(audit, indent=2), encoding="utf-8")
-    print(f"Wrote {len(season_totals)} season totals and {len(weekly_rows)} weekly rows")
+    print(f"Wrote {len(season_totals)} season totals, {len(weekly_rows)} weekly rows, {len(roster_rows)} roster snapshots")
 
 
 if __name__ == "__main__":
