@@ -1,5 +1,7 @@
 import json
 import math
+import os
+import tempfile
 from pathlib import Path
 
 RAW_DIR = Path("data/raw/roster")
@@ -102,6 +104,18 @@ def player_metadata(player):
 
 
 def main():
+    expected_seasons = range(2011, 2027)
+    missing_rosters = [
+        str(RAW_DIR / str(year) / "mRoster.json")
+        for year in expected_seasons
+        if not (RAW_DIR / str(year) / "mRoster.json").is_file()
+    ]
+    if missing_rosters:
+        raise SystemExit(
+            "Missing required season roster files; refusing partial build: "
+            + ", ".join(missing_rosters)
+        )
+
     print("=" * 70)
     print("BUILD PLAYER PERFORMANCE")
     print("=" * 70)
@@ -140,6 +154,10 @@ def main():
         data = unwrap(raw)
 
         teams = data.get("teams", [])
+        if not isinstance(teams, list) or not teams:
+            raise SystemExit(
+                f"{file} contains no usable teams; refusing partial build."
+            )
 
         season_roster_rows = 0
         season_players = set()
@@ -260,6 +278,11 @@ def main():
                     }
 
                 season_roster_rows += 0
+
+        if season_roster_rows == 0:
+            raise SystemExit(
+                f"{file} contains no roster entries; refusing partial build."
+            )
 
         seasons.append(year)
 
@@ -401,21 +424,33 @@ def main():
         "audit": audit,
     }
 
-    with OUTPUT_FILE.open("w", encoding="utf-8") as f:
-        json.dump(
-            output,
-            f,
-            indent=2,
-            ensure_ascii=False,
-        )
+    staged = []
+    try:
+        for destination, payload in (
+            (OUTPUT_FILE, output),
+            (AUDIT_FILE, audit),
+        ):
+            with tempfile.NamedTemporaryFile(
+                mode="w",
+                encoding="utf-8",
+                dir=destination.parent,
+                prefix=f".{destination.name}.",
+                suffix=".tmp",
+                delete=False,
+            ) as handle:
+                temp_path = Path(handle.name)
+                staged.append((temp_path, destination))
+                json.dump(payload, handle, indent=2, ensure_ascii=False)
+                handle.write("\\n")
+                handle.flush()
+                os.fsync(handle.fileno())
 
-    with AUDIT_FILE.open("w", encoding="utf-8") as f:
-        json.dump(
-            audit,
-            f,
-            indent=2,
-            ensure_ascii=False,
-        )
+        for temp_path, destination in staged:
+            os.replace(temp_path, destination)
+    finally:
+        for temp_path, _ in staged:
+            if temp_path.exists():
+                temp_path.unlink()
 
     print()
     print("=" * 70)
