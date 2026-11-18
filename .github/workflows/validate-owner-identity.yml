@@ -1,6 +1,17 @@
 name: Validate Owner Identity Migration
 
 on:
+  push:
+    branches:
+      - security/owner-identity-migration
+    paths:
+      - "data/processed/**"
+      - "data/analytics/**"
+      - "scripts/refresh_current_season.py"
+      - "scripts/normalize_espn.py"
+      - "scripts/export_owner_map.py"
+      - "scripts/validate_owner_identity.py"
+      - ".github/workflows/validate-owner-identity.yml"
   pull_request:
     paths:
       - "data/processed/**"
