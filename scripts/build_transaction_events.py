@@ -137,18 +137,28 @@ def main():
 
     source_rows = []
 
-    for year_dir in sorted(SOURCE_DIR.iterdir()):
-        if not year_dir.is_dir():
-            continue
+    expected_files = [
+        SOURCE_DIR / str(year) / f"scoring_period_{period}.json"
+        for year in range(2011, 2026)
+        for period in range(1, 21)
+    ]
+    missing_files = [str(path) for path in expected_files if not path.is_file()]
+    if missing_files:
+        raise SystemExit(
+            "Historical transaction source is incomplete; missing "
+            f"{len(missing_files)} required scoring-period file(s). "
+            "Refusing to build from partial or stale data."
+        )
 
-        year = int(year_dir.name)
-
-        for file in sorted(year_dir.glob("scoring_period_*.json")):
-            scoring_period = int(file.stem.split("_")[-1])
-
+    for year in range(2011, 2026):
+        for scoring_period in range(1, 21):
+            file = SOURCE_DIR / str(year) / f"scoring_period_{scoring_period}.json"
             data = load_json(file)
-
-            transactions = data.get("transactions", [])
+            transactions = data.get("transactions")
+            if not isinstance(transactions, list):
+                raise SystemExit(
+                    f"{file} does not contain a transactions array."
+                )
 
             for transaction_index, tx in enumerate(transactions):
                 source_rows.append(
