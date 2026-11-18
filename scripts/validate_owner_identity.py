@@ -25,7 +25,6 @@ FORBIDDEN_KEYS = {
     "ownerids",
     "memberid",
     "memberids",
-    "owners",
     "swid",
     "swidid",
     "espnswid",
@@ -55,7 +54,11 @@ def normalize_key(value):
 
 def is_person_reference_key(key):
     normalized = normalize_key(key)
-    return normalized.endswith("personid") or normalized.endswith("personids")
+    return (
+        normalized.endswith("personid")
+        or normalized.endswith("personids")
+        or normalized == "owners"
+    )
 
 
 def is_identity_value_key(key):
