@@ -9,6 +9,7 @@ on:
       - "data/analytics/**"
       - "scripts/refresh_current_season.py"
       - "scripts/owner_identity.py"
+      - "scripts/validate_owner_map_secret.py"
       - "tests/**"
       - "scripts/normalize_espn.py"
       - "scripts/export_owner_map.py"
