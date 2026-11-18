@@ -1,0 +1,36 @@
+name: Probe ESPN Weekly Roster Point Semantics
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [audit/historical-player-data]
+    paths:
+      - scripts/probe_weekly_roster_semantics.py
+      - .github/workflows/probe-weekly-roster-semantics.yml
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --upgrade pip requests
+      - name: Probe regular and playoff roster scoring fields
+        env:
+          ESPN_S2: ${{ secrets.ESPN_S2 }}
+          ESPN_SWID: ${{ secrets.ESPN_SWID }}
+        run: python scripts/probe_weekly_roster_semantics.py
+      - name: Upload semantics probe
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: weekly-roster-semantics
+          path: artifacts/weekly_roster_semantics/
+          if-no-files-found: warn
+          retention-days: 30
