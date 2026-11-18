@@ -23,6 +23,8 @@ on:
       - "scripts/export_owner_map.py"
       - "scripts/validate_owner_identity.py"
       - ".github/workflows/validate-owner-identity.yml"
+      - ".github/workflows/collect-historical-transactions.yml"
+      - ".github/workflows/collect-historical-weekly-stats.yml"
   pull_request:
     paths:
       - "data/processed/**"
