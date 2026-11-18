@@ -1,4 +1,4 @@
-import csv
+import gzip
 import json
 import os
 import threading
@@ -9,7 +9,7 @@ from pathlib import Path
 
 import requests
 
-SOURCE_CSV = Path("artifacts/player_card_history_source/player_card_season_totals.csv")
+ARCHIVE_DIR = Path("data/raw/playercard_history")
 OUT = Path("artifacts/legacy_player_gamelogs")
 GAMEL0G_BASE = "https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/athletes"
 YEARS = range(2011, 2018)
@@ -42,6 +42,7 @@ def fetch_player(year, player):
         "season": year,
         "player_id": pid,
         "player_name": player.get("player_name"),
+        "position_id": player.get("position_id"),
         "pro_team_id": player.get("pro_team_id"),
         "season_total": player.get("season_total"),
         "season_stats": player.get("season_stats") or {},
@@ -101,29 +102,29 @@ def fetch_player(year, player):
 
 
 def main():
-    if not SOURCE_CSV.exists():
-        raise FileNotFoundError(f"Missing source artifact CSV: {SOURCE_CSV}")
     OUT.mkdir(parents=True, exist_ok=True)
-    by_year = {year: [] for year in YEARS}
-    with SOURCE_CSV.open(newline="", encoding="utf-8") as f:
-        for row in csv.DictReader(f):
-            year = int(row["season"])
-            pid = int(row["player_id"])
-            if year not in by_year or pid <= 0:
-                continue
-            by_year[year].append({
-                "player_id": pid,
-                "player_name": row.get("player_name"),
-                "pro_team_id": row.get("pro_team_id"),
-                "season_total": float(row["season_total"]) if row.get("season_total") else None,
-                "season_stats": json.loads(row.get("season_stats_json") or "{}"),
-            })
-
-    audit = {"source": str(SOURCE_CSV), "seasons": {}, "errors": []}
+    audit = {"source": str(ARCHIVE_DIR), "seasons": {}, "errors": []}
     for year in YEARS:
-        players = by_year[year]
+        archive_path = ARCHIVE_DIR / f"playercard_{year}.json.gz"
+        if not archive_path.exists():
+            audit["errors"].append({"season": year, "error": f"Missing archive {archive_path}"})
+            continue
+        with gzip.open(archive_path, "rt", encoding="utf-8") as f:
+            archive = json.load(f)
+        players = [
+            {
+                "player_id": int(p["player_id"]),
+                "player_name": p.get("player_name"),
+                "position_id": p.get("position_id"),
+                "pro_team_id": p.get("pro_team_id"),
+                "season_total": p.get("season_total"),
+                "season_stats": p.get("season_stats") or {},
+            }
+            for p in archive.get("players") or []
+            if int(p.get("player_id", 0)) > 0
+        ]
         if not players:
-            audit["errors"].append({"season": year, "error": "No player rows in source CSV"})
+            audit["errors"].append({"season": year, "error": "No positive player IDs in player-card archive"})
             continue
         results = []
         with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
@@ -153,7 +154,6 @@ def main():
             },
             "players": results,
         }
-        import gzip
         with gzip.open(OUT / f"legacy_player_gamelogs_{year}.json.gz", "wt", encoding="utf-8") as f:
             json.dump(output, f, ensure_ascii=False, separators=(",", ":"))
         audit["seasons"][str(year)] = {
