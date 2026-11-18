@@ -60,3 +60,8 @@ build/
 # Local archives
 # =========================
 *.zip
+# =========================
+# Private identity / reconciliation diagnostics
+# =========================
+data/owner_identity_audit.json
+data/identity_reconciliation.json
