@@ -7,7 +7,7 @@ on:
       - audit/historical-player-data
     paths:
       - data/raw/playercard_history/**
-      - scripts/collect_legacy_player_gamelogs.py
+      - scripts/collect_legacy_player_gamelogs.py\n      - scripts/analyze_legacy_gamelog_reconciliation.py
       - .github/workflows/collect-legacy-player-gamelogs.yml
 
 permissions:
