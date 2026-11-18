@@ -10,7 +10,7 @@ on:
       - .github/workflows/collect-playercard-history.yml
 
 permissions:
-  contents: read
+  contents: write
   actions: read
 
 concurrency:
@@ -32,6 +32,17 @@ jobs:
           ESPN_S2: ${{ secrets.ESPN_S2 }}
           ESPN_SWID: ${{ secrets.ESPN_SWID }}
         run: python scripts/collect_playercard_history.py
+      - name: Commit compressed raw player-card archives to audit branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f data/raw/playercard_history/
+          if ! git diff --cached --quiet; then
+            git commit -m "Add verified ESPN player-card history archives"
+            git push origin HEAD
+          else
+            echo "No player-card archive changes to commit"
+          fi
       - name: Upload player-card history audit
         if: always()
         uses: actions/upload-artifact@v4
