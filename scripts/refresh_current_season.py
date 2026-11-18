@@ -43,12 +43,12 @@ def write_json_batch(outputs):
                 prefix=f".{path.name}.", suffix=".tmp", dir=path.parent
             )
             temp_path = Path(temp_name)
+            staged.append((temp_path, path))
             with os.fdopen(fd, "w", encoding="utf-8") as handle:
                 json.dump(value, handle, indent=2, ensure_ascii=False)
                 handle.write("\n")
                 handle.flush()
                 os.fsync(handle.fileno())
-            staged.append((temp_path, path))
         for temp_path, destination in staged:
             os.replace(temp_path, destination)
     except Exception:
@@ -63,9 +63,31 @@ def unwrap(value):
 
 def fetch_view(view):
     url = f"{BASE}/seasons/{YEAR}/segments/0/leagues/{LEAGUE_ID}"
-    response = session.get(url, params={"view": view}, timeout=60)
-    response.raise_for_status()
-    raw = response.json()
+    last_error = None
+    response = None
+    raw = None
+
+    for attempt in range(1, 4):
+        try:
+            response = session.get(url, params={"view": view}, timeout=60)
+            response.raise_for_status()
+            raw = response.json()
+            break
+        except (requests.RequestException, ValueError) as exc:
+            last_error = exc
+            if attempt < 3:
+                delay = attempt * 2
+                print(
+                    f"ESPN {view} request attempt {attempt}/3 failed; "
+                    f"retrying in {delay}s"
+                )
+                time.sleep(delay)
+    else:
+        raise RuntimeError(
+            f"Unable to fetch ESPN view {view} after 3 attempts "
+            f"({type(last_error).__name__})."
+        ) from last_error
+
     data = unwrap(raw)
     if not data:
         raise RuntimeError(f"ESPN returned an empty/unusable response for {view}")
