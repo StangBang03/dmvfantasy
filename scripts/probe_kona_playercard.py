@@ -11,7 +11,7 @@ LEAGUE_ID = 112536
 BASE = "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl"
 OUT = Path("artifacts/player_card")
 SAMPLE_IDS = {
-    2014: [5941, 8444, 9329, 9597, 10467, -16029, -16017],
+    2014: [1428, 5941, 8444, 9329, 9597, 10467, -16029, -16017],
     2017: [4459, 5526, 9354, 9592, 9705, -16034, -16027],
     2018: [3116406, 3117251, 3051392],
     2025: [4429795, 3117251, 4362628],
@@ -66,6 +66,7 @@ def inspect(payload):
             "id": player.get("id") or item.get("id"),
             "name": player.get("fullName"),
             "onTeamId": item.get("onTeamId"),
+            "pool_appliedStatTotal": item.get("appliedStatTotal"),
             "season_total": season_total,
             "stats_count": len(stats),
             "weekly_actual": weekly,
@@ -92,18 +93,13 @@ def main():
             }
         }
         session.headers["X-Fantasy-Filter"] = json.dumps(filters, separators=(",", ":"))
-        endpoints = [
-            ("league_playercard", f"{BASE}/seasons/{year}/segments/0/leagues/{LEAGUE_ID}", [("view", "kona_playercard"), ("scoringPeriodId", "0")]),
-        ]
+        tests = []
         if year < 2018:
-            endpoints.append(("history_playercard", f"{BASE}/leagueHistory/{LEAGUE_ID}", [("view", "kona_playercard"), ("seasonId", str(year)), ("scoringPeriodId", "0")]))
-            for default_id in (1, 3, 4):
-                endpoints.append((
-                    f"leaguedefaults_{default_id}",
-                    f"{BASE}/seasons/{year}/segments/0/leaguedefaults/{default_id}",
-                    [("view", "kona_playercard"), ("scoringPeriodId", "0")],
-                ))
-        for label, url, params in endpoints:
+            for sp in (0, 14, 15, 16, 17):
+                tests.append((f"history_playercard_sp{sp}", f"{BASE}/leagueHistory/{LEAGUE_ID}", [("view", "kona_playercard"), ("seasonId", str(year)), ("scoringPeriodId", str(sp))]))
+        else:
+            tests.append(("league_playercard", f"{BASE}/seasons/{year}/segments/0/leagues/{LEAGUE_ID}", [("view", "kona_playercard"), ("scoringPeriodId", "0")]))
+        for label, url, params in tests:
             response = session.get(url, params=params, timeout=90)
             result = {
                 "season": year,
@@ -126,8 +122,8 @@ def main():
                 f"bytes={result['response_bytes']}; players={result.get('players_returned')}; "
                 f"weekly={result.get('weekly_actual_period_counts')}"
             )
-            for player in result.get("players", []):
-                print("PLAYER " + json.dumps(player, separators=(",", ":"))[:1100])
+            for player in result.get("players", [])[:5]:
+                print("PLAYER " + json.dumps(player, separators=(",", ":"))[:1200])
             time.sleep(0.25)
     path = OUT / "kona_playercard_probe.json"
     path.write_text(json.dumps(results, indent=2), encoding="utf-8")
