@@ -1,0 +1,39 @@
+name: Audit Current Player Performance Coverage
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - scripts/audit_weekly_performance.py
+      - .github/workflows/audit-current-player-performance.yml
+      - data/processed/player_performance.json
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: audit-current-player-performance
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Audit weekly player coverage
+        run: python scripts/audit_weekly_performance.py
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: current-player-performance-audit
+          path: data/processed/player_performance_weekly_audit.json
+          if-no-files-found: warn
+          retention-days: 30
