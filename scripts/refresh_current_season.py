@@ -191,6 +191,8 @@ def main():
         raise RuntimeError("No matchups/schedule rows found; refusing to replace current-season data.")
     if not current_standings:
         raise RuntimeError("No standings rows found; refusing to replace current-season data.")
+    if not current_drafts:
+        raise RuntimeError("No current-season draft picks found; refusing to replace current-season data.")
 
     def replace_season(rows, current):
         return [r for r in rows if r.get("season") != YEAR] + current
@@ -212,8 +214,11 @@ def main():
 
     if len({t["team_id"] for t in current_teams}) != len(current_teams):
         raise RuntimeError("Duplicate team IDs in current-season response.")
-    if any(m.get("home_team_id") not in team_person or m.get("away_team_id") not in team_person
-           for m in current_matchups if m.get("home_team_id") is not None and m.get("away_team_id") is not None):
+    if any(
+        (m.get("home_team_id") is not None and m.get("home_team_id") not in team_person)
+        or (m.get("away_team_id") is not None and m.get("away_team_id") not in team_person)
+        for m in current_matchups
+    ):
         raise RuntimeError("A matchup references a team absent from the current team view.")
     if any(d.get("team_id") not in team_person or not d.get("person_id") for d in current_drafts):
         raise RuntimeError("A draft pick has an unresolved current-season team/owner reference.")
