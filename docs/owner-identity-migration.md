@@ -33,6 +33,10 @@ reintroduce public identifiers.
 4. Verify the secret exists in GitHub Settings → Environments → `github-pages`
    → Environment secrets. Do not reveal or paste the secret value anywhere.
 5. Securely delete the local `espn-owner-map.json` file after the secret is set.
+6. After this PR is merged, run **Actions → Validate Private Owner Map → Run workflow**.
+   This is a non-mutating check: it reads the protected secret and public people
+   file, does not contact ESPN, and does not write or deploy any data. Wait for
+   its success before allowing the scheduled refresh to run.
 
 The generated file is ignored by Git. Never commit it. The existing
 `ESPN_S2` and `ESPN_SWID` secrets remain required for authenticated ESPN API
