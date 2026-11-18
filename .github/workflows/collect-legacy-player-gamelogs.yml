@@ -11,12 +11,12 @@ on:
       - .github/workflows/collect-legacy-player-gamelogs.yml
 
 permissions:
-  contents: read
+  contents: write
   actions: read
 
 concurrency:
   group: collect-legacy-player-gamelogs
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   collect:
@@ -38,6 +38,22 @@ jobs:
           ESPN_S2: ${{ secrets.ESPN_S2 }}
           ESPN_SWID: ${{ secrets.ESPN_SWID }}
         run: python scripts/analyze_legacy_gamelog_reconciliation.py
+      - name: Commit compressed legacy gamelogs to audit branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f data/raw/legacy_player_gamelogs/
+          if ! git diff --cached --quiet; then
+            git commit -m "Add verified legacy ESPN player gamelogs"
+            if ! git pull --rebase origin "$GITHUB_REF_NAME"; then
+              git checkout --theirs -- data/raw/legacy_player_gamelogs/
+              git add -f data/raw/legacy_player_gamelogs/
+              GIT_EDITOR=true git rebase --continue
+            fi
+            git push origin HEAD:"$GITHUB_REF_NAME"
+          else
+            echo "No legacy gamelog archive changes to commit"
+          fi
       - name: Upload legacy player gamelog audit
         if: always()
         uses: actions/upload-artifact@v4
