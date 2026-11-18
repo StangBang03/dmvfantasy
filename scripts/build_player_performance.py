@@ -304,6 +304,21 @@ def main():
 
     # Merge historical weekly fantasy points collected from mBoxscore.
     weekly_raw_dir = Path("data/raw/weekly_boxscore")
+    expected_weekly_files = [
+        weekly_raw_dir / str(year) / f"week-{week:02d}.json"
+        for year in range(2011, 2018)
+        for week in range(1, 18)
+    ]
+    missing_weekly_files = [
+        str(path) for path in expected_weekly_files if not path.is_file()
+    ]
+    if missing_weekly_files:
+        raise SystemExit(
+            "Historical weekly boxscore collection is incomplete; "
+            f"{len(missing_weekly_files)} required file(s) are missing. "
+            "Refusing to build partial player performance data."
+        )
+
     historical_weekly_rows = 0
     if weekly_raw_dir.exists():
         for year_dir in sorted(weekly_raw_dir.iterdir()):
