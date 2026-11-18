@@ -13,21 +13,31 @@ def load(name):
         return json.load(f)
 
 
-def save(name, obj):
+def save_many(outputs):
+    """Stage every JSON output before replacing any existing file."""
+    import os
+    import tempfile
+
     ANALYTICS.mkdir(parents=True, exist_ok=True)
-
-    path = ANALYTICS / name
-
-    with path.open("w", encoding="utf-8") as f:
-        json.dump(
-            obj,
-            f,
-            indent=2,
-            ensure_ascii=False,
-        )
-        f.write("\n")
-
-    return path
+    staged = []
+    try:
+        for name, obj in outputs.items():
+            fd, temp_name = tempfile.mkstemp(
+                prefix=f".{name}.", suffix=".tmp", dir=ANALYTICS
+            )
+            temp_path = Path(temp_name)
+            with os.fdopen(fd, "w", encoding="utf-8") as handle:
+                json.dump(obj, handle, indent=2, ensure_ascii=False)
+                handle.write("\n")
+                handle.flush()
+                os.fsync(handle.fileno())
+            staged.append((temp_path, ANALYTICS / name))
+        for temp_path, destination in staged:
+            os.replace(temp_path, destination)
+    except Exception:
+        for temp_path, _ in staged:
+            temp_path.unlink(missing_ok=True)
+        raise
 
 
 def completed_matchups(matchups):
@@ -162,10 +172,14 @@ def completed_seasons(matchups):
         if not winners_bracket:
             continue
 
-        final_period = max(
-            m.get("matchup_period_id", -1)
+        periods = [
+            m.get("matchup_period_id")
             for m in winners_bracket
-        )
+            if isinstance(m.get("matchup_period_id"), (int, float))
+        ]
+        if not periods:
+            continue
+        final_period = max(periods)
 
         finals = [
             m
@@ -1152,6 +1166,11 @@ def main():
             current_weekly[key]
         )
 
+    if not historical_seasons:
+        raise RuntimeError("No completed historical seasons detected; refusing to replace analytics.")
+    if not historical_rows or not career_rows:
+        raise RuntimeError("Historical analytics unexpectedly empty; refusing to replace analytics.")
+
     # ---------------------------------------------------------
     # OUTPUT
     # ---------------------------------------------------------
@@ -1263,16 +1282,6 @@ def main():
         "meta":
             meta,
     }
-
-    save(
-        "advanced_stats.json",
-        historical_output,
-    )
-
-    save(
-        "current_advanced_stats.json",
-        current_output,
-    )
 
     # ---------------------------------------------------------
     # REPORT
@@ -1395,6 +1404,11 @@ def main():
         if r["all_play_win_pct"]
         is not None
     )
+
+    save_many({
+        "advanced_stats.json": historical_output,
+        "current_advanced_stats.json": current_output,
+    })
 
     print(
         "PASS: historical/current separation"
