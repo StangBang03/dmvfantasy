@@ -12,13 +12,31 @@ def load(name, folder=PROCESSED):
         return json.load(f)
 
 
-def save(name, obj):
+def save_many(outputs):
+    """Stage every JSON output before replacing any existing file."""
+    import os
+    import tempfile
+
     ANALYTICS.mkdir(parents=True, exist_ok=True)
-    path = ANALYTICS / name
-    with path.open("w", encoding="utf-8") as f:
-        json.dump(obj, f, indent=2, ensure_ascii=False)
-        f.write("\n")
-    return path
+    staged = []
+    try:
+        for name, obj in outputs.items():
+            fd, temp_name = tempfile.mkstemp(
+                prefix=f".{name}.", suffix=".tmp", dir=ANALYTICS
+            )
+            temp_path = Path(temp_name)
+            with os.fdopen(fd, "w", encoding="utf-8") as handle:
+                json.dump(obj, handle, indent=2, ensure_ascii=False)
+                handle.write("\n")
+                handle.flush()
+                os.fsync(handle.fileno())
+            staged.append((temp_path, ANALYTICS / name))
+        for temp_path, destination in staged:
+            os.replace(temp_path, destination)
+    except Exception:
+        for temp_path, _ in staged:
+            temp_path.unlink(missing_ok=True)
+        raise
 
 
 def completed_matchups(matchups):
@@ -346,10 +364,14 @@ def completed_seasons(matchups):
         if not wb:
             continue
 
-        final_period = max(
-            m.get("matchup_period_id", -1)
+        periods = [
+            m.get("matchup_period_id")
             for m in wb
-        )
+            if isinstance(m.get("matchup_period_id"), (int, float))
+        ]
+        if not periods:
+            continue
+        final_period = max(periods)
 
         finals = [
             m
@@ -797,6 +819,9 @@ def main():
         matchups
     )
 
+    if not historical_seasons:
+        raise RuntimeError("No completed historical seasons detected; refusing to replace records.")
+
     current_seasons = [
         s
         for s in all_seasons
@@ -952,40 +977,6 @@ def main():
         ),
     }
 
-    save(
-        "head_to_head.json",
-        h2h,
-    )
-
-    save(
-        "streaks.json",
-        streaks,
-    )
-
-    save(
-        "league_records.json",
-        records,
-    )
-
-    save(
-        "league_record_catalog.json",
-        catalog,
-    )
-
-    save(
-        "current_season.json",
-        {
-            "season": current_season,
-            "standings": current_records[
-                "single_season"
-            ],
-            "games": current_records[
-                "single_game"
-            ],
-            "head_to_head": current_h2h,
-        },
-    )
-
     print("=== RECORDS ENGINE V3 ===")
 
     print(
@@ -1075,6 +1066,19 @@ def main():
         "playoff_seed" in r
         for r in records["single_season"]
     )
+
+    save_many({
+        "head_to_head.json": h2h,
+        "streaks.json": streaks,
+        "league_records.json": records,
+        "league_record_catalog.json": catalog,
+        "current_season.json": {
+            "season": current_season,
+            "standings": current_records["single_season"],
+            "games": current_records["single_game"],
+            "head_to_head": current_h2h,
+        },
+    })
 
     print(
         "PASS: historical/current separation"
