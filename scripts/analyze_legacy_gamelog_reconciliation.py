@@ -139,6 +139,7 @@ def main():
         unsupported=Counter()
         for pid,player in players.items():
             if pid<0 or int(player.get("position_id") or 0)==16: continue
+            if player.get("season_total") is None: continue
             log=logs.get(pid)
             if not log or log.get("http_status")!=200:
                 no_gamelog.append(pid); continue
