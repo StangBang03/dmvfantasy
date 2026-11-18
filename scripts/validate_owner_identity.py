@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PROCESSED = ROOT / "data" / "processed"
 ANALYTICS = ROOT / "data" / "analytics"
 GUID = re.compile(
-    r"^\\{?[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\\}?$",
+    r"^\{?[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\}?$",
     re.I,
 )
 CANONICAL_PERSON_ID = re.compile(r"^person_[0-9]{3}$")
