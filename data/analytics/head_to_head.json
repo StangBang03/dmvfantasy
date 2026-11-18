@@ -1,13 +1,13 @@
 [
   {
-    "person_a_id": "espn_062cc5abad2c4980a5d0e70fcabd8833",
-    "person_b_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
+    "person_a_id": "person_011",
+    "person_b_id": "person_006",
     "games": 2,
     "person_a_wins": 0,
     "person_b_wins": 2,
     "ties": 0,
-    "person_a_points_for": 188.0,
-    "person_b_points_for": 243.0,
+    "person_a_points_for": 188,
+    "person_b_points_for": 243,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 1,
@@ -17,14 +17,14 @@
     "person_b_name": "Alex Christodoulou"
   },
   {
-    "person_a_id": "espn_062cc5abad2c4980a5d0e70fcabd8833",
-    "person_b_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
+    "person_a_id": "person_011",
+    "person_b_id": "person_009",
     "games": 2,
     "person_a_wins": 0,
     "person_b_wins": 2,
     "ties": 0,
-    "person_a_points_for": 153.0,
-    "person_b_points_for": 242.0,
+    "person_a_points_for": 153,
+    "person_b_points_for": 242,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 2,
@@ -34,14 +34,14 @@
     "person_b_name": "Charlie Marks"
   },
   {
-    "person_a_id": "espn_062cc5abad2c4980a5d0e70fcabd8833",
-    "person_b_id": "espn_5ac92d7b18f3434c81f2a2c372f8443b",
+    "person_a_id": "person_011",
+    "person_b_id": "person_008",
     "games": 2,
     "person_a_wins": 1,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 141.0,
-    "person_b_points_for": 199.0,
+    "person_a_points_for": 141,
+    "person_b_points_for": 199,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 2,
@@ -51,14 +51,14 @@
     "person_b_name": "Andreas Moshogianis"
   },
   {
-    "person_a_id": "espn_062cc5abad2c4980a5d0e70fcabd8833",
-    "person_b_id": "espn_6d193d02cac74f5eb4a25582fd5e5da3",
+    "person_a_id": "person_011",
+    "person_b_id": "person_003",
     "games": 1,
     "person_a_wins": 0,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 76.0,
-    "person_b_points_for": 128.0,
+    "person_a_points_for": 76,
+    "person_b_points_for": 128,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 1,
@@ -68,14 +68,14 @@
     "person_b_name": "Brian Oliver"
   },
   {
-    "person_a_id": "espn_062cc5abad2c4980a5d0e70fcabd8833",
-    "person_b_id": "espn_90d70961630440c3b59bb020c6eb36de",
+    "person_a_id": "person_011",
+    "person_b_id": "person_002",
     "games": 1,
     "person_a_wins": 0,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 73.0,
-    "person_b_points_for": 76.0,
+    "person_a_points_for": 73,
+    "person_b_points_for": 76,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 1,
@@ -85,14 +85,14 @@
     "person_b_name": "David Yates"
   },
   {
-    "person_a_id": "espn_062cc5abad2c4980a5d0e70fcabd8833",
-    "person_b_id": "espn_92ddd17878d644ed9d48487debbb6801",
+    "person_a_id": "person_011",
+    "person_b_id": "person_010",
     "games": 3,
     "person_a_wins": 0,
     "person_b_wins": 3,
     "ties": 0,
-    "person_a_points_for": 300.0,
-    "person_b_points_for": 422.0,
+    "person_a_points_for": 300,
+    "person_b_points_for": 422,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 2,
@@ -102,14 +102,14 @@
     "person_b_name": "Dex Doyle"
   },
   {
-    "person_a_id": "espn_062cc5abad2c4980a5d0e70fcabd8833",
-    "person_b_id": "espn_96f0556caec04058a8ed59682ed5a33d",
+    "person_a_id": "person_011",
+    "person_b_id": "person_004",
     "games": 1,
     "person_a_wins": 0,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 72.0,
-    "person_b_points_for": 79.0,
+    "person_a_points_for": 72,
+    "person_b_points_for": 79,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 1,
@@ -119,14 +119,14 @@
     "person_b_name": "Chris Smith"
   },
   {
-    "person_a_id": "espn_062cc5abad2c4980a5d0e70fcabd8833",
-    "person_b_id": "espn_b8d9ff7f8eb74694a6ed72dfa21e8e28",
+    "person_a_id": "person_011",
+    "person_b_id": "person_005",
     "games": 1,
     "person_a_wins": 0,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 66.0,
-    "person_b_points_for": 94.0,
+    "person_a_points_for": 66,
+    "person_b_points_for": 94,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 1,
@@ -136,14 +136,14 @@
     "person_b_name": "Zach Davis"
   },
   {
-    "person_a_id": "espn_062cc5abad2c4980a5d0e70fcabd8833",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_011",
+    "person_b_id": "person_007",
     "games": 2,
     "person_a_wins": 0,
     "person_b_wins": 1,
     "ties": 1,
-    "person_a_points_for": 149.0,
-    "person_b_points_for": 191.0,
+    "person_a_points_for": 149,
+    "person_b_points_for": 191,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 2,
@@ -153,8 +153,8 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
-    "person_b_id": "espn_1b307fc2d84e4962bcf11a2daab52bee",
+    "person_a_id": "person_006",
+    "person_b_id": "person_022",
     "games": 2,
     "person_a_wins": 1,
     "person_b_wins": 1,
@@ -170,8 +170,8 @@
     "person_b_name": "Bryan Goldman"
   },
   {
-    "person_a_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
-    "person_b_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
+    "person_a_id": "person_006",
+    "person_b_id": "person_009",
     "games": 17,
     "person_a_wins": 5,
     "person_b_wins": 12,
@@ -187,8 +187,8 @@
     "person_b_name": "Charlie Marks"
   },
   {
-    "person_a_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
-    "person_b_id": "espn_55540c8225724955940c8225723955e3",
+    "person_a_id": "person_006",
+    "person_b_id": "person_021",
     "games": 9,
     "person_a_wins": 2,
     "person_b_wins": 7,
@@ -204,14 +204,14 @@
     "person_b_name": "Andrew Carlson"
   },
   {
-    "person_a_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
-    "person_b_id": "espn_5ac92d7b18f3434c81f2a2c372f8443b",
+    "person_a_id": "person_006",
+    "person_b_id": "person_008",
     "games": 1,
     "person_a_wins": 1,
     "person_b_wins": 0,
     "ties": 0,
-    "person_a_points_for": 80.0,
-    "person_b_points_for": 68.0,
+    "person_a_points_for": 80,
+    "person_b_points_for": 68,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 1,
@@ -221,8 +221,8 @@
     "person_b_name": "Andreas Moshogianis"
   },
   {
-    "person_a_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
-    "person_b_id": "espn_5c24f9e28d594018b8037b5d72fc94b6",
+    "person_a_id": "person_006",
+    "person_b_id": "person_024",
     "games": 2,
     "person_a_wins": 1,
     "person_b_wins": 1,
@@ -238,8 +238,8 @@
     "person_b_name": "Joe Klass"
   },
   {
-    "person_a_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
-    "person_b_id": "espn_5c772829a646413e8a8088ebfb82dc74",
+    "person_a_id": "person_006",
+    "person_b_id": "person_019",
     "games": 14,
     "person_a_wins": 10,
     "person_b_wins": 3,
@@ -255,14 +255,14 @@
     "person_b_name": "Jacob Hiner"
   },
   {
-    "person_a_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
-    "person_b_id": "espn_6d193d02cac74f5eb4a25582fd5e5da3",
+    "person_a_id": "person_006",
+    "person_b_id": "person_003",
     "games": 8,
     "person_a_wins": 4,
     "person_b_wins": 4,
     "ties": 0,
-    "person_a_points_for": 764.0,
-    "person_b_points_for": 723.0,
+    "person_a_points_for": 764,
+    "person_b_points_for": 723,
     "first_season": 2011,
     "last_season": 2015,
     "regular_season_games": 8,
@@ -272,14 +272,14 @@
     "person_b_name": "Brian Oliver"
   },
   {
-    "person_a_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
-    "person_b_id": "espn_709f61471de549839f61471de5998320",
+    "person_a_id": "person_006",
+    "person_b_id": "person_012",
     "games": 3,
     "person_a_wins": 1,
     "person_b_wins": 2,
     "ties": 0,
-    "person_a_points_for": 383.0,
-    "person_b_points_for": 433.0,
+    "person_a_points_for": 383,
+    "person_b_points_for": 433,
     "first_season": 2012,
     "last_season": 2012,
     "regular_season_games": 2,
@@ -289,8 +289,8 @@
     "person_b_name": "Brandon Spaeth"
   },
   {
-    "person_a_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
-    "person_b_id": "espn_90d70961630440c3b59bb020c6eb36de",
+    "person_a_id": "person_006",
+    "person_b_id": "person_002",
     "games": 24,
     "person_a_wins": 13,
     "person_b_wins": 11,
@@ -306,14 +306,14 @@
     "person_b_name": "David Yates"
   },
   {
-    "person_a_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
-    "person_b_id": "espn_92ddd17878d644ed9d48487debbb6801",
+    "person_a_id": "person_006",
+    "person_b_id": "person_010",
     "games": 1,
     "person_a_wins": 1,
     "person_b_wins": 0,
     "ties": 0,
-    "person_a_points_for": 91.0,
-    "person_b_points_for": 82.0,
+    "person_a_points_for": 91,
+    "person_b_points_for": 82,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 1,
@@ -323,8 +323,8 @@
     "person_b_name": "Dex Doyle"
   },
   {
-    "person_a_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
-    "person_b_id": "espn_96f0556caec04058a8ed59682ed5a33d",
+    "person_a_id": "person_006",
+    "person_b_id": "person_004",
     "games": 23,
     "person_a_wins": 8,
     "person_b_wins": 15,
@@ -340,8 +340,8 @@
     "person_b_name": "Chris Smith"
   },
   {
-    "person_a_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
-    "person_b_id": "espn_9c0c1c2669ce43f5b65102d1e36b8d0b",
+    "person_a_id": "person_006",
+    "person_b_id": "person_025",
     "games": 4,
     "person_a_wins": 3,
     "person_b_wins": 1,
@@ -357,8 +357,8 @@
     "person_b_name": "Oscar Canales"
   },
   {
-    "person_a_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
-    "person_b_id": "espn_9ddf54272f2143ed9d5808bfb7400a96",
+    "person_a_id": "person_006",
+    "person_b_id": "person_023",
     "games": 4,
     "person_a_wins": 3,
     "person_b_wins": 1,
@@ -374,14 +374,14 @@
     "person_b_name": "Nicole Carlson"
   },
   {
-    "person_a_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
-    "person_b_id": "espn_9e6adcd9fd68496293cd68dd623d791d",
+    "person_a_id": "person_006",
+    "person_b_id": "person_013",
     "games": 1,
     "person_a_wins": 1,
     "person_b_wins": 0,
     "ties": 0,
-    "person_a_points_for": 106.0,
-    "person_b_points_for": 81.0,
+    "person_a_points_for": 106,
+    "person_b_points_for": 81,
     "first_season": 2012,
     "last_season": 2012,
     "regular_season_games": 1,
@@ -391,14 +391,14 @@
     "person_b_name": "Robbie Law"
   },
   {
-    "person_a_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
-    "person_b_id": "espn_b8d9ff7f8eb74694a6ed72dfa21e8e28",
+    "person_a_id": "person_006",
+    "person_b_id": "person_005",
     "games": 2,
     "person_a_wins": 1,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 235.0,
-    "person_b_points_for": 210.0,
+    "person_a_points_for": 235,
+    "person_b_points_for": 210,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 2,
@@ -408,8 +408,8 @@
     "person_b_name": "Zach Davis"
   },
   {
-    "person_a_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
-    "person_b_id": "espn_c733909ee06a42ecb6e3e8ba8984f079",
+    "person_a_id": "person_006",
+    "person_b_id": "person_018",
     "games": 7,
     "person_a_wins": 5,
     "person_b_wins": 2,
@@ -425,14 +425,14 @@
     "person_b_name": "Alex Boeckler"
   },
   {
-    "person_a_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
-    "person_b_id": "espn_c7ebdf32bccd4649abdf32bccd8649f0",
+    "person_a_id": "person_006",
+    "person_b_id": "person_016",
     "games": 2,
     "person_a_wins": 1,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 226.0,
-    "person_b_points_for": 164.0,
+    "person_a_points_for": 226,
+    "person_b_points_for": 164,
     "first_season": 2014,
     "last_season": 2015,
     "regular_season_games": 2,
@@ -442,8 +442,8 @@
     "person_b_name": "Jeremy Ramlagan"
   },
   {
-    "person_a_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
-    "person_b_id": "espn_c996a1d4280b42eea48f424b8a27bb53",
+    "person_a_id": "person_006",
+    "person_b_id": "person_015",
     "games": 15,
     "person_a_wins": 4,
     "person_b_wins": 11,
@@ -459,8 +459,8 @@
     "person_b_name": "Ryan Cassidy"
   },
   {
-    "person_a_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
-    "person_b_id": "espn_cbaa1dd7e6674a3daa1dd7e667ea3d25",
+    "person_a_id": "person_006",
+    "person_b_id": "person_020",
     "games": 9,
     "person_a_wins": 3,
     "person_b_wins": 6,
@@ -476,14 +476,14 @@
     "person_b_name": "Brittany Chairs"
   },
   {
-    "person_a_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
-    "person_b_id": "espn_cc1c39b46abd4d1e9c39b46abd8d1edb",
+    "person_a_id": "person_006",
+    "person_b_id": "person_014",
     "games": 7,
     "person_a_wins": 4,
     "person_b_wins": 3,
     "ties": 0,
-    "person_a_points_for": 767.0,
-    "person_b_points_for": 746.0,
+    "person_a_points_for": 767,
+    "person_b_points_for": 746,
     "first_season": 2012,
     "last_season": 2016,
     "regular_season_games": 5,
@@ -493,14 +493,14 @@
     "person_b_name": "Jason Weisberg"
   },
   {
-    "person_a_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
-    "person_b_id": "espn_d357bfe24dd640f097bfe24dd690f0e7",
+    "person_a_id": "person_006",
+    "person_b_id": "person_017",
     "games": 1,
     "person_a_wins": 0,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 91.0,
-    "person_b_points_for": 125.0,
+    "person_a_points_for": 91,
+    "person_b_points_for": 125,
     "first_season": 2016,
     "last_season": 2016,
     "regular_season_games": 1,
@@ -510,13 +510,13 @@
     "person_b_name": "Max Spitalny"
   },
   {
-    "person_a_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_006",
+    "person_b_id": "person_007",
     "games": 19,
     "person_a_wins": 8,
     "person_b_wins": 11,
     "ties": 0,
-    "person_a_points_for": 2044.0,
+    "person_a_points_for": 2044,
     "person_b_points_for": 2051.9599999999996,
     "first_season": 2011,
     "last_season": 2022,
@@ -527,7 +527,7 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_0f7f0d1e09f7468eb4fc33ea1bed6c34",
+    "person_a_id": "person_006",
     "person_b_id": "person_001",
     "games": 12,
     "person_a_wins": 5,
@@ -544,8 +544,8 @@
     "person_b_name": "Chris Jackson"
   },
   {
-    "person_a_id": "espn_1b307fc2d84e4962bcf11a2daab52bee",
-    "person_b_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
+    "person_a_id": "person_022",
+    "person_b_id": "person_009",
     "games": 3,
     "person_a_wins": 0,
     "person_b_wins": 3,
@@ -561,8 +561,8 @@
     "person_b_name": "Charlie Marks"
   },
   {
-    "person_a_id": "espn_1b307fc2d84e4962bcf11a2daab52bee",
-    "person_b_id": "espn_55540c8225724955940c8225723955e3",
+    "person_a_id": "person_022",
+    "person_b_id": "person_021",
     "games": 2,
     "person_a_wins": 0,
     "person_b_wins": 2,
@@ -578,8 +578,8 @@
     "person_b_name": "Andrew Carlson"
   },
   {
-    "person_a_id": "espn_1b307fc2d84e4962bcf11a2daab52bee",
-    "person_b_id": "espn_5c772829a646413e8a8088ebfb82dc74",
+    "person_a_id": "person_022",
+    "person_b_id": "person_019",
     "games": 4,
     "person_a_wins": 4,
     "person_b_wins": 0,
@@ -595,8 +595,8 @@
     "person_b_name": "Jacob Hiner"
   },
   {
-    "person_a_id": "espn_1b307fc2d84e4962bcf11a2daab52bee",
-    "person_b_id": "espn_90d70961630440c3b59bb020c6eb36de",
+    "person_a_id": "person_022",
+    "person_b_id": "person_002",
     "games": 3,
     "person_a_wins": 1,
     "person_b_wins": 2,
@@ -612,8 +612,8 @@
     "person_b_name": "David Yates"
   },
   {
-    "person_a_id": "espn_1b307fc2d84e4962bcf11a2daab52bee",
-    "person_b_id": "espn_96f0556caec04058a8ed59682ed5a33d",
+    "person_a_id": "person_022",
+    "person_b_id": "person_004",
     "games": 3,
     "person_a_wins": 2,
     "person_b_wins": 1,
@@ -629,8 +629,8 @@
     "person_b_name": "Chris Smith"
   },
   {
-    "person_a_id": "espn_1b307fc2d84e4962bcf11a2daab52bee",
-    "person_b_id": "espn_c733909ee06a42ecb6e3e8ba8984f079",
+    "person_a_id": "person_022",
+    "person_b_id": "person_018",
     "games": 3,
     "person_a_wins": 0,
     "person_b_wins": 3,
@@ -646,8 +646,8 @@
     "person_b_name": "Alex Boeckler"
   },
   {
-    "person_a_id": "espn_1b307fc2d84e4962bcf11a2daab52bee",
-    "person_b_id": "espn_c996a1d4280b42eea48f424b8a27bb53",
+    "person_a_id": "person_022",
+    "person_b_id": "person_015",
     "games": 3,
     "person_a_wins": 2,
     "person_b_wins": 1,
@@ -663,8 +663,8 @@
     "person_b_name": "Ryan Cassidy"
   },
   {
-    "person_a_id": "espn_1b307fc2d84e4962bcf11a2daab52bee",
-    "person_b_id": "espn_cbaa1dd7e6674a3daa1dd7e667ea3d25",
+    "person_a_id": "person_022",
+    "person_b_id": "person_020",
     "games": 4,
     "person_a_wins": 3,
     "person_b_wins": 1,
@@ -680,14 +680,14 @@
     "person_b_name": "Brittany Chairs"
   },
   {
-    "person_a_id": "espn_1b307fc2d84e4962bcf11a2daab52bee",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_022",
+    "person_b_id": "person_007",
     "games": 3,
     "person_a_wins": 1,
     "person_b_wins": 2,
     "ties": 0,
     "person_a_points_for": 310.32000000000005,
-    "person_b_points_for": 400.0,
+    "person_b_points_for": 400,
     "first_season": 2018,
     "last_season": 2019,
     "regular_season_games": 2,
@@ -697,7 +697,7 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_1b307fc2d84e4962bcf11a2daab52bee",
+    "person_a_id": "person_022",
     "person_b_id": "person_001",
     "games": 2,
     "person_a_wins": 0,
@@ -714,8 +714,8 @@
     "person_b_name": "Chris Jackson"
   },
   {
-    "person_a_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
-    "person_b_id": "espn_55540c8225724955940c8225723955e3",
+    "person_a_id": "person_009",
+    "person_b_id": "person_021",
     "games": 16,
     "person_a_wins": 9,
     "person_b_wins": 7,
@@ -731,14 +731,14 @@
     "person_b_name": "Andrew Carlson"
   },
   {
-    "person_a_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
-    "person_b_id": "espn_5ac92d7b18f3434c81f2a2c372f8443b",
+    "person_a_id": "person_009",
+    "person_b_id": "person_008",
     "games": 2,
     "person_a_wins": 0,
     "person_b_wins": 2,
     "ties": 0,
-    "person_a_points_for": 203.0,
-    "person_b_points_for": 212.0,
+    "person_a_points_for": 203,
+    "person_b_points_for": 212,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 2,
@@ -748,8 +748,8 @@
     "person_b_name": "Andreas Moshogianis"
   },
   {
-    "person_a_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
-    "person_b_id": "espn_5c24f9e28d594018b8037b5d72fc94b6",
+    "person_a_id": "person_009",
+    "person_b_id": "person_024",
     "games": 10,
     "person_a_wins": 4,
     "person_b_wins": 6,
@@ -765,8 +765,8 @@
     "person_b_name": "Joe Klass"
   },
   {
-    "person_a_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
-    "person_b_id": "espn_5c772829a646413e8a8088ebfb82dc74",
+    "person_a_id": "person_009",
+    "person_b_id": "person_019",
     "games": 11,
     "person_a_wins": 3,
     "person_b_wins": 8,
@@ -782,14 +782,14 @@
     "person_b_name": "Jacob Hiner"
   },
   {
-    "person_a_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
-    "person_b_id": "espn_6d193d02cac74f5eb4a25582fd5e5da3",
+    "person_a_id": "person_009",
+    "person_b_id": "person_003",
     "games": 9,
     "person_a_wins": 4,
     "person_b_wins": 5,
     "ties": 0,
-    "person_a_points_for": 899.0,
-    "person_b_points_for": 906.0,
+    "person_a_points_for": 899,
+    "person_b_points_for": 906,
     "first_season": 2011,
     "last_season": 2015,
     "regular_season_games": 8,
@@ -799,14 +799,14 @@
     "person_b_name": "Brian Oliver"
   },
   {
-    "person_a_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
-    "person_b_id": "espn_709f61471de549839f61471de5998320",
+    "person_a_id": "person_009",
+    "person_b_id": "person_012",
     "games": 1,
     "person_a_wins": 0,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 92.0,
-    "person_b_points_for": 151.0,
+    "person_a_points_for": 92,
+    "person_b_points_for": 151,
     "first_season": 2012,
     "last_season": 2012,
     "regular_season_games": 1,
@@ -816,8 +816,8 @@
     "person_b_name": "Brandon Spaeth"
   },
   {
-    "person_a_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
-    "person_b_id": "espn_90d70961630440c3b59bb020c6eb36de",
+    "person_a_id": "person_009",
+    "person_b_id": "person_002",
     "games": 21,
     "person_a_wins": 14,
     "person_b_wins": 6,
@@ -833,14 +833,14 @@
     "person_b_name": "David Yates"
   },
   {
-    "person_a_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
-    "person_b_id": "espn_92ddd17878d644ed9d48487debbb6801",
+    "person_a_id": "person_009",
+    "person_b_id": "person_010",
     "games": 2,
     "person_a_wins": 2,
     "person_b_wins": 0,
     "ties": 0,
-    "person_a_points_for": 242.0,
-    "person_b_points_for": 156.0,
+    "person_a_points_for": 242,
+    "person_b_points_for": 156,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 2,
@@ -850,8 +850,8 @@
     "person_b_name": "Dex Doyle"
   },
   {
-    "person_a_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
-    "person_b_id": "espn_96f0556caec04058a8ed59682ed5a33d",
+    "person_a_id": "person_009",
+    "person_b_id": "person_004",
     "games": 23,
     "person_a_wins": 12,
     "person_b_wins": 11,
@@ -867,8 +867,8 @@
     "person_b_name": "Chris Smith"
   },
   {
-    "person_a_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
-    "person_b_id": "espn_9c0c1c2669ce43f5b65102d1e36b8d0b",
+    "person_a_id": "person_009",
+    "person_b_id": "person_025",
     "games": 7,
     "person_a_wins": 4,
     "person_b_wins": 3,
@@ -884,8 +884,8 @@
     "person_b_name": "Oscar Canales"
   },
   {
-    "person_a_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
-    "person_b_id": "espn_9ddf54272f2143ed9d5808bfb7400a96",
+    "person_a_id": "person_009",
+    "person_b_id": "person_023",
     "games": 4,
     "person_a_wins": 2,
     "person_b_wins": 2,
@@ -901,14 +901,14 @@
     "person_b_name": "Nicole Carlson"
   },
   {
-    "person_a_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
-    "person_b_id": "espn_9e6adcd9fd68496293cd68dd623d791d",
+    "person_a_id": "person_009",
+    "person_b_id": "person_013",
     "games": 2,
     "person_a_wins": 2,
     "person_b_wins": 0,
     "ties": 0,
-    "person_a_points_for": 226.0,
-    "person_b_points_for": 119.0,
+    "person_a_points_for": 226,
+    "person_b_points_for": 119,
     "first_season": 2012,
     "last_season": 2012,
     "regular_season_games": 2,
@@ -918,8 +918,8 @@
     "person_b_name": "Robbie Law"
   },
   {
-    "person_a_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
-    "person_b_id": "espn_a0b8716a2ce14556b8716a2ce1e5568d",
+    "person_a_id": "person_009",
+    "person_b_id": "person_027",
     "games": 3,
     "person_a_wins": 1,
     "person_b_wins": 2,
@@ -935,14 +935,14 @@
     "person_b_name": "Gregory Trakas"
   },
   {
-    "person_a_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
-    "person_b_id": "espn_b8d9ff7f8eb74694a6ed72dfa21e8e28",
+    "person_a_id": "person_009",
+    "person_b_id": "person_005",
     "games": 2,
     "person_a_wins": 2,
     "person_b_wins": 0,
     "ties": 0,
-    "person_a_points_for": 288.0,
-    "person_b_points_for": 252.0,
+    "person_a_points_for": 288,
+    "person_b_points_for": 252,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 1,
@@ -952,8 +952,8 @@
     "person_b_name": "Zach Davis"
   },
   {
-    "person_a_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
-    "person_b_id": "espn_bdc4c12b724f4aa59b571905a72e4582",
+    "person_a_id": "person_009",
+    "person_b_id": "person_026",
     "games": 3,
     "person_a_wins": 0,
     "person_b_wins": 3,
@@ -969,8 +969,8 @@
     "person_b_name": "Luke Duncan"
   },
   {
-    "person_a_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
-    "person_b_id": "espn_c733909ee06a42ecb6e3e8ba8984f079",
+    "person_a_id": "person_009",
+    "person_b_id": "person_018",
     "games": 4,
     "person_a_wins": 3,
     "person_b_wins": 1,
@@ -986,14 +986,14 @@
     "person_b_name": "Alex Boeckler"
   },
   {
-    "person_a_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
-    "person_b_id": "espn_c7ebdf32bccd4649abdf32bccd8649f0",
+    "person_a_id": "person_009",
+    "person_b_id": "person_016",
     "games": 4,
     "person_a_wins": 4,
     "person_b_wins": 0,
     "ties": 0,
-    "person_a_points_for": 391.0,
-    "person_b_points_for": 253.0,
+    "person_a_points_for": 391,
+    "person_b_points_for": 253,
     "first_season": 2014,
     "last_season": 2015,
     "regular_season_games": 4,
@@ -1003,8 +1003,8 @@
     "person_b_name": "Jeremy Ramlagan"
   },
   {
-    "person_a_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
-    "person_b_id": "espn_c996a1d4280b42eea48f424b8a27bb53",
+    "person_a_id": "person_009",
+    "person_b_id": "person_015",
     "games": 18,
     "person_a_wins": 8,
     "person_b_wins": 10,
@@ -1020,8 +1020,8 @@
     "person_b_name": "Ryan Cassidy"
   },
   {
-    "person_a_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
-    "person_b_id": "espn_cbaa1dd7e6674a3daa1dd7e667ea3d25",
+    "person_a_id": "person_009",
+    "person_b_id": "person_020",
     "games": 10,
     "person_a_wins": 5,
     "person_b_wins": 5,
@@ -1037,14 +1037,14 @@
     "person_b_name": "Brittany Chairs"
   },
   {
-    "person_a_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
-    "person_b_id": "espn_cc1c39b46abd4d1e9c39b46abd8d1edb",
+    "person_a_id": "person_009",
+    "person_b_id": "person_014",
     "games": 12,
     "person_a_wins": 7,
     "person_b_wins": 5,
     "ties": 0,
-    "person_a_points_for": 1167.0,
-    "person_b_points_for": 1149.0,
+    "person_a_points_for": 1167,
+    "person_b_points_for": 1149,
     "first_season": 2012,
     "last_season": 2016,
     "regular_season_games": 9,
@@ -1054,14 +1054,14 @@
     "person_b_name": "Jason Weisberg"
   },
   {
-    "person_a_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
-    "person_b_id": "espn_d357bfe24dd640f097bfe24dd690f0e7",
+    "person_a_id": "person_009",
+    "person_b_id": "person_017",
     "games": 2,
     "person_a_wins": 1,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 204.0,
-    "person_b_points_for": 197.0,
+    "person_a_points_for": 204,
+    "person_b_points_for": 197,
     "first_season": 2016,
     "last_season": 2016,
     "regular_season_games": 1,
@@ -1071,8 +1071,8 @@
     "person_b_name": "Max Spitalny"
   },
   {
-    "person_a_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_009",
+    "person_b_id": "person_007",
     "games": 29,
     "person_a_wins": 18,
     "person_b_wins": 11,
@@ -1088,7 +1088,7 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_28f692e3e4584eccb16aeabbc6f235e6",
+    "person_a_id": "person_009",
     "person_b_id": "person_001",
     "games": 20,
     "person_a_wins": 9,
@@ -1105,8 +1105,8 @@
     "person_b_name": "Chris Jackson"
   },
   {
-    "person_a_id": "espn_55540c8225724955940c8225723955e3",
-    "person_b_id": "espn_5c24f9e28d594018b8037b5d72fc94b6",
+    "person_a_id": "person_021",
+    "person_b_id": "person_024",
     "games": 5,
     "person_a_wins": 2,
     "person_b_wins": 3,
@@ -1122,8 +1122,8 @@
     "person_b_name": "Joe Klass"
   },
   {
-    "person_a_id": "espn_55540c8225724955940c8225723955e3",
-    "person_b_id": "espn_5c772829a646413e8a8088ebfb82dc74",
+    "person_a_id": "person_021",
+    "person_b_id": "person_019",
     "games": 9,
     "person_a_wins": 5,
     "person_b_wins": 4,
@@ -1139,8 +1139,8 @@
     "person_b_name": "Jacob Hiner"
   },
   {
-    "person_a_id": "espn_55540c8225724955940c8225723955e3",
-    "person_b_id": "espn_90d70961630440c3b59bb020c6eb36de",
+    "person_a_id": "person_021",
+    "person_b_id": "person_002",
     "games": 11,
     "person_a_wins": 4,
     "person_b_wins": 7,
@@ -1156,8 +1156,8 @@
     "person_b_name": "David Yates"
   },
   {
-    "person_a_id": "espn_55540c8225724955940c8225723955e3",
-    "person_b_id": "espn_96f0556caec04058a8ed59682ed5a33d",
+    "person_a_id": "person_021",
+    "person_b_id": "person_004",
     "games": 11,
     "person_a_wins": 9,
     "person_b_wins": 2,
@@ -1173,8 +1173,8 @@
     "person_b_name": "Chris Smith"
   },
   {
-    "person_a_id": "espn_55540c8225724955940c8225723955e3",
-    "person_b_id": "espn_9c0c1c2669ce43f5b65102d1e36b8d0b",
+    "person_a_id": "person_021",
+    "person_b_id": "person_025",
     "games": 6,
     "person_a_wins": 3,
     "person_b_wins": 3,
@@ -1190,8 +1190,8 @@
     "person_b_name": "Oscar Canales"
   },
   {
-    "person_a_id": "espn_55540c8225724955940c8225723955e3",
-    "person_b_id": "espn_9ddf54272f2143ed9d5808bfb7400a96",
+    "person_a_id": "person_021",
+    "person_b_id": "person_023",
     "games": 6,
     "person_a_wins": 5,
     "person_b_wins": 1,
@@ -1207,8 +1207,8 @@
     "person_b_name": "Nicole Carlson"
   },
   {
-    "person_a_id": "espn_55540c8225724955940c8225723955e3",
-    "person_b_id": "espn_a0b8716a2ce14556b8716a2ce1e5568d",
+    "person_a_id": "person_021",
+    "person_b_id": "person_027",
     "games": 10,
     "person_a_wins": 4,
     "person_b_wins": 6,
@@ -1224,8 +1224,8 @@
     "person_b_name": "Gregory Trakas"
   },
   {
-    "person_a_id": "espn_55540c8225724955940c8225723955e3",
-    "person_b_id": "espn_bdc4c12b724f4aa59b571905a72e4582",
+    "person_a_id": "person_021",
+    "person_b_id": "person_026",
     "games": 3,
     "person_a_wins": 2,
     "person_b_wins": 1,
@@ -1241,8 +1241,8 @@
     "person_b_name": "Luke Duncan"
   },
   {
-    "person_a_id": "espn_55540c8225724955940c8225723955e3",
-    "person_b_id": "espn_c733909ee06a42ecb6e3e8ba8984f079",
+    "person_a_id": "person_021",
+    "person_b_id": "person_018",
     "games": 2,
     "person_a_wins": 2,
     "person_b_wins": 0,
@@ -1258,8 +1258,8 @@
     "person_b_name": "Alex Boeckler"
   },
   {
-    "person_a_id": "espn_55540c8225724955940c8225723955e3",
-    "person_b_id": "espn_c996a1d4280b42eea48f424b8a27bb53",
+    "person_a_id": "person_021",
+    "person_b_id": "person_015",
     "games": 15,
     "person_a_wins": 4,
     "person_b_wins": 11,
@@ -1275,8 +1275,8 @@
     "person_b_name": "Ryan Cassidy"
   },
   {
-    "person_a_id": "espn_55540c8225724955940c8225723955e3",
-    "person_b_id": "espn_cbaa1dd7e6674a3daa1dd7e667ea3d25",
+    "person_a_id": "person_021",
+    "person_b_id": "person_020",
     "games": 8,
     "person_a_wins": 4,
     "person_b_wins": 4,
@@ -1292,8 +1292,8 @@
     "person_b_name": "Brittany Chairs"
   },
   {
-    "person_a_id": "espn_55540c8225724955940c8225723955e3",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_021",
+    "person_b_id": "person_007",
     "games": 12,
     "person_a_wins": 8,
     "person_b_wins": 4,
@@ -1309,7 +1309,7 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_55540c8225724955940c8225723955e3",
+    "person_a_id": "person_021",
     "person_b_id": "person_001",
     "games": 6,
     "person_a_wins": 5,
@@ -1326,14 +1326,14 @@
     "person_b_name": "Chris Jackson"
   },
   {
-    "person_a_id": "espn_5ac92d7b18f3434c81f2a2c372f8443b",
-    "person_b_id": "espn_6d193d02cac74f5eb4a25582fd5e5da3",
+    "person_a_id": "person_008",
+    "person_b_id": "person_003",
     "games": 2,
     "person_a_wins": 2,
     "person_b_wins": 0,
     "ties": 0,
-    "person_a_points_for": 289.0,
-    "person_b_points_for": 254.0,
+    "person_a_points_for": 289,
+    "person_b_points_for": 254,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 1,
@@ -1343,14 +1343,14 @@
     "person_b_name": "Brian Oliver"
   },
   {
-    "person_a_id": "espn_5ac92d7b18f3434c81f2a2c372f8443b",
-    "person_b_id": "espn_90d70961630440c3b59bb020c6eb36de",
+    "person_a_id": "person_008",
+    "person_b_id": "person_002",
     "games": 2,
     "person_a_wins": 1,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 222.0,
-    "person_b_points_for": 334.0,
+    "person_a_points_for": 222,
+    "person_b_points_for": 334,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 1,
@@ -1360,14 +1360,14 @@
     "person_b_name": "David Yates"
   },
   {
-    "person_a_id": "espn_5ac92d7b18f3434c81f2a2c372f8443b",
-    "person_b_id": "espn_92ddd17878d644ed9d48487debbb6801",
+    "person_a_id": "person_008",
+    "person_b_id": "person_010",
     "games": 2,
     "person_a_wins": 1,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 192.0,
-    "person_b_points_for": 185.0,
+    "person_a_points_for": 192,
+    "person_b_points_for": 185,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 2,
@@ -1377,14 +1377,14 @@
     "person_b_name": "Dex Doyle"
   },
   {
-    "person_a_id": "espn_5ac92d7b18f3434c81f2a2c372f8443b",
-    "person_b_id": "espn_96f0556caec04058a8ed59682ed5a33d",
+    "person_a_id": "person_008",
+    "person_b_id": "person_004",
     "games": 1,
     "person_a_wins": 0,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 88.0,
-    "person_b_points_for": 89.0,
+    "person_a_points_for": 88,
+    "person_b_points_for": 89,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 1,
@@ -1394,14 +1394,14 @@
     "person_b_name": "Chris Smith"
   },
   {
-    "person_a_id": "espn_5ac92d7b18f3434c81f2a2c372f8443b",
-    "person_b_id": "espn_b8d9ff7f8eb74694a6ed72dfa21e8e28",
+    "person_a_id": "person_008",
+    "person_b_id": "person_005",
     "games": 1,
     "person_a_wins": 0,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 73.0,
-    "person_b_points_for": 98.0,
+    "person_a_points_for": 73,
+    "person_b_points_for": 98,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 1,
@@ -1411,14 +1411,14 @@
     "person_b_name": "Zach Davis"
   },
   {
-    "person_a_id": "espn_5ac92d7b18f3434c81f2a2c372f8443b",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_008",
+    "person_b_id": "person_007",
     "games": 2,
     "person_a_wins": 0,
     "person_b_wins": 2,
     "ties": 0,
-    "person_a_points_for": 163.0,
-    "person_b_points_for": 207.0,
+    "person_a_points_for": 163,
+    "person_b_points_for": 207,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 2,
@@ -1428,8 +1428,8 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_5c24f9e28d594018b8037b5d72fc94b6",
-    "person_b_id": "espn_5c772829a646413e8a8088ebfb82dc74",
+    "person_a_id": "person_024",
+    "person_b_id": "person_019",
     "games": 6,
     "person_a_wins": 2,
     "person_b_wins": 4,
@@ -1445,8 +1445,8 @@
     "person_b_name": "Jacob Hiner"
   },
   {
-    "person_a_id": "espn_5c24f9e28d594018b8037b5d72fc94b6",
-    "person_b_id": "espn_90d70961630440c3b59bb020c6eb36de",
+    "person_a_id": "person_024",
+    "person_b_id": "person_002",
     "games": 5,
     "person_a_wins": 3,
     "person_b_wins": 2,
@@ -1462,8 +1462,8 @@
     "person_b_name": "David Yates"
   },
   {
-    "person_a_id": "espn_5c24f9e28d594018b8037b5d72fc94b6",
-    "person_b_id": "espn_96f0556caec04058a8ed59682ed5a33d",
+    "person_a_id": "person_024",
+    "person_b_id": "person_004",
     "games": 6,
     "person_a_wins": 3,
     "person_b_wins": 3,
@@ -1479,8 +1479,8 @@
     "person_b_name": "Chris Smith"
   },
   {
-    "person_a_id": "espn_5c24f9e28d594018b8037b5d72fc94b6",
-    "person_b_id": "espn_9c0c1c2669ce43f5b65102d1e36b8d0b",
+    "person_a_id": "person_024",
+    "person_b_id": "person_025",
     "games": 11,
     "person_a_wins": 5,
     "person_b_wins": 6,
@@ -1496,8 +1496,8 @@
     "person_b_name": "Oscar Canales"
   },
   {
-    "person_a_id": "espn_5c24f9e28d594018b8037b5d72fc94b6",
-    "person_b_id": "espn_9ddf54272f2143ed9d5808bfb7400a96",
+    "person_a_id": "person_024",
+    "person_b_id": "person_023",
     "games": 2,
     "person_a_wins": 2,
     "person_b_wins": 0,
@@ -1513,8 +1513,8 @@
     "person_b_name": "Nicole Carlson"
   },
   {
-    "person_a_id": "espn_5c24f9e28d594018b8037b5d72fc94b6",
-    "person_b_id": "espn_a0b8716a2ce14556b8716a2ce1e5568d",
+    "person_a_id": "person_024",
+    "person_b_id": "person_027",
     "games": 3,
     "person_a_wins": 1,
     "person_b_wins": 2,
@@ -1530,8 +1530,8 @@
     "person_b_name": "Gregory Trakas"
   },
   {
-    "person_a_id": "espn_5c24f9e28d594018b8037b5d72fc94b6",
-    "person_b_id": "espn_bdc4c12b724f4aa59b571905a72e4582",
+    "person_a_id": "person_024",
+    "person_b_id": "person_026",
     "games": 3,
     "person_a_wins": 3,
     "person_b_wins": 0,
@@ -1547,8 +1547,8 @@
     "person_b_name": "Luke Duncan"
   },
   {
-    "person_a_id": "espn_5c24f9e28d594018b8037b5d72fc94b6",
-    "person_b_id": "espn_c996a1d4280b42eea48f424b8a27bb53",
+    "person_a_id": "person_024",
+    "person_b_id": "person_015",
     "games": 13,
     "person_a_wins": 7,
     "person_b_wins": 6,
@@ -1564,8 +1564,8 @@
     "person_b_name": "Ryan Cassidy"
   },
   {
-    "person_a_id": "espn_5c24f9e28d594018b8037b5d72fc94b6",
-    "person_b_id": "espn_cbaa1dd7e6674a3daa1dd7e667ea3d25",
+    "person_a_id": "person_024",
+    "person_b_id": "person_020",
     "games": 6,
     "person_a_wins": 3,
     "person_b_wins": 3,
@@ -1581,8 +1581,8 @@
     "person_b_name": "Brittany Chairs"
   },
   {
-    "person_a_id": "espn_5c24f9e28d594018b8037b5d72fc94b6",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_024",
+    "person_b_id": "person_007",
     "games": 7,
     "person_a_wins": 6,
     "person_b_wins": 1,
@@ -1598,7 +1598,7 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_5c24f9e28d594018b8037b5d72fc94b6",
+    "person_a_id": "person_024",
     "person_b_id": "person_001",
     "games": 4,
     "person_a_wins": 2,
@@ -1615,8 +1615,8 @@
     "person_b_name": "Chris Jackson"
   },
   {
-    "person_a_id": "espn_5c772829a646413e8a8088ebfb82dc74",
-    "person_b_id": "espn_90d70961630440c3b59bb020c6eb36de",
+    "person_a_id": "person_019",
+    "person_b_id": "person_002",
     "games": 10,
     "person_a_wins": 3,
     "person_b_wins": 7,
@@ -1632,8 +1632,8 @@
     "person_b_name": "David Yates"
   },
   {
-    "person_a_id": "espn_5c772829a646413e8a8088ebfb82dc74",
-    "person_b_id": "espn_96f0556caec04058a8ed59682ed5a33d",
+    "person_a_id": "person_019",
+    "person_b_id": "person_004",
     "games": 13,
     "person_a_wins": 8,
     "person_b_wins": 5,
@@ -1649,8 +1649,8 @@
     "person_b_name": "Chris Smith"
   },
   {
-    "person_a_id": "espn_5c772829a646413e8a8088ebfb82dc74",
-    "person_b_id": "espn_9c0c1c2669ce43f5b65102d1e36b8d0b",
+    "person_a_id": "person_019",
+    "person_b_id": "person_025",
     "games": 12,
     "person_a_wins": 7,
     "person_b_wins": 5,
@@ -1666,8 +1666,8 @@
     "person_b_name": "Oscar Canales"
   },
   {
-    "person_a_id": "espn_5c772829a646413e8a8088ebfb82dc74",
-    "person_b_id": "espn_9ddf54272f2143ed9d5808bfb7400a96",
+    "person_a_id": "person_019",
+    "person_b_id": "person_023",
     "games": 3,
     "person_a_wins": 0,
     "person_b_wins": 3,
@@ -1683,8 +1683,8 @@
     "person_b_name": "Nicole Carlson"
   },
   {
-    "person_a_id": "espn_5c772829a646413e8a8088ebfb82dc74",
-    "person_b_id": "espn_a0b8716a2ce14556b8716a2ce1e5568d",
+    "person_a_id": "person_019",
+    "person_b_id": "person_027",
     "games": 8,
     "person_a_wins": 5,
     "person_b_wins": 3,
@@ -1700,8 +1700,8 @@
     "person_b_name": "Gregory Trakas"
   },
   {
-    "person_a_id": "espn_5c772829a646413e8a8088ebfb82dc74",
-    "person_b_id": "espn_bdc4c12b724f4aa59b571905a72e4582",
+    "person_a_id": "person_019",
+    "person_b_id": "person_026",
     "games": 5,
     "person_a_wins": 1,
     "person_b_wins": 4,
@@ -1717,8 +1717,8 @@
     "person_b_name": "Luke Duncan"
   },
   {
-    "person_a_id": "espn_5c772829a646413e8a8088ebfb82dc74",
-    "person_b_id": "espn_c733909ee06a42ecb6e3e8ba8984f079",
+    "person_a_id": "person_019",
+    "person_b_id": "person_018",
     "games": 6,
     "person_a_wins": 1,
     "person_b_wins": 5,
@@ -1734,8 +1734,8 @@
     "person_b_name": "Alex Boeckler"
   },
   {
-    "person_a_id": "espn_5c772829a646413e8a8088ebfb82dc74",
-    "person_b_id": "espn_c996a1d4280b42eea48f424b8a27bb53",
+    "person_a_id": "person_019",
+    "person_b_id": "person_015",
     "games": 20,
     "person_a_wins": 7,
     "person_b_wins": 13,
@@ -1751,8 +1751,8 @@
     "person_b_name": "Ryan Cassidy"
   },
   {
-    "person_a_id": "espn_5c772829a646413e8a8088ebfb82dc74",
-    "person_b_id": "espn_cbaa1dd7e6674a3daa1dd7e667ea3d25",
+    "person_a_id": "person_019",
+    "person_b_id": "person_020",
     "games": 16,
     "person_a_wins": 4,
     "person_b_wins": 12,
@@ -1768,14 +1768,14 @@
     "person_b_name": "Brittany Chairs"
   },
   {
-    "person_a_id": "espn_5c772829a646413e8a8088ebfb82dc74",
-    "person_b_id": "espn_cc1c39b46abd4d1e9c39b46abd8d1edb",
+    "person_a_id": "person_019",
+    "person_b_id": "person_014",
     "games": 2,
     "person_a_wins": 1,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 164.0,
-    "person_b_points_for": 153.0,
+    "person_a_points_for": 164,
+    "person_b_points_for": 153,
     "first_season": 2016,
     "last_season": 2016,
     "regular_season_games": 2,
@@ -1785,14 +1785,14 @@
     "person_b_name": "Jason Weisberg"
   },
   {
-    "person_a_id": "espn_5c772829a646413e8a8088ebfb82dc74",
-    "person_b_id": "espn_d357bfe24dd640f097bfe24dd690f0e7",
+    "person_a_id": "person_019",
+    "person_b_id": "person_017",
     "games": 1,
     "person_a_wins": 1,
     "person_b_wins": 0,
     "ties": 0,
-    "person_a_points_for": 95.0,
-    "person_b_points_for": 85.0,
+    "person_a_points_for": 95,
+    "person_b_points_for": 85,
     "first_season": 2016,
     "last_season": 2016,
     "regular_season_games": 1,
@@ -1802,8 +1802,8 @@
     "person_b_name": "Max Spitalny"
   },
   {
-    "person_a_id": "espn_5c772829a646413e8a8088ebfb82dc74",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_019",
+    "person_b_id": "person_007",
     "games": 14,
     "person_a_wins": 7,
     "person_b_wins": 7,
@@ -1819,7 +1819,7 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_5c772829a646413e8a8088ebfb82dc74",
+    "person_a_id": "person_019",
     "person_b_id": "person_001",
     "games": 10,
     "person_a_wins": 4,
@@ -1836,14 +1836,14 @@
     "person_b_name": "Chris Jackson"
   },
   {
-    "person_a_id": "espn_6d193d02cac74f5eb4a25582fd5e5da3",
-    "person_b_id": "espn_709f61471de549839f61471de5998320",
+    "person_a_id": "person_003",
+    "person_b_id": "person_012",
     "games": 2,
     "person_a_wins": 2,
     "person_b_wins": 0,
     "ties": 0,
-    "person_a_points_for": 204.0,
-    "person_b_points_for": 150.0,
+    "person_a_points_for": 204,
+    "person_b_points_for": 150,
     "first_season": 2012,
     "last_season": 2012,
     "regular_season_games": 2,
@@ -1853,14 +1853,14 @@
     "person_b_name": "Brandon Spaeth"
   },
   {
-    "person_a_id": "espn_6d193d02cac74f5eb4a25582fd5e5da3",
-    "person_b_id": "espn_90d70961630440c3b59bb020c6eb36de",
+    "person_a_id": "person_003",
+    "person_b_id": "person_002",
     "games": 10,
     "person_a_wins": 7,
     "person_b_wins": 3,
     "ties": 0,
-    "person_a_points_for": 1287.0,
-    "person_b_points_for": 1046.0,
+    "person_a_points_for": 1287,
+    "person_b_points_for": 1046,
     "first_season": 2011,
     "last_season": 2015,
     "regular_season_games": 8,
@@ -1870,14 +1870,14 @@
     "person_b_name": "David Yates"
   },
   {
-    "person_a_id": "espn_6d193d02cac74f5eb4a25582fd5e5da3",
-    "person_b_id": "espn_92ddd17878d644ed9d48487debbb6801",
+    "person_a_id": "person_003",
+    "person_b_id": "person_010",
     "games": 2,
     "person_a_wins": 2,
     "person_b_wins": 0,
     "ties": 0,
-    "person_a_points_for": 301.0,
-    "person_b_points_for": 280.0,
+    "person_a_points_for": 301,
+    "person_b_points_for": 280,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 1,
@@ -1887,14 +1887,14 @@
     "person_b_name": "Dex Doyle"
   },
   {
-    "person_a_id": "espn_6d193d02cac74f5eb4a25582fd5e5da3",
-    "person_b_id": "espn_96f0556caec04058a8ed59682ed5a33d",
+    "person_a_id": "person_003",
+    "person_b_id": "person_004",
     "games": 8,
     "person_a_wins": 5,
     "person_b_wins": 3,
     "ties": 0,
-    "person_a_points_for": 833.0,
-    "person_b_points_for": 738.0,
+    "person_a_points_for": 833,
+    "person_b_points_for": 738,
     "first_season": 2011,
     "last_season": 2015,
     "regular_season_games": 8,
@@ -1904,14 +1904,14 @@
     "person_b_name": "Chris Smith"
   },
   {
-    "person_a_id": "espn_6d193d02cac74f5eb4a25582fd5e5da3",
-    "person_b_id": "espn_9e6adcd9fd68496293cd68dd623d791d",
+    "person_a_id": "person_003",
+    "person_b_id": "person_013",
     "games": 1,
     "person_a_wins": 1,
     "person_b_wins": 0,
     "ties": 0,
-    "person_a_points_for": 105.0,
-    "person_b_points_for": 57.0,
+    "person_a_points_for": 105,
+    "person_b_points_for": 57,
     "first_season": 2012,
     "last_season": 2012,
     "regular_season_games": 1,
@@ -1921,14 +1921,14 @@
     "person_b_name": "Robbie Law"
   },
   {
-    "person_a_id": "espn_6d193d02cac74f5eb4a25582fd5e5da3",
-    "person_b_id": "espn_b8d9ff7f8eb74694a6ed72dfa21e8e28",
+    "person_a_id": "person_003",
+    "person_b_id": "person_005",
     "games": 2,
     "person_a_wins": 1,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 197.0,
-    "person_b_points_for": 165.0,
+    "person_a_points_for": 197,
+    "person_b_points_for": 165,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 2,
@@ -1938,14 +1938,14 @@
     "person_b_name": "Zach Davis"
   },
   {
-    "person_a_id": "espn_6d193d02cac74f5eb4a25582fd5e5da3",
-    "person_b_id": "espn_c7ebdf32bccd4649abdf32bccd8649f0",
+    "person_a_id": "person_003",
+    "person_b_id": "person_016",
     "games": 6,
     "person_a_wins": 3,
     "person_b_wins": 3,
     "ties": 0,
-    "person_a_points_for": 506.0,
-    "person_b_points_for": 509.0,
+    "person_a_points_for": 506,
+    "person_b_points_for": 509,
     "first_season": 2014,
     "last_season": 2015,
     "regular_season_games": 4,
@@ -1955,14 +1955,14 @@
     "person_b_name": "Jeremy Ramlagan"
   },
   {
-    "person_a_id": "espn_6d193d02cac74f5eb4a25582fd5e5da3",
-    "person_b_id": "espn_c996a1d4280b42eea48f424b8a27bb53",
+    "person_a_id": "person_003",
+    "person_b_id": "person_015",
     "games": 2,
     "person_a_wins": 0,
     "person_b_wins": 2,
     "ties": 0,
-    "person_a_points_for": 158.0,
-    "person_b_points_for": 187.0,
+    "person_a_points_for": 158,
+    "person_b_points_for": 187,
     "first_season": 2014,
     "last_season": 2015,
     "regular_season_games": 2,
@@ -1972,14 +1972,14 @@
     "person_b_name": "Ryan Cassidy"
   },
   {
-    "person_a_id": "espn_6d193d02cac74f5eb4a25582fd5e5da3",
-    "person_b_id": "espn_cc1c39b46abd4d1e9c39b46abd8d1edb",
+    "person_a_id": "person_003",
+    "person_b_id": "person_014",
     "games": 7,
     "person_a_wins": 5,
     "person_b_wins": 2,
     "ties": 0,
-    "person_a_points_for": 674.0,
-    "person_b_points_for": 645.0,
+    "person_a_points_for": 674,
+    "person_b_points_for": 645,
     "first_season": 2012,
     "last_season": 2015,
     "regular_season_games": 7,
@@ -1989,14 +1989,14 @@
     "person_b_name": "Jason Weisberg"
   },
   {
-    "person_a_id": "espn_6d193d02cac74f5eb4a25582fd5e5da3",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_003",
+    "person_b_id": "person_007",
     "games": 11,
     "person_a_wins": 2,
     "person_b_wins": 9,
     "ties": 0,
-    "person_a_points_for": 1136.0,
-    "person_b_points_for": 1382.0,
+    "person_a_points_for": 1136,
+    "person_b_points_for": 1382,
     "first_season": 2011,
     "last_season": 2015,
     "regular_season_games": 8,
@@ -2006,14 +2006,14 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_6d193d02cac74f5eb4a25582fd5e5da3",
+    "person_a_id": "person_003",
     "person_b_id": "person_001",
     "games": 5,
     "person_a_wins": 0,
     "person_b_wins": 5,
     "ties": 0,
-    "person_a_points_for": 429.0,
-    "person_b_points_for": 711.0,
+    "person_a_points_for": 429,
+    "person_b_points_for": 711,
     "first_season": 2012,
     "last_season": 2015,
     "regular_season_games": 4,
@@ -2023,14 +2023,14 @@
     "person_b_name": "Chris Jackson"
   },
   {
-    "person_a_id": "espn_709f61471de549839f61471de5998320",
-    "person_b_id": "espn_90d70961630440c3b59bb020c6eb36de",
+    "person_a_id": "person_012",
+    "person_b_id": "person_002",
     "games": 2,
     "person_a_wins": 1,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 192.0,
-    "person_b_points_for": 207.0,
+    "person_a_points_for": 192,
+    "person_b_points_for": 207,
     "first_season": 2012,
     "last_season": 2012,
     "regular_season_games": 2,
@@ -2040,14 +2040,14 @@
     "person_b_name": "David Yates"
   },
   {
-    "person_a_id": "espn_709f61471de549839f61471de5998320",
-    "person_b_id": "espn_96f0556caec04058a8ed59682ed5a33d",
+    "person_a_id": "person_012",
+    "person_b_id": "person_004",
     "games": 3,
     "person_a_wins": 2,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 381.0,
-    "person_b_points_for": 370.0,
+    "person_a_points_for": 381,
+    "person_b_points_for": 370,
     "first_season": 2012,
     "last_season": 2012,
     "regular_season_games": 2,
@@ -2057,14 +2057,14 @@
     "person_b_name": "Chris Smith"
   },
   {
-    "person_a_id": "espn_709f61471de549839f61471de5998320",
-    "person_b_id": "espn_9e6adcd9fd68496293cd68dd623d791d",
+    "person_a_id": "person_012",
+    "person_b_id": "person_013",
     "games": 1,
     "person_a_wins": 1,
     "person_b_wins": 0,
     "ties": 0,
-    "person_a_points_for": 112.0,
-    "person_b_points_for": 81.0,
+    "person_a_points_for": 112,
+    "person_b_points_for": 81,
     "first_season": 2012,
     "last_season": 2012,
     "regular_season_games": 1,
@@ -2074,14 +2074,14 @@
     "person_b_name": "Robbie Law"
   },
   {
-    "person_a_id": "espn_709f61471de549839f61471de5998320",
-    "person_b_id": "espn_cc1c39b46abd4d1e9c39b46abd8d1edb",
+    "person_a_id": "person_012",
+    "person_b_id": "person_014",
     "games": 1,
     "person_a_wins": 0,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 91.0,
-    "person_b_points_for": 117.0,
+    "person_a_points_for": 91,
+    "person_b_points_for": 117,
     "first_season": 2012,
     "last_season": 2012,
     "regular_season_games": 1,
@@ -2091,14 +2091,14 @@
     "person_b_name": "Jason Weisberg"
   },
   {
-    "person_a_id": "espn_709f61471de549839f61471de5998320",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_012",
+    "person_b_id": "person_007",
     "games": 1,
     "person_a_wins": 1,
     "person_b_wins": 0,
     "ties": 0,
-    "person_a_points_for": 85.0,
-    "person_b_points_for": 75.0,
+    "person_a_points_for": 85,
+    "person_b_points_for": 75,
     "first_season": 2012,
     "last_season": 2012,
     "regular_season_games": 1,
@@ -2108,14 +2108,14 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_709f61471de549839f61471de5998320",
+    "person_a_id": "person_012",
     "person_b_id": "person_001",
     "games": 1,
     "person_a_wins": 0,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 66.0,
-    "person_b_points_for": 141.0,
+    "person_a_points_for": 66,
+    "person_b_points_for": 141,
     "first_season": 2012,
     "last_season": 2012,
     "regular_season_games": 1,
@@ -2125,14 +2125,14 @@
     "person_b_name": "Chris Jackson"
   },
   {
-    "person_a_id": "espn_90d70961630440c3b59bb020c6eb36de",
-    "person_b_id": "espn_92ddd17878d644ed9d48487debbb6801",
+    "person_a_id": "person_002",
+    "person_b_id": "person_010",
     "games": 1,
     "person_a_wins": 1,
     "person_b_wins": 0,
     "ties": 0,
-    "person_a_points_for": 85.0,
-    "person_b_points_for": 62.0,
+    "person_a_points_for": 85,
+    "person_b_points_for": 62,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 1,
@@ -2142,8 +2142,8 @@
     "person_b_name": "Dex Doyle"
   },
   {
-    "person_a_id": "espn_90d70961630440c3b59bb020c6eb36de",
-    "person_b_id": "espn_96f0556caec04058a8ed59682ed5a33d",
+    "person_a_id": "person_002",
+    "person_b_id": "person_004",
     "games": 27,
     "person_a_wins": 12,
     "person_b_wins": 14,
@@ -2159,8 +2159,8 @@
     "person_b_name": "Chris Smith"
   },
   {
-    "person_a_id": "espn_90d70961630440c3b59bb020c6eb36de",
-    "person_b_id": "espn_9c0c1c2669ce43f5b65102d1e36b8d0b",
+    "person_a_id": "person_002",
+    "person_b_id": "person_025",
     "games": 7,
     "person_a_wins": 5,
     "person_b_wins": 2,
@@ -2176,8 +2176,8 @@
     "person_b_name": "Oscar Canales"
   },
   {
-    "person_a_id": "espn_90d70961630440c3b59bb020c6eb36de",
-    "person_b_id": "espn_9ddf54272f2143ed9d5808bfb7400a96",
+    "person_a_id": "person_002",
+    "person_b_id": "person_023",
     "games": 8,
     "person_a_wins": 4,
     "person_b_wins": 4,
@@ -2193,14 +2193,14 @@
     "person_b_name": "Nicole Carlson"
   },
   {
-    "person_a_id": "espn_90d70961630440c3b59bb020c6eb36de",
-    "person_b_id": "espn_9e6adcd9fd68496293cd68dd623d791d",
+    "person_a_id": "person_002",
+    "person_b_id": "person_013",
     "games": 2,
     "person_a_wins": 2,
     "person_b_wins": 0,
     "ties": 0,
-    "person_a_points_for": 272.0,
-    "person_b_points_for": 200.0,
+    "person_a_points_for": 272,
+    "person_b_points_for": 200,
     "first_season": 2012,
     "last_season": 2012,
     "regular_season_games": 1,
@@ -2210,8 +2210,8 @@
     "person_b_name": "Robbie Law"
   },
   {
-    "person_a_id": "espn_90d70961630440c3b59bb020c6eb36de",
-    "person_b_id": "espn_a0b8716a2ce14556b8716a2ce1e5568d",
+    "person_a_id": "person_002",
+    "person_b_id": "person_027",
     "games": 4,
     "person_a_wins": 2,
     "person_b_wins": 2,
@@ -2227,14 +2227,14 @@
     "person_b_name": "Gregory Trakas"
   },
   {
-    "person_a_id": "espn_90d70961630440c3b59bb020c6eb36de",
-    "person_b_id": "espn_b8d9ff7f8eb74694a6ed72dfa21e8e28",
+    "person_a_id": "person_002",
+    "person_b_id": "person_005",
     "games": 2,
     "person_a_wins": 0,
     "person_b_wins": 2,
     "ties": 0,
-    "person_a_points_for": 161.0,
-    "person_b_points_for": 197.0,
+    "person_a_points_for": 161,
+    "person_b_points_for": 197,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 2,
@@ -2244,8 +2244,8 @@
     "person_b_name": "Zach Davis"
   },
   {
-    "person_a_id": "espn_90d70961630440c3b59bb020c6eb36de",
-    "person_b_id": "espn_bdc4c12b724f4aa59b571905a72e4582",
+    "person_a_id": "person_002",
+    "person_b_id": "person_026",
     "games": 7,
     "person_a_wins": 2,
     "person_b_wins": 5,
@@ -2261,8 +2261,8 @@
     "person_b_name": "Luke Duncan"
   },
   {
-    "person_a_id": "espn_90d70961630440c3b59bb020c6eb36de",
-    "person_b_id": "espn_c733909ee06a42ecb6e3e8ba8984f079",
+    "person_a_id": "person_002",
+    "person_b_id": "person_018",
     "games": 7,
     "person_a_wins": 5,
     "person_b_wins": 2,
@@ -2278,14 +2278,14 @@
     "person_b_name": "Alex Boeckler"
   },
   {
-    "person_a_id": "espn_90d70961630440c3b59bb020c6eb36de",
-    "person_b_id": "espn_c7ebdf32bccd4649abdf32bccd8649f0",
+    "person_a_id": "person_002",
+    "person_b_id": "person_016",
     "games": 3,
     "person_a_wins": 3,
     "person_b_wins": 0,
     "ties": 0,
-    "person_a_points_for": 304.0,
-    "person_b_points_for": 217.0,
+    "person_a_points_for": 304,
+    "person_b_points_for": 217,
     "first_season": 2014,
     "last_season": 2015,
     "regular_season_games": 2,
@@ -2295,8 +2295,8 @@
     "person_b_name": "Jeremy Ramlagan"
   },
   {
-    "person_a_id": "espn_90d70961630440c3b59bb020c6eb36de",
-    "person_b_id": "espn_c996a1d4280b42eea48f424b8a27bb53",
+    "person_a_id": "person_002",
+    "person_b_id": "person_015",
     "games": 16,
     "person_a_wins": 9,
     "person_b_wins": 7,
@@ -2312,8 +2312,8 @@
     "person_b_name": "Ryan Cassidy"
   },
   {
-    "person_a_id": "espn_90d70961630440c3b59bb020c6eb36de",
-    "person_b_id": "espn_cbaa1dd7e6674a3daa1dd7e667ea3d25",
+    "person_a_id": "person_002",
+    "person_b_id": "person_020",
     "games": 12,
     "person_a_wins": 10,
     "person_b_wins": 2,
@@ -2329,14 +2329,14 @@
     "person_b_name": "Brittany Chairs"
   },
   {
-    "person_a_id": "espn_90d70961630440c3b59bb020c6eb36de",
-    "person_b_id": "espn_cc1c39b46abd4d1e9c39b46abd8d1edb",
+    "person_a_id": "person_002",
+    "person_b_id": "person_014",
     "games": 7,
     "person_a_wins": 5,
     "person_b_wins": 2,
     "ties": 0,
-    "person_a_points_for": 766.0,
-    "person_b_points_for": 737.0,
+    "person_a_points_for": 766,
+    "person_b_points_for": 737,
     "first_season": 2012,
     "last_season": 2016,
     "regular_season_games": 6,
@@ -2346,14 +2346,14 @@
     "person_b_name": "Jason Weisberg"
   },
   {
-    "person_a_id": "espn_90d70961630440c3b59bb020c6eb36de",
-    "person_b_id": "espn_d357bfe24dd640f097bfe24dd690f0e7",
+    "person_a_id": "person_002",
+    "person_b_id": "person_017",
     "games": 2,
     "person_a_wins": 2,
     "person_b_wins": 0,
     "ties": 0,
-    "person_a_points_for": 226.0,
-    "person_b_points_for": 186.0,
+    "person_a_points_for": 226,
+    "person_b_points_for": 186,
     "first_season": 2016,
     "last_season": 2016,
     "regular_season_games": 2,
@@ -2363,8 +2363,8 @@
     "person_b_name": "Max Spitalny"
   },
   {
-    "person_a_id": "espn_90d70961630440c3b59bb020c6eb36de",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_002",
+    "person_b_id": "person_007",
     "games": 25,
     "person_a_wins": 13,
     "person_b_wins": 12,
@@ -2380,7 +2380,7 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_90d70961630440c3b59bb020c6eb36de",
+    "person_a_id": "person_002",
     "person_b_id": "person_001",
     "games": 20,
     "person_a_wins": 9,
@@ -2397,14 +2397,14 @@
     "person_b_name": "Chris Jackson"
   },
   {
-    "person_a_id": "espn_92ddd17878d644ed9d48487debbb6801",
-    "person_b_id": "espn_96f0556caec04058a8ed59682ed5a33d",
+    "person_a_id": "person_010",
+    "person_b_id": "person_004",
     "games": 1,
     "person_a_wins": 0,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 74.0,
-    "person_b_points_for": 87.0,
+    "person_a_points_for": 74,
+    "person_b_points_for": 87,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 1,
@@ -2414,14 +2414,14 @@
     "person_b_name": "Chris Smith"
   },
   {
-    "person_a_id": "espn_92ddd17878d644ed9d48487debbb6801",
-    "person_b_id": "espn_b8d9ff7f8eb74694a6ed72dfa21e8e28",
+    "person_a_id": "person_010",
+    "person_b_id": "person_005",
     "games": 1,
     "person_a_wins": 0,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 66.0,
-    "person_b_points_for": 150.0,
+    "person_a_points_for": 66,
+    "person_b_points_for": 150,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 1,
@@ -2431,14 +2431,14 @@
     "person_b_name": "Zach Davis"
   },
   {
-    "person_a_id": "espn_92ddd17878d644ed9d48487debbb6801",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_010",
+    "person_b_id": "person_007",
     "games": 2,
     "person_a_wins": 2,
     "person_b_wins": 0,
     "ties": 0,
-    "person_a_points_for": 210.0,
-    "person_b_points_for": 164.0,
+    "person_a_points_for": 210,
+    "person_b_points_for": 164,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 2,
@@ -2448,8 +2448,8 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_96f0556caec04058a8ed59682ed5a33d",
-    "person_b_id": "espn_9c0c1c2669ce43f5b65102d1e36b8d0b",
+    "person_a_id": "person_004",
+    "person_b_id": "person_025",
     "games": 6,
     "person_a_wins": 2,
     "person_b_wins": 4,
@@ -2465,8 +2465,8 @@
     "person_b_name": "Oscar Canales"
   },
   {
-    "person_a_id": "espn_96f0556caec04058a8ed59682ed5a33d",
-    "person_b_id": "espn_9ddf54272f2143ed9d5808bfb7400a96",
+    "person_a_id": "person_004",
+    "person_b_id": "person_023",
     "games": 5,
     "person_a_wins": 2,
     "person_b_wins": 3,
@@ -2482,14 +2482,14 @@
     "person_b_name": "Nicole Carlson"
   },
   {
-    "person_a_id": "espn_96f0556caec04058a8ed59682ed5a33d",
-    "person_b_id": "espn_9e6adcd9fd68496293cd68dd623d791d",
+    "person_a_id": "person_004",
+    "person_b_id": "person_013",
     "games": 2,
     "person_a_wins": 1,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 245.0,
-    "person_b_points_for": 249.0,
+    "person_a_points_for": 245,
+    "person_b_points_for": 249,
     "first_season": 2012,
     "last_season": 2012,
     "regular_season_games": 1,
@@ -2499,8 +2499,8 @@
     "person_b_name": "Robbie Law"
   },
   {
-    "person_a_id": "espn_96f0556caec04058a8ed59682ed5a33d",
-    "person_b_id": "espn_a0b8716a2ce14556b8716a2ce1e5568d",
+    "person_a_id": "person_004",
+    "person_b_id": "person_027",
     "games": 7,
     "person_a_wins": 5,
     "person_b_wins": 2,
@@ -2516,14 +2516,14 @@
     "person_b_name": "Gregory Trakas"
   },
   {
-    "person_a_id": "espn_96f0556caec04058a8ed59682ed5a33d",
-    "person_b_id": "espn_b8d9ff7f8eb74694a6ed72dfa21e8e28",
+    "person_a_id": "person_004",
+    "person_b_id": "person_005",
     "games": 3,
     "person_a_wins": 2,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 380.0,
-    "person_b_points_for": 333.0,
+    "person_a_points_for": 380,
+    "person_b_points_for": 333,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 2,
@@ -2533,8 +2533,8 @@
     "person_b_name": "Zach Davis"
   },
   {
-    "person_a_id": "espn_96f0556caec04058a8ed59682ed5a33d",
-    "person_b_id": "espn_bdc4c12b724f4aa59b571905a72e4582",
+    "person_a_id": "person_004",
+    "person_b_id": "person_026",
     "games": 3,
     "person_a_wins": 2,
     "person_b_wins": 1,
@@ -2550,8 +2550,8 @@
     "person_b_name": "Luke Duncan"
   },
   {
-    "person_a_id": "espn_96f0556caec04058a8ed59682ed5a33d",
-    "person_b_id": "espn_c733909ee06a42ecb6e3e8ba8984f079",
+    "person_a_id": "person_004",
+    "person_b_id": "person_018",
     "games": 7,
     "person_a_wins": 3,
     "person_b_wins": 4,
@@ -2567,14 +2567,14 @@
     "person_b_name": "Alex Boeckler"
   },
   {
-    "person_a_id": "espn_96f0556caec04058a8ed59682ed5a33d",
-    "person_b_id": "espn_c7ebdf32bccd4649abdf32bccd8649f0",
+    "person_a_id": "person_004",
+    "person_b_id": "person_016",
     "games": 2,
     "person_a_wins": 1,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 167.0,
-    "person_b_points_for": 172.0,
+    "person_a_points_for": 167,
+    "person_b_points_for": 172,
     "first_season": 2014,
     "last_season": 2015,
     "regular_season_games": 2,
@@ -2584,8 +2584,8 @@
     "person_b_name": "Jeremy Ramlagan"
   },
   {
-    "person_a_id": "espn_96f0556caec04058a8ed59682ed5a33d",
-    "person_b_id": "espn_c996a1d4280b42eea48f424b8a27bb53",
+    "person_a_id": "person_004",
+    "person_b_id": "person_015",
     "games": 21,
     "person_a_wins": 12,
     "person_b_wins": 9,
@@ -2601,8 +2601,8 @@
     "person_b_name": "Ryan Cassidy"
   },
   {
-    "person_a_id": "espn_96f0556caec04058a8ed59682ed5a33d",
-    "person_b_id": "espn_cbaa1dd7e6674a3daa1dd7e667ea3d25",
+    "person_a_id": "person_004",
+    "person_b_id": "person_020",
     "games": 12,
     "person_a_wins": 4,
     "person_b_wins": 8,
@@ -2618,14 +2618,14 @@
     "person_b_name": "Brittany Chairs"
   },
   {
-    "person_a_id": "espn_96f0556caec04058a8ed59682ed5a33d",
-    "person_b_id": "espn_cc1c39b46abd4d1e9c39b46abd8d1edb",
+    "person_a_id": "person_004",
+    "person_b_id": "person_014",
     "games": 8,
     "person_a_wins": 5,
     "person_b_wins": 3,
     "ties": 0,
-    "person_a_points_for": 903.0,
-    "person_b_points_for": 779.0,
+    "person_a_points_for": 903,
+    "person_b_points_for": 779,
     "first_season": 2012,
     "last_season": 2016,
     "regular_season_games": 6,
@@ -2635,14 +2635,14 @@
     "person_b_name": "Jason Weisberg"
   },
   {
-    "person_a_id": "espn_96f0556caec04058a8ed59682ed5a33d",
-    "person_b_id": "espn_d357bfe24dd640f097bfe24dd690f0e7",
+    "person_a_id": "person_004",
+    "person_b_id": "person_017",
     "games": 2,
     "person_a_wins": 1,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 144.0,
-    "person_b_points_for": 165.0,
+    "person_a_points_for": 144,
+    "person_b_points_for": 165,
     "first_season": 2016,
     "last_season": 2016,
     "regular_season_games": 2,
@@ -2652,8 +2652,8 @@
     "person_b_name": "Max Spitalny"
   },
   {
-    "person_a_id": "espn_96f0556caec04058a8ed59682ed5a33d",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_004",
+    "person_b_id": "person_007",
     "games": 26,
     "person_a_wins": 11,
     "person_b_wins": 15,
@@ -2669,7 +2669,7 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_96f0556caec04058a8ed59682ed5a33d",
+    "person_a_id": "person_004",
     "person_b_id": "person_001",
     "games": 15,
     "person_a_wins": 7,
@@ -2686,8 +2686,8 @@
     "person_b_name": "Chris Jackson"
   },
   {
-    "person_a_id": "espn_9c0c1c2669ce43f5b65102d1e36b8d0b",
-    "person_b_id": "espn_9ddf54272f2143ed9d5808bfb7400a96",
+    "person_a_id": "person_025",
+    "person_b_id": "person_023",
     "games": 4,
     "person_a_wins": 3,
     "person_b_wins": 1,
@@ -2703,8 +2703,8 @@
     "person_b_name": "Nicole Carlson"
   },
   {
-    "person_a_id": "espn_9c0c1c2669ce43f5b65102d1e36b8d0b",
-    "person_b_id": "espn_a0b8716a2ce14556b8716a2ce1e5568d",
+    "person_a_id": "person_025",
+    "person_b_id": "person_027",
     "games": 3,
     "person_a_wins": 0,
     "person_b_wins": 3,
@@ -2720,8 +2720,8 @@
     "person_b_name": "Gregory Trakas"
   },
   {
-    "person_a_id": "espn_9c0c1c2669ce43f5b65102d1e36b8d0b",
-    "person_b_id": "espn_bdc4c12b724f4aa59b571905a72e4582",
+    "person_a_id": "person_025",
+    "person_b_id": "person_026",
     "games": 6,
     "person_a_wins": 5,
     "person_b_wins": 1,
@@ -2737,8 +2737,8 @@
     "person_b_name": "Luke Duncan"
   },
   {
-    "person_a_id": "espn_9c0c1c2669ce43f5b65102d1e36b8d0b",
-    "person_b_id": "espn_c996a1d4280b42eea48f424b8a27bb53",
+    "person_a_id": "person_025",
+    "person_b_id": "person_015",
     "games": 5,
     "person_a_wins": 1,
     "person_b_wins": 4,
@@ -2754,8 +2754,8 @@
     "person_b_name": "Ryan Cassidy"
   },
   {
-    "person_a_id": "espn_9c0c1c2669ce43f5b65102d1e36b8d0b",
-    "person_b_id": "espn_cbaa1dd7e6674a3daa1dd7e667ea3d25",
+    "person_a_id": "person_025",
+    "person_b_id": "person_020",
     "games": 4,
     "person_a_wins": 4,
     "person_b_wins": 0,
@@ -2771,8 +2771,8 @@
     "person_b_name": "Brittany Chairs"
   },
   {
-    "person_a_id": "espn_9c0c1c2669ce43f5b65102d1e36b8d0b",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_025",
+    "person_b_id": "person_007",
     "games": 5,
     "person_a_wins": 2,
     "person_b_wins": 3,
@@ -2788,7 +2788,7 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_9c0c1c2669ce43f5b65102d1e36b8d0b",
+    "person_a_id": "person_025",
     "person_b_id": "person_001",
     "games": 3,
     "person_a_wins": 1,
@@ -2805,8 +2805,8 @@
     "person_b_name": "Chris Jackson"
   },
   {
-    "person_a_id": "espn_9ddf54272f2143ed9d5808bfb7400a96",
-    "person_b_id": "espn_c996a1d4280b42eea48f424b8a27bb53",
+    "person_a_id": "person_023",
+    "person_b_id": "person_015",
     "games": 3,
     "person_a_wins": 2,
     "person_b_wins": 1,
@@ -2822,8 +2822,8 @@
     "person_b_name": "Ryan Cassidy"
   },
   {
-    "person_a_id": "espn_9ddf54272f2143ed9d5808bfb7400a96",
-    "person_b_id": "espn_cbaa1dd7e6674a3daa1dd7e667ea3d25",
+    "person_a_id": "person_023",
+    "person_b_id": "person_020",
     "games": 7,
     "person_a_wins": 4,
     "person_b_wins": 3,
@@ -2839,8 +2839,8 @@
     "person_b_name": "Brittany Chairs"
   },
   {
-    "person_a_id": "espn_9ddf54272f2143ed9d5808bfb7400a96",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_023",
+    "person_b_id": "person_007",
     "games": 4,
     "person_a_wins": 3,
     "person_b_wins": 1,
@@ -2856,14 +2856,14 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_9e6adcd9fd68496293cd68dd623d791d",
-    "person_b_id": "espn_cc1c39b46abd4d1e9c39b46abd8d1edb",
+    "person_a_id": "person_013",
+    "person_b_id": "person_014",
     "games": 2,
     "person_a_wins": 0,
     "person_b_wins": 2,
     "ties": 0,
-    "person_a_points_for": 146.0,
-    "person_b_points_for": 163.0,
+    "person_a_points_for": 146,
+    "person_b_points_for": 163,
     "first_season": 2012,
     "last_season": 2012,
     "regular_season_games": 2,
@@ -2873,14 +2873,14 @@
     "person_b_name": "Jason Weisberg"
   },
   {
-    "person_a_id": "espn_9e6adcd9fd68496293cd68dd623d791d",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_013",
+    "person_b_id": "person_007",
     "games": 2,
     "person_a_wins": 0,
     "person_b_wins": 2,
     "ties": 0,
-    "person_a_points_for": 133.0,
-    "person_b_points_for": 202.0,
+    "person_a_points_for": 133,
+    "person_b_points_for": 202,
     "first_season": 2012,
     "last_season": 2012,
     "regular_season_games": 2,
@@ -2890,14 +2890,14 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_9e6adcd9fd68496293cd68dd623d791d",
+    "person_a_id": "person_013",
     "person_b_id": "person_001",
     "games": 2,
     "person_a_wins": 0,
     "person_b_wins": 2,
     "ties": 0,
-    "person_a_points_for": 149.0,
-    "person_b_points_for": 203.0,
+    "person_a_points_for": 149,
+    "person_b_points_for": 203,
     "first_season": 2012,
     "last_season": 2012,
     "regular_season_games": 2,
@@ -2907,8 +2907,8 @@
     "person_b_name": "Chris Jackson"
   },
   {
-    "person_a_id": "espn_a0b8716a2ce14556b8716a2ce1e5568d",
-    "person_b_id": "espn_bdc4c12b724f4aa59b571905a72e4582",
+    "person_a_id": "person_027",
+    "person_b_id": "person_026",
     "games": 3,
     "person_a_wins": 2,
     "person_b_wins": 1,
@@ -2924,14 +2924,14 @@
     "person_b_name": "Luke Duncan"
   },
   {
-    "person_a_id": "espn_a0b8716a2ce14556b8716a2ce1e5568d",
-    "person_b_id": "espn_c996a1d4280b42eea48f424b8a27bb53",
+    "person_a_id": "person_027",
+    "person_b_id": "person_015",
     "games": 3,
     "person_a_wins": 0,
     "person_b_wins": 3,
     "ties": 0,
     "person_a_points_for": 342.20000000000005,
-    "person_b_points_for": 446.0,
+    "person_b_points_for": 446,
     "first_season": 2023,
     "last_season": 2025,
     "regular_season_games": 3,
@@ -2941,8 +2941,8 @@
     "person_b_name": "Ryan Cassidy"
   },
   {
-    "person_a_id": "espn_a0b8716a2ce14556b8716a2ce1e5568d",
-    "person_b_id": "espn_cbaa1dd7e6674a3daa1dd7e667ea3d25",
+    "person_a_id": "person_027",
+    "person_b_id": "person_020",
     "games": 1,
     "person_a_wins": 0,
     "person_b_wins": 1,
@@ -2958,8 +2958,8 @@
     "person_b_name": "Brittany Chairs"
   },
   {
-    "person_a_id": "espn_a0b8716a2ce14556b8716a2ce1e5568d",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_027",
+    "person_b_id": "person_007",
     "games": 4,
     "person_a_wins": 1,
     "person_b_wins": 3,
@@ -2975,7 +2975,7 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_a0b8716a2ce14556b8716a2ce1e5568d",
+    "person_a_id": "person_027",
     "person_b_id": "person_001",
     "games": 2,
     "person_a_wins": 1,
@@ -2992,14 +2992,14 @@
     "person_b_name": "Chris Jackson"
   },
   {
-    "person_a_id": "espn_b8d9ff7f8eb74694a6ed72dfa21e8e28",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_005",
+    "person_b_id": "person_007",
     "games": 1,
     "person_a_wins": 0,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 71.0,
-    "person_b_points_for": 112.0,
+    "person_a_points_for": 71,
+    "person_b_points_for": 112,
     "first_season": 2011,
     "last_season": 2011,
     "regular_season_games": 1,
@@ -3009,8 +3009,8 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_bdc4c12b724f4aa59b571905a72e4582",
-    "person_b_id": "espn_c996a1d4280b42eea48f424b8a27bb53",
+    "person_a_id": "person_026",
+    "person_b_id": "person_015",
     "games": 6,
     "person_a_wins": 3,
     "person_b_wins": 3,
@@ -3026,8 +3026,8 @@
     "person_b_name": "Ryan Cassidy"
   },
   {
-    "person_a_id": "espn_bdc4c12b724f4aa59b571905a72e4582",
-    "person_b_id": "espn_cbaa1dd7e6674a3daa1dd7e667ea3d25",
+    "person_a_id": "person_026",
+    "person_b_id": "person_020",
     "games": 3,
     "person_a_wins": 1,
     "person_b_wins": 2,
@@ -3043,8 +3043,8 @@
     "person_b_name": "Brittany Chairs"
   },
   {
-    "person_a_id": "espn_bdc4c12b724f4aa59b571905a72e4582",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_026",
+    "person_b_id": "person_007",
     "games": 5,
     "person_a_wins": 3,
     "person_b_wins": 2,
@@ -3060,7 +3060,7 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_bdc4c12b724f4aa59b571905a72e4582",
+    "person_a_id": "person_026",
     "person_b_id": "person_001",
     "games": 4,
     "person_a_wins": 2,
@@ -3077,8 +3077,8 @@
     "person_b_name": "Chris Jackson"
   },
   {
-    "person_a_id": "espn_c733909ee06a42ecb6e3e8ba8984f079",
-    "person_b_id": "espn_c996a1d4280b42eea48f424b8a27bb53",
+    "person_a_id": "person_018",
+    "person_b_id": "person_015",
     "games": 7,
     "person_a_wins": 3,
     "person_b_wins": 4,
@@ -3094,8 +3094,8 @@
     "person_b_name": "Ryan Cassidy"
   },
   {
-    "person_a_id": "espn_c733909ee06a42ecb6e3e8ba8984f079",
-    "person_b_id": "espn_cbaa1dd7e6674a3daa1dd7e667ea3d25",
+    "person_a_id": "person_018",
+    "person_b_id": "person_020",
     "games": 8,
     "person_a_wins": 4,
     "person_b_wins": 4,
@@ -3111,14 +3111,14 @@
     "person_b_name": "Brittany Chairs"
   },
   {
-    "person_a_id": "espn_c733909ee06a42ecb6e3e8ba8984f079",
-    "person_b_id": "espn_cc1c39b46abd4d1e9c39b46abd8d1edb",
+    "person_a_id": "person_018",
+    "person_b_id": "person_014",
     "games": 1,
     "person_a_wins": 1,
     "person_b_wins": 0,
     "ties": 0,
-    "person_a_points_for": 89.0,
-    "person_b_points_for": 57.0,
+    "person_a_points_for": 89,
+    "person_b_points_for": 57,
     "first_season": 2016,
     "last_season": 2016,
     "regular_season_games": 1,
@@ -3128,14 +3128,14 @@
     "person_b_name": "Jason Weisberg"
   },
   {
-    "person_a_id": "espn_c733909ee06a42ecb6e3e8ba8984f079",
-    "person_b_id": "espn_d357bfe24dd640f097bfe24dd690f0e7",
+    "person_a_id": "person_018",
+    "person_b_id": "person_017",
     "games": 1,
     "person_a_wins": 1,
     "person_b_wins": 0,
     "ties": 0,
-    "person_a_points_for": 91.0,
-    "person_b_points_for": 77.0,
+    "person_a_points_for": 91,
+    "person_b_points_for": 77,
     "first_season": 2016,
     "last_season": 2016,
     "regular_season_games": 1,
@@ -3145,8 +3145,8 @@
     "person_b_name": "Max Spitalny"
   },
   {
-    "person_a_id": "espn_c733909ee06a42ecb6e3e8ba8984f079",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_018",
+    "person_b_id": "person_007",
     "games": 6,
     "person_a_wins": 5,
     "person_b_wins": 1,
@@ -3162,7 +3162,7 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_c733909ee06a42ecb6e3e8ba8984f079",
+    "person_a_id": "person_018",
     "person_b_id": "person_001",
     "games": 4,
     "person_a_wins": 2,
@@ -3179,14 +3179,14 @@
     "person_b_name": "Chris Jackson"
   },
   {
-    "person_a_id": "espn_c7ebdf32bccd4649abdf32bccd8649f0",
-    "person_b_id": "espn_c996a1d4280b42eea48f424b8a27bb53",
+    "person_a_id": "person_016",
+    "person_b_id": "person_015",
     "games": 2,
     "person_a_wins": 1,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 158.0,
-    "person_b_points_for": 164.0,
+    "person_a_points_for": 158,
+    "person_b_points_for": 164,
     "first_season": 2014,
     "last_season": 2015,
     "regular_season_games": 2,
@@ -3196,14 +3196,14 @@
     "person_b_name": "Ryan Cassidy"
   },
   {
-    "person_a_id": "espn_c7ebdf32bccd4649abdf32bccd8649f0",
-    "person_b_id": "espn_cc1c39b46abd4d1e9c39b46abd8d1edb",
+    "person_a_id": "person_016",
+    "person_b_id": "person_014",
     "games": 5,
     "person_a_wins": 1,
     "person_b_wins": 4,
     "ties": 0,
-    "person_a_points_for": 404.0,
-    "person_b_points_for": 675.0,
+    "person_a_points_for": 404,
+    "person_b_points_for": 675,
     "first_season": 2014,
     "last_season": 2015,
     "regular_season_games": 4,
@@ -3213,14 +3213,14 @@
     "person_b_name": "Jason Weisberg"
   },
   {
-    "person_a_id": "espn_c7ebdf32bccd4649abdf32bccd8649f0",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_016",
+    "person_b_id": "person_007",
     "games": 5,
     "person_a_wins": 1,
     "person_b_wins": 4,
     "ties": 0,
-    "person_a_points_for": 436.0,
-    "person_b_points_for": 631.0,
+    "person_a_points_for": 436,
+    "person_b_points_for": 631,
     "first_season": 2014,
     "last_season": 2015,
     "regular_season_games": 4,
@@ -3230,14 +3230,14 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_c7ebdf32bccd4649abdf32bccd8649f0",
+    "person_a_id": "person_016",
     "person_b_id": "person_001",
     "games": 2,
     "person_a_wins": 0,
     "person_b_wins": 2,
     "ties": 0,
-    "person_a_points_for": 120.0,
-    "person_b_points_for": 189.0,
+    "person_a_points_for": 120,
+    "person_b_points_for": 189,
     "first_season": 2014,
     "last_season": 2015,
     "regular_season_games": 2,
@@ -3247,8 +3247,8 @@
     "person_b_name": "Chris Jackson"
   },
   {
-    "person_a_id": "espn_c996a1d4280b42eea48f424b8a27bb53",
-    "person_b_id": "espn_cbaa1dd7e6674a3daa1dd7e667ea3d25",
+    "person_a_id": "person_015",
+    "person_b_id": "person_020",
     "games": 9,
     "person_a_wins": 4,
     "person_b_wins": 5,
@@ -3264,14 +3264,14 @@
     "person_b_name": "Brittany Chairs"
   },
   {
-    "person_a_id": "espn_c996a1d4280b42eea48f424b8a27bb53",
-    "person_b_id": "espn_cc1c39b46abd4d1e9c39b46abd8d1edb",
+    "person_a_id": "person_015",
+    "person_b_id": "person_014",
     "games": 5,
     "person_a_wins": 2,
     "person_b_wins": 3,
     "ties": 0,
-    "person_a_points_for": 511.0,
-    "person_b_points_for": 425.0,
+    "person_a_points_for": 511,
+    "person_b_points_for": 425,
     "first_season": 2014,
     "last_season": 2016,
     "regular_season_games": 3,
@@ -3281,14 +3281,14 @@
     "person_b_name": "Jason Weisberg"
   },
   {
-    "person_a_id": "espn_c996a1d4280b42eea48f424b8a27bb53",
-    "person_b_id": "espn_d357bfe24dd640f097bfe24dd690f0e7",
+    "person_a_id": "person_015",
+    "person_b_id": "person_017",
     "games": 2,
     "person_a_wins": 1,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 154.0,
-    "person_b_points_for": 157.0,
+    "person_a_points_for": 154,
+    "person_b_points_for": 157,
     "first_season": 2016,
     "last_season": 2016,
     "regular_season_games": 1,
@@ -3298,8 +3298,8 @@
     "person_b_name": "Max Spitalny"
   },
   {
-    "person_a_id": "espn_c996a1d4280b42eea48f424b8a27bb53",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_015",
+    "person_b_id": "person_007",
     "games": 17,
     "person_a_wins": 9,
     "person_b_wins": 8,
@@ -3315,7 +3315,7 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_c996a1d4280b42eea48f424b8a27bb53",
+    "person_a_id": "person_015",
     "person_b_id": "person_001",
     "games": 12,
     "person_a_wins": 6,
@@ -3332,14 +3332,14 @@
     "person_b_name": "Chris Jackson"
   },
   {
-    "person_a_id": "espn_cbaa1dd7e6674a3daa1dd7e667ea3d25",
-    "person_b_id": "espn_cc1c39b46abd4d1e9c39b46abd8d1edb",
+    "person_a_id": "person_020",
+    "person_b_id": "person_014",
     "games": 1,
     "person_a_wins": 1,
     "person_b_wins": 0,
     "ties": 0,
-    "person_a_points_for": 117.0,
-    "person_b_points_for": 90.0,
+    "person_a_points_for": 117,
+    "person_b_points_for": 90,
     "first_season": 2016,
     "last_season": 2016,
     "regular_season_games": 1,
@@ -3349,14 +3349,14 @@
     "person_b_name": "Jason Weisberg"
   },
   {
-    "person_a_id": "espn_cbaa1dd7e6674a3daa1dd7e667ea3d25",
-    "person_b_id": "espn_d357bfe24dd640f097bfe24dd690f0e7",
+    "person_a_id": "person_020",
+    "person_b_id": "person_017",
     "games": 1,
     "person_a_wins": 0,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 63.0,
-    "person_b_points_for": 124.0,
+    "person_a_points_for": 63,
+    "person_b_points_for": 124,
     "first_season": 2016,
     "last_season": 2016,
     "regular_season_games": 1,
@@ -3366,8 +3366,8 @@
     "person_b_name": "Max Spitalny"
   },
   {
-    "person_a_id": "espn_cbaa1dd7e6674a3daa1dd7e667ea3d25",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_020",
+    "person_b_id": "person_007",
     "games": 13,
     "person_a_wins": 8,
     "person_b_wins": 5,
@@ -3383,7 +3383,7 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_cbaa1dd7e6674a3daa1dd7e667ea3d25",
+    "person_a_id": "person_020",
     "person_b_id": "person_001",
     "games": 6,
     "person_a_wins": 2,
@@ -3400,14 +3400,14 @@
     "person_b_name": "Chris Jackson"
   },
   {
-    "person_a_id": "espn_cc1c39b46abd4d1e9c39b46abd8d1edb",
-    "person_b_id": "espn_d357bfe24dd640f097bfe24dd690f0e7",
+    "person_a_id": "person_014",
+    "person_b_id": "person_017",
     "games": 1,
     "person_a_wins": 0,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 93.0,
-    "person_b_points_for": 104.0,
+    "person_a_points_for": 93,
+    "person_b_points_for": 104,
     "first_season": 2016,
     "last_season": 2016,
     "regular_season_games": 1,
@@ -3417,14 +3417,14 @@
     "person_b_name": "Max Spitalny"
   },
   {
-    "person_a_id": "espn_cc1c39b46abd4d1e9c39b46abd8d1edb",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_014",
+    "person_b_id": "person_007",
     "games": 9,
     "person_a_wins": 3,
     "person_b_wins": 5,
     "ties": 1,
-    "person_a_points_for": 796.0,
-    "person_b_points_for": 877.0,
+    "person_a_points_for": 796,
+    "person_b_points_for": 877,
     "first_season": 2012,
     "last_season": 2016,
     "regular_season_games": 9,
@@ -3434,14 +3434,14 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_cc1c39b46abd4d1e9c39b46abd8d1edb",
+    "person_a_id": "person_014",
     "person_b_id": "person_001",
     "games": 9,
     "person_a_wins": 3,
     "person_b_wins": 6,
     "ties": 0,
-    "person_a_points_for": 826.0,
-    "person_b_points_for": 945.0,
+    "person_a_points_for": 826,
+    "person_b_points_for": 945,
     "first_season": 2012,
     "last_season": 2016,
     "regular_season_games": 8,
@@ -3451,14 +3451,14 @@
     "person_b_name": "Chris Jackson"
   },
   {
-    "person_a_id": "espn_d357bfe24dd640f097bfe24dd690f0e7",
-    "person_b_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_017",
+    "person_b_id": "person_007",
     "games": 1,
     "person_a_wins": 0,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 82.0,
-    "person_b_points_for": 100.0,
+    "person_a_points_for": 82,
+    "person_b_points_for": 100,
     "first_season": 2016,
     "last_season": 2016,
     "regular_season_games": 1,
@@ -3468,14 +3468,14 @@
     "person_b_name": "Nicholas Christodoulou"
   },
   {
-    "person_a_id": "espn_d357bfe24dd640f097bfe24dd690f0e7",
+    "person_a_id": "person_017",
     "person_b_id": "person_001",
     "games": 2,
     "person_a_wins": 1,
     "person_b_wins": 1,
     "ties": 0,
-    "person_a_points_for": 179.0,
-    "person_b_points_for": 215.0,
+    "person_a_points_for": 179,
+    "person_b_points_for": 215,
     "first_season": 2016,
     "last_season": 2016,
     "regular_season_games": 1,
@@ -3485,7 +3485,7 @@
     "person_b_name": "Chris Jackson"
   },
   {
-    "person_a_id": "espn_d40dc6ead6744252b46ec92dbdef8a16",
+    "person_a_id": "person_007",
     "person_b_id": "person_001",
     "games": 16,
     "person_a_wins": 5,
