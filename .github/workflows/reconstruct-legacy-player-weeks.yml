@@ -6,14 +6,16 @@ on:
     branches:
       - audit/historical-player-data
     paths:
+      - data/raw/playercard_history/**
+      - data/raw/legacy_player_gamelogs/**
       - data/raw/legacy_game_summaries/**
+      - data/raw/legacy_defensive_gamelogs/**
       - data/raw/legacy_defensive_gamelogs/**
       - scripts/reconstruct_legacy_player_weeks.py
       - .github/workflows/reconstruct-legacy-player-weeks.yml
 
 permissions:
-  contents: write
-  actions: read
+  contents: read
 
 concurrency:
   group: reconstruct-legacy-player-weeks
@@ -34,22 +36,6 @@ jobs:
           ESPN_S2: ${{ secrets.ESPN_S2 }}
           ESPN_SWID: ${{ secrets.ESPN_SWID }}
         run: python scripts/reconstruct_legacy_player_weeks.py
-      - name: Commit validated weekly reconstruction data
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f data/processed/legacy_weekly_reconstruction/
-          if ! git diff --cached --quiet; then
-            git commit -m "Add reconstructed legacy weekly player points"
-            if ! git pull --rebase origin "$GITHUB_REF_NAME"; then
-              git checkout --theirs -- data/processed/legacy_weekly_reconstruction/
-              git add -f data/processed/legacy_weekly_reconstruction/
-              GIT_EDITOR=true git rebase --continue
-            fi
-            git push origin HEAD:"$GITHUB_REF_NAME"
-          else
-            echo "No legacy weekly reconstruction changes to commit"
-          fi
       - name: Upload weekly reconstruction audit
         if: always()
         uses: actions/upload-artifact@v4
