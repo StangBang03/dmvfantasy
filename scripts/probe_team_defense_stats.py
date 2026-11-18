@@ -10,6 +10,8 @@ TESTS = [
     ("team_gamelog_common", "https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/teams/33/gamelog", {"region":"us","lang":"en","season":2014}),
     ("team_schedule", "https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/33/schedule", {"season":2014}),
     ("team_statistics", "https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/33/statistics", {"season":2014}),
+    ("team_statistics_week17", "https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/33/statistics", {"season":2014,"seasontype":2,"week":17}),
+    ("team_statistics_event", "https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/33/statistics", {"season":2014,"event":400554445}),
     ("game_summary", "https://site.api.espn.com/apis/site/v2/sports/football/nfl/summary", {"event":400554445}),
     ("game_summary_playbyplay", "https://site.api.espn.com/apis/site/v2/sports/football/nfl/summary", {"event":400554445,"playbyplay":1}),
     ("scoreboard_week16_2014", "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard", {"season":2014,"seasontype":2,"week":16}),
