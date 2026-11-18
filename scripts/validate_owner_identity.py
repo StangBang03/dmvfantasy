@@ -17,10 +17,15 @@ CANONICAL_PERSON_ID = re.compile(r"^person_[0-9]{3}$")
 # variants cannot bypass the public-data privacy checks.
 FORBIDDEN_KEYS = {
     "espnids",
+    "espnid",
     "espnownerid",
     "primaryownerespnid",
+    "primaryownerid",
+    "ownerid",
+    "ownerids",
     "memberid",
     "memberids",
+    "owners",
     "swid",
     "swidid",
     "espnswid",
