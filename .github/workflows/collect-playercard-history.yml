@@ -39,7 +39,8 @@ jobs:
           git add -f data/raw/playercard_history/
           if ! git diff --cached --quiet; then
             git commit -m "Add verified ESPN player-card history archives"
-            git push origin HEAD
+            git pull --rebase origin "$GITHUB_REF_NAME"
+            git push origin HEAD:"$GITHUB_REF_NAME"
           else
             echo "No player-card archive changes to commit"
           fi
