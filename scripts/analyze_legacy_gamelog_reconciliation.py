@@ -69,24 +69,26 @@ def stat_values(raw):
     values = {
         4: ptd,
         8: int(pyd / 25),
-        15: sum(1 for _ in [1] if num(raw.get("longPassing")) >= 40 and ptd > 0),
-        16: sum(1 for _ in [1] if num(raw.get("longPassing")) >= 50 and ptd > 0),
+        15: num(raw.get("passingTouchdowns40Plus", 0)),
+        16: num(raw.get("passingTouchdowns50Plus", 0)),
+        19: num(raw.get("passing2PtConversions", 0)),
         17: 1 if 300 <= pyd < 400 else 0,
         18: 1 if pyd >= 400 else 0,
         20: num(raw.get("interceptions")),
         25: rtd,
         26: num(raw.get("rushing2PtConversions", 0)),
-        28: int(ryd / 10),
-        35: 1 if num(raw.get("longRushing")) >= 40 and rtd > 0 else 0,
-        36: 1 if num(raw.get("longRushing")) >= 50 and rtd > 0 else 0,
+        28: max(0, int(ryd / 10)),
+        35: num(raw.get("rushingTouchdowns40Plus", 0)),
+        36: num(raw.get("rushingTouchdowns50Plus", 0)),
         37: 1 if 100 <= ryd < 200 else 0,
         38: 1 if ryd >= 200 else 0,
         41: receptions,
         43: rectd,
         44: num(raw.get("receiving2PtConversions", 0)),
-        45: 1 if num(raw.get("longReception")) >= 40 and rectd > 0 else 0,
-        46: 1 if num(raw.get("longReception")) >= 50 and rectd > 0 else 0,
+        45: num(raw.get("receivingTouchdowns40Plus", 0)),
+        46: num(raw.get("receivingTouchdowns50Plus", 0)),
         48: int(recyd / 10),
+        63: num(raw.get("fumbleRecoveryTouchdowns", 0)),
         53: receptions,
         56: 1 if 100 <= recyd < 200 else 0,
         57: 1 if recyd >= 200 else 0,
@@ -208,6 +210,8 @@ def main():
                 gaps=[]
                 for item in items:
                     sid=int(item["statId"])
+                    if num(item.get("points")) == 0:
+                        continue
                     expected_stat=num(season_stats.get(str(sid),0))
                     actual_stat=per_stat_totals.get(sid,0)
                     if abs(expected_stat-actual_stat)>0.01:
