@@ -1,0 +1,53 @@
+name: Validate Owner Identity Migration
+
+on:
+  push:
+    branches:
+      - security/owner-identity-migration
+    paths:
+      - "data/processed/**"
+      - "data/analytics/**"
+      - "scripts/refresh_current_season.py"
+      - "scripts/owner_identity.py"
+      - "scripts/validate_owner_map_secret.py"
+      - "tests/**"
+      - "scripts/normalize_espn.py"
+      - "scripts/export_owner_map.py"
+      - "scripts/validate_owner_identity.py"
+      - ".github/workflows/validate-owner-identity.yml"
+  pull_request:
+    paths:
+      - "data/processed/**"
+      - "data/analytics/**"
+      - "scripts/refresh_current_season.py"
+      - "scripts/owner_identity.py"
+      - "tests/**"
+      - "scripts/normalize_espn.py"
+      - "scripts/export_owner_map.py"
+      - "scripts/validate_owner_identity.py"
+      - ".github/workflows/validate-owner-identity.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Compile Python scripts
+        run: python -m compileall -q scripts tests
+
+      - name: Test private owner mapping validation
+        run: python -m unittest discover -s tests -v
+
+      - name: Validate public owner identity data
+        run: python scripts/validate_owner_identity.py

@@ -1,0 +1,330 @@
+[
+  {
+    "season": 2011,
+    "team_id": 3
+  },
+  {
+    "season": 2011,
+    "team_id": 4
+  },
+  {
+    "season": 2011,
+    "team_id": 6
+  },
+  {
+    "season": 2011,
+    "team_id": 8
+  },
+  {
+    "season": 2012,
+    "team_id": 10
+  },
+  {
+    "season": 2012,
+    "team_id": 2
+  },
+  {
+    "season": 2012,
+    "team_id": 6
+  },
+  {
+    "season": 2012,
+    "team_id": 8
+  },
+  {
+    "season": 2013,
+    "team_id": 1
+  },
+  {
+    "season": 2013,
+    "team_id": 10
+  },
+  {
+    "season": 2013,
+    "team_id": 2
+  },
+  {
+    "season": 2013,
+    "team_id": 6
+  },
+  {
+    "season": 2014,
+    "team_id": 11
+  },
+  {
+    "season": 2014,
+    "team_id": 3
+  },
+  {
+    "season": 2014,
+    "team_id": 6
+  },
+  {
+    "season": 2014,
+    "team_id": 8
+  },
+  {
+    "season": 2015,
+    "team_id": 10
+  },
+  {
+    "season": 2015,
+    "team_id": 11
+  },
+  {
+    "season": 2015,
+    "team_id": 3
+  },
+  {
+    "season": 2015,
+    "team_id": 5
+  },
+  {
+    "season": 2015,
+    "team_id": 8
+  },
+  {
+    "season": 2015,
+    "team_id": 9
+  },
+  {
+    "season": 2016,
+    "team_id": 1
+  },
+  {
+    "season": 2016,
+    "team_id": 13
+  },
+  {
+    "season": 2016,
+    "team_id": 14
+  },
+  {
+    "season": 2016,
+    "team_id": 15
+  },
+  {
+    "season": 2016,
+    "team_id": 5
+  },
+  {
+    "season": 2016,
+    "team_id": 6
+  },
+  {
+    "season": 2017,
+    "team_id": 1
+  },
+  {
+    "season": 2017,
+    "team_id": 10
+  },
+  {
+    "season": 2017,
+    "team_id": 11
+  },
+  {
+    "season": 2017,
+    "team_id": 3
+  },
+  {
+    "season": 2017,
+    "team_id": 5
+  },
+  {
+    "season": 2017,
+    "team_id": 8
+  },
+  {
+    "season": 2018,
+    "team_id": 10
+  },
+  {
+    "season": 2018,
+    "team_id": 11
+  },
+  {
+    "season": 2018,
+    "team_id": 14
+  },
+  {
+    "season": 2018,
+    "team_id": 15
+  },
+  {
+    "season": 2018,
+    "team_id": 16
+  },
+  {
+    "season": 2018,
+    "team_id": 8
+  },
+  {
+    "season": 2019,
+    "team_id": 1
+  },
+  {
+    "season": 2019,
+    "team_id": 11
+  },
+  {
+    "season": 2019,
+    "team_id": 13
+  },
+  {
+    "season": 2019,
+    "team_id": 16
+  },
+  {
+    "season": 2019,
+    "team_id": 17
+  },
+  {
+    "season": 2019,
+    "team_id": 8
+  },
+  {
+    "season": 2020,
+    "team_id": 1
+  },
+  {
+    "season": 2020,
+    "team_id": 15
+  },
+  {
+    "season": 2020,
+    "team_id": 16
+  },
+  {
+    "season": 2020,
+    "team_id": 17
+  },
+  {
+    "season": 2020,
+    "team_id": 3
+  },
+  {
+    "season": 2020,
+    "team_id": 8
+  },
+  {
+    "season": 2021,
+    "team_id": 1
+  },
+  {
+    "season": 2021,
+    "team_id": 11
+  },
+  {
+    "season": 2021,
+    "team_id": 18
+  },
+  {
+    "season": 2021,
+    "team_id": 19
+  },
+  {
+    "season": 2021,
+    "team_id": 20
+  },
+  {
+    "season": 2021,
+    "team_id": 8
+  },
+  {
+    "season": 2022,
+    "team_id": 1
+  },
+  {
+    "season": 2022,
+    "team_id": 11
+  },
+  {
+    "season": 2022,
+    "team_id": 16
+  },
+  {
+    "season": 2022,
+    "team_id": 17
+  },
+  {
+    "season": 2022,
+    "team_id": 19
+  },
+  {
+    "season": 2022,
+    "team_id": 3
+  },
+  {
+    "season": 2023,
+    "team_id": 1
+  },
+  {
+    "season": 2023,
+    "team_id": 11
+  },
+  {
+    "season": 2023,
+    "team_id": 15
+  },
+  {
+    "season": 2023,
+    "team_id": 16
+  },
+  {
+    "season": 2023,
+    "team_id": 17
+  },
+  {
+    "season": 2023,
+    "team_id": 20
+  },
+  {
+    "season": 2024,
+    "team_id": 11
+  },
+  {
+    "season": 2024,
+    "team_id": 14
+  },
+  {
+    "season": 2024,
+    "team_id": 17
+  },
+  {
+    "season": 2024,
+    "team_id": 19
+  },
+  {
+    "season": 2024,
+    "team_id": 3
+  },
+  {
+    "season": 2024,
+    "team_id": 6
+  },
+  {
+    "season": 2025,
+    "team_id": 14
+  },
+  {
+    "season": 2025,
+    "team_id": 15
+  },
+  {
+    "season": 2025,
+    "team_id": 16
+  },
+  {
+    "season": 2025,
+    "team_id": 18
+  },
+  {
+    "season": 2025,
+    "team_id": 20
+  },
+  {
+    "season": 2025,
+    "team_id": 3
+  }
+]

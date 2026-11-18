@@ -1,0 +1,450 @@
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent
+RAW = ROOT / "data" / "raw"
+PROCESSED = ROOT / "data" / "processed"
+ANALYTICS = ROOT / "data" / "analytics"
+ALIASES = ROOT / "data" / "identity_aliases.json"
+
+START_YEAR = 2011
+END_YEAR = 2026
+
+
+def load_json(path):
+    with path.open("r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def unwrap(data):
+    # ESPN returned a one-item list wrapper in many older seasons.
+    if isinstance(data, list) and len(data) == 1 and isinstance(data[0], dict):
+        return data[0]
+    return data if isinstance(data, dict) else {}
+
+
+def raw_view(year, view):
+    return unwrap(load_json(RAW / str(year) / f"{view}.json"))
+
+
+def team_id_int(value):
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return value
+
+
+def build_person_map():
+    """
+    Returns:
+      - ESPN owner ID -> internal person_id
+      - internal person_id -> canonical person record
+
+    Confirmed manual aliases take precedence. Other ESPN identities are
+    initially treated as distinct people, but their display names are
+    populated from ESPN's member data for usability.
+    """
+    aliases = load_json(ALIASES) if ALIASES.exists() else {"people": {}}
+
+    espn_to_person = {}
+    people = {}
+
+    for person_id, person in aliases.get("people", {}).items():
+        people[person_id] = {
+            "person_id": person_id,
+            "name": person.get("name"),
+            "espn_ids": list(person.get("espn_ids", [])),
+            "notes": person.get("notes"),
+        }
+        for espn_id in person.get("espn_ids", []):
+            espn_to_person[espn_id] = person_id
+
+    return espn_to_person, people
+
+
+def season_teams(year, espn_to_person, people):
+    data = raw_view(year, "mTeam")
+    teams = data.get("teams", [])
+    members = data.get("members", [])
+
+    member_by_id = {
+        m.get("id"): m
+        for m in members
+        if m.get("id")
+    }
+
+    result = []
+
+    for t in teams:
+        team_id = team_id_int(t.get("id"))
+        owners = t.get("owners") or []
+        owner_id = owners[0] if owners else None
+
+        person_id = None
+
+        if owner_id:
+            person_id = espn_to_person.get(owner_id)
+
+            if not person_id:
+                # No manual alias exists: preserve this ESPN identity as its
+                # own person until the league owner explicitly confirms a merge.
+                person_id = (
+                    "espn_" + owner_id.strip("{}").replace("-", "").lower()
+                )
+                espn_to_person[owner_id] = person_id
+
+                member = member_by_id.get(owner_id, {})
+                first = (member.get("firstName") or "").strip()
+                last = (member.get("lastName") or "").strip()
+                display = " ".join(x for x in [first, last] if x).strip() or None
+                if not display:
+                    display = member.get("displayName") or member.get("username")
+
+                people[person_id] = {
+                    "person_id": person_id,
+                    "name": display,
+                    "espn_ids": [owner_id],
+                    "notes": (
+                        "Generated from ESPN owner ID; no manual alias merge."
+                    ),
+                }
+            else:
+                # Make sure the manually confirmed alias has every ESPN ID
+                # encountered in the raw data, without changing its identity.
+                if owner_id not in people[person_id]["espn_ids"]:
+                    people[person_id]["espn_ids"].append(owner_id)
+
+        result.append(
+            {
+                "season": year,
+                "team_id": team_id,
+                "team_name": t.get("name"),
+                "abbrev": t.get("abbrev"),
+                "espn_owner_id": owner_id,
+                "person_id": person_id,
+                "division_id": t.get("divisionId"),
+                "draft_day": t.get("draftDay"),
+                "draft_slot": (
+                    t.get("draftDay", {}).get("draftOrder")
+                    if isinstance(t.get("draftDay"), dict)
+                    else None
+                ),
+                "playoff_seed": t.get("playoffSeed"),
+                "rank": t.get("rank"),
+            }
+        )
+
+    return result
+
+def extract_matchups(year, team_lookup):
+    """
+    Normalize matchup records directly from raw ESPN mMatchupScore.
+    teamId is authoritative for ownership.
+    """
+    data = raw_view(year, "mMatchupScore")
+    schedule = data.get("schedule", [])
+
+    out = []
+
+    for m in schedule:
+        home = m.get("home") or {}
+        away = m.get("away") or {}
+
+        home_team = team_id_int(home.get("teamId")) if home.get("teamId") is not None else None
+        away_team = team_id_int(away.get("teamId")) if away.get("teamId") is not None else None
+
+        def score(side):
+            if not side:
+                return None
+            if side.get("totalPoints") is not None:
+                return side.get("totalPoints")
+            pts = side.get("pointsByScoringPeriod") or {}
+            if not pts:
+                return None
+            try:
+                return sum(float(v) for v in pts.values() if v is not None)
+            except (TypeError, ValueError):
+                return None
+
+        winner = m.get("winner")
+        if winner == "HOME":
+            winner_team_id = home_team
+        elif winner == "AWAY":
+            winner_team_id = away_team
+        else:
+            winner_team_id = None
+
+        out.append(
+            {
+                "season": year,
+                "matchup_id": m.get("id"),
+                "matchup_period_id": m.get("matchupPeriodId"),
+                "scoring_period_id": m.get("scoringPeriodId"),
+                "playoff_tier_type": m.get("playoffTierType"),
+                "winner": winner,
+                "winner_team_id": winner_team_id,
+                "home_team_id": home_team,
+                "away_team_id": away_team,
+                "home_person_id": team_lookup.get(home_team, {}).get("person_id"),
+                "away_person_id": team_lookup.get(away_team, {}).get("person_id"),
+                "home_score": score(home),
+                "away_score": score(away),
+            }
+        )
+
+    return out
+
+
+def build_championships(all_matchups):
+    championships = []
+
+    by_year = {}
+    for m in all_matchups:
+        by_year.setdefault(m["season"], []).append(m)
+
+    for year in sorted(by_year):
+        winners = [
+            m for m in by_year[year]
+            if m.get("playoff_tier_type") == "WINNERS_BRACKET"
+        ]
+
+        if not winners:
+            championships.append({
+                "season": year,
+                "status": "NO_WINNERS_BRACKET",
+                "championship_matchup_id": None,
+                "champion_team_id": None,
+                "champion_person_id": None,
+            })
+            continue
+
+        final_period = max(
+            m["matchup_period_id"]
+            for m in winners
+            if m.get("matchup_period_id") is not None
+        )
+
+        finals = [
+            m for m in winners
+            if m.get("matchup_period_id") == final_period
+        ]
+
+        # Normally there is exactly one final. If ESPN gives multiple
+        # winners-bracket records at the final period, don't guess.
+        if len(finals) != 1:
+            championships.append({
+                "season": year,
+                "status": "AMBIGUOUS_FINAL",
+                "championship_matchup_id": None,
+                "champion_team_id": None,
+                "champion_person_id": None,
+                "final_period": final_period,
+                "candidate_matchup_ids": [m["matchup_id"] for m in finals],
+            })
+            continue
+
+        final = finals[0]
+
+        if final.get("winner_team_id") is None:
+            championships.append({
+                "season": year,
+                "status": "INCOMPLETE",
+                "championship_matchup_id": final["matchup_id"],
+                "champion_team_id": None,
+                "champion_person_id": None,
+                "final_period": final_period,
+            })
+            continue
+
+        championships.append({
+            "season": year,
+            "status": "COMPLETE",
+            "championship_matchup_id": final["matchup_id"],
+            "champion_team_id": final["winner_team_id"],
+            "champion_person_id": (
+                final.get("home_person_id")
+                if final["winner"] == "HOME"
+                else final.get("away_person_id")
+            ),
+            "runner_up_team_id": (
+                final.get("away_team_id")
+                if final["winner"] == "HOME"
+                else final.get("home_team_id")
+            ),
+            "runner_up_person_id": (
+                final.get("away_person_id")
+                if final["winner"] == "HOME"
+                else final.get("home_person_id")
+            ),
+            "final_period": final_period,
+            "champion_score": (
+                final.get("home_score")
+                if final["winner"] == "HOME"
+                else final.get("away_score")
+            ),
+            "runner_up_score": (
+                final.get("away_score")
+                if final["winner"] == "HOME"
+                else final.get("home_score")
+            ),
+        })
+
+    return championships
+
+
+def build_playoff_appearances(all_matchups):
+    """
+    A team has a playoff appearance when it participates in a
+    WINNERS_BRACKET matchup. This deliberately excludes consolation-only teams.
+    """
+    rows = []
+    by_year = {}
+
+    for m in all_matchups:
+        if m.get("playoff_tier_type") != "WINNERS_BRACKET":
+            continue
+        by_year.setdefault(m["season"], set()).update(
+            x for x in (m.get("home_team_id"), m.get("away_team_id"))
+            if x is not None
+        )
+
+    for season, team_ids in sorted(by_year.items()):
+        for team_id in sorted(team_ids, key=str):
+            rows.append({"season": season, "team_id": team_id})
+
+    return rows
+
+
+def build_season_results(championships, teams):
+    team_by_year_id = {(t["season"], t["team_id"]): t for t in teams}
+    results = []
+
+    for c in championships:
+        team = team_by_year_id.get((c["season"], c.get("champion_team_id")))
+        results.append(
+            {
+                "season": c["season"],
+                "status": c["status"],
+                "champion_team_id": c.get("champion_team_id"),
+                "champion_person_id": c.get("champion_person_id"),
+                "champion_team_name": team.get("team_name") if team else None,
+                "runner_up_team_id": c.get("runner_up_team_id"),
+                "runner_up_person_id": c.get("runner_up_person_id"),
+                "runner_up_team_name": (
+                    team_by_year_id.get(
+                        (c["season"], c.get("runner_up_team_id")), {}
+                    ).get("team_name")
+                ),
+                "championship_matchup_id": c.get("championship_matchup_id"),
+            }
+        )
+
+    return results
+
+
+def build_owner_records(teams, championships, playoff_appearances):
+    """
+    Owner-level championship/playoff totals based on canonical person_id.
+    No ranking or 'best owner' conclusions are generated here.
+    """
+    stats = {}
+
+    def ensure(pid):
+        if pid:
+            stats.setdefault(
+                pid,
+                {
+                    "person_id": pid,
+                    "seasons": 0,
+                    "championships": 0,
+                    "playoff_appearances": 0,
+                },
+            )
+
+    for t in teams:
+        pid = t.get("person_id")
+        ensure(pid)
+        if pid:
+            stats[pid]["seasons"] += 1
+
+    for c in championships:
+        ensure(c.get("champion_person_id"))
+        if c.get("champion_person_id"):
+            stats[c["champion_person_id"]]["championships"] += 1
+
+    for p in playoff_appearances:
+        t = next(
+            (
+                x for x in teams
+                if x["season"] == p["season"] and x["team_id"] == p["team_id"]
+            ),
+            None,
+        )
+        if t and t.get("person_id"):
+            stats[t["person_id"]]["playoff_appearances"] += 1
+
+    return sorted(stats.values(), key=lambda x: x["person_id"])
+
+
+def main():
+    PROCESSED.mkdir(parents=True, exist_ok=True)
+    ANALYTICS.mkdir(parents=True, exist_ok=True)
+
+    espn_to_person, people = build_person_map()
+
+    teams = []
+    all_matchups = []
+
+    for year in range(START_YEAR, END_YEAR + 1):
+        year_teams = season_teams(year, espn_to_person, people)
+        teams.extend(year_teams)
+
+        lookup = {t["team_id"]: t for t in year_teams}
+        all_matchups.extend(extract_matchups(year, lookup))
+
+    championships = build_championships(all_matchups)
+    playoff_appearances = build_playoff_appearances(all_matchups)
+    season_results = build_season_results(championships, teams)
+    owner_records = build_owner_records(
+        teams, championships, playoff_appearances
+    )
+
+    def write(name, obj):
+        with name.open("w", encoding="utf-8") as f:
+            json.dump(obj, f, indent=2, ensure_ascii=False)
+            f.write("\n")
+
+    write(PROCESSED / "people.json", list(people.values()))
+    write(PROCESSED / "teams.json", teams)
+    write(PROCESSED / "matchups.json", all_matchups)
+
+    write(ANALYTICS / "championships.json", championships)
+    write(ANALYTICS / "playoff_appearances.json", playoff_appearances)
+    write(ANALYTICS / "season_results.json", season_results)
+    write(ANALYTICS / "owner_records.json", owner_records)
+
+    print("\n=== CHAMPIONSHIP BUILD ===")
+    for c in championships:
+        print(
+            c["season"],
+            c["status"],
+            "team=", c.get("champion_team_id"),
+            "person=", c.get("champion_person_id"),
+            "matchup=", c.get("championship_matchup_id"),
+        )
+
+    print("\nWrote:")
+    for p in [
+        PROCESSED / "people.json",
+        PROCESSED / "teams.json",
+        PROCESSED / "matchups.json",
+        ANALYTICS / "championships.json",
+        ANALYTICS / "playoff_appearances.json",
+        ANALYTICS / "season_results.json",
+        ANALYTICS / "owner_records.json",
+    ]:
+        print(" ", p)
+
+
+if __name__ == "__main__":
+    main()

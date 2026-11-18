@@ -1,0 +1,84 @@
+[
+  {
+    "season": 2019,
+    "scoring_period": 3,
+    "player_id": 3068267,
+    "from_team_id": 8,
+    "to_team_id": 6,
+    "transaction_id": "SUPP-2019-SP3-3068267",
+    "verification_source": "ESPN kona_playercard trade history"
+  },
+  {
+    "season": 2019,
+    "scoring_period": 3,
+    "player_id": 3120348,
+    "from_team_id": 6,
+    "to_team_id": 8,
+    "transaction_id": "SUPP-2019-SP3-3120348",
+    "verification_source": "ESPN kona_playercard trade history"
+  },
+  {
+    "season": 2019,
+    "scoring_period": 3,
+    "player_id": 4035004,
+    "from_team_id": 8,
+    "to_team_id": 6,
+    "transaction_id": "SUPP-2019-SP3-4035004",
+    "verification_source": "ESPN kona_playercard trade history"
+  },
+  {
+    "season": 2020,
+    "scoring_period": 7,
+    "player_id": -16025,
+    "from_team_id": 3,
+    "to_team_id": 15,
+    "transaction_id": "SUPP-2020-SP7--16025",
+    "verification_source": "ESPN kona_playercard trade history"
+  },
+  {
+    "season": 2020,
+    "scoring_period": 7,
+    "player_id": 4036133,
+    "from_team_id": 15,
+    "to_team_id": 3,
+    "transaction_id": "SUPP-2020-SP7-4036133",
+    "verification_source": "ESPN kona_playercard trade history"
+  },
+  {
+    "season": 2022,
+    "scoring_period": 13,
+    "player_id": 15847,
+    "from_team_id": 15,
+    "to_team_id": 8,
+    "transaction_id": "SUPP-2022-SP13-15847",
+    "verification_source": "ESPN kona_playercard trade history"
+  },
+  {
+    "season": 2022,
+    "scoring_period": 13,
+    "player_id": 4248528,
+    "from_team_id": 8,
+    "to_team_id": 15,
+    "transaction_id": "SUPP-2022-SP13-4248528",
+    "verification_source": "ESPN kona_playercard trade history"
+  },
+  {
+    "season": 2022,
+    "scoring_period": 13,
+    "player_id": 4367209,
+    "from_team_id": 8,
+    "to_team_id": 15,
+    "transaction_id": "SUPP-2022-SP13-4367209",
+    "verification_source": "ESPN kona_playercard trade history"
+  },
+  {
+    "season": 2022,
+    "scoring_period": 13,
+    "player_id": 4569173,
+    "from_team_id": 8,
+    "to_team_id": 15,
+    "transaction_id": "SUPP-2022-SP13-4569173",
+    "verification_source": "ESPN kona_playercard trade history"
+  }
+]
+
