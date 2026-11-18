@@ -7,7 +7,8 @@ on:
       - audit/historical-player-data
     paths:
       - data/raw/playercard_history/**
-      - scripts/collect_legacy_player_gamelogs.py\n      - scripts/analyze_legacy_gamelog_reconciliation.py
+      - scripts/collect_legacy_player_gamelogs.py
+      - scripts/analyze_legacy_gamelog_reconciliation.py
       - .github/workflows/collect-legacy-player-gamelogs.yml
 
 permissions:
@@ -43,6 +44,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: legacy-player-gamelogs
-          path: artifacts/legacy_player_gamelogs/\n            artifacts/legacy_gamelog_reconciliation/
+          path: |
+            artifacts/legacy_player_gamelogs/
+            artifacts/legacy_gamelog_reconciliation/
           if-no-files-found: warn
           retention-days: 30
