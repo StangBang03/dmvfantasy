@@ -15,7 +15,7 @@ permissions:
 
 concurrency:
   group: collect-playercard-history
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   collect:
@@ -39,7 +39,11 @@ jobs:
           git add -f data/raw/playercard_history/
           if ! git diff --cached --quiet; then
             git commit -m "Add verified ESPN player-card history archives"
-            git pull --rebase origin "$GITHUB_REF_NAME"
+            if ! git pull --rebase origin "$GITHUB_REF_NAME"; then
+              git checkout --theirs -- data/raw/playercard_history/
+              git add -f data/raw/playercard_history/
+              GIT_EDITOR=true git rebase --continue
+            fi
             git push origin HEAD:"$GITHUB_REF_NAME"
           else
             echo "No player-card archive changes to commit"
