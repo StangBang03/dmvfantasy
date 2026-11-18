@@ -87,11 +87,11 @@ def main():
             if (int(p.get("player_id",0))<0 or int(p.get("position_id") or 0)==16)
             and p.get("pro_team_id") is not None and int(p["pro_team_id"])>0
         }
-        existing_ids=set()
+        existing_logs={}
         existing_path=EXISTING_GAMELOG_DIR/f"legacy_player_gamelogs_{year}.json.gz"
         if existing_path.exists():
             with gzip.open(existing_path,"rt",encoding="utf-8") as f: existing=json.load(f)
-            existing_ids={int(p["player_id"]) for p in existing.get("players") or []}
+            existing_logs={int(p["player_id"]):p for p in existing.get("players") or []}
         player_map={}
         event_player_team={}
         for event in summaries.get("events") or []:
@@ -107,8 +107,8 @@ def main():
                 pid=int(player["player_id"])
                 player_map.setdefault(pid,player.get("name"))
                 event_player_team[(pid,eid)]={"team_id":int(team_id),"week":week}
-        requested=[(pid,name) for pid,name in sorted(player_map.items()) if pid not in existing_ids]
-        results=[]
+        requested=[(pid,name) for pid,name in sorted(player_map.items()) if pid not in existing_logs]
+        results=[existing_logs[pid] for pid in sorted(player_map) if pid in existing_logs]
         with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
             futures=[executor.submit(fetch_defender,year,pid,name) for pid,name in requested]
             for future in as_completed(futures): results.append(future.result())
