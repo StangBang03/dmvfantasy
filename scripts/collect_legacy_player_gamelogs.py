@@ -1,6 +1,7 @@
 import gzip
 import json
 import os
+import shutil
 import threading
 import time
 from collections import Counter
@@ -11,6 +12,7 @@ import requests
 
 ARCHIVE_DIR = Path("data/raw/playercard_history")
 OUT = Path("artifacts/legacy_player_gamelogs")
+RAW_OUT = Path("data/raw/legacy_player_gamelogs")
 GAMEL0G_BASE = "https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/athletes"
 YEARS = range(2011, 2018)
 MAX_WORKERS = 6
@@ -103,6 +105,7 @@ def fetch_player(year, player):
 
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
+    RAW_OUT.mkdir(parents=True, exist_ok=True)
     audit = {"source": str(ARCHIVE_DIR), "seasons": {}, "errors": []}
     for year in YEARS:
         archive_path = ARCHIVE_DIR / f"playercard_{year}.json.gz"
@@ -154,8 +157,10 @@ def main():
             },
             "players": results,
         }
-        with gzip.open(OUT / f"legacy_player_gamelogs_{year}.json.gz", "wt", encoding="utf-8") as f:
+        raw_path = RAW_OUT / f"legacy_player_gamelogs_{year}.json.gz"
+        with gzip.open(raw_path, "wt", encoding="utf-8") as f:
             json.dump(output, f, ensure_ascii=False, separators=(",", ":"))
+        shutil.copy2(raw_path, OUT / raw_path.name)
         audit["seasons"][str(year)] = {
             "player_ids_requested": len(players),
             "http_status_counts": dict(status_counts),
@@ -165,7 +170,9 @@ def main():
             "event_rows_by_week": dict(sorted(week_counts.items())),
         }
         print(f"{year}: players={len(players)} statuses={dict(status_counts)} event rows={total_events} empty={len(empty)} failed={len(failed)}")
-    (OUT / "legacy_player_gamelog_audit.json").write_text(json.dumps(audit, indent=2), encoding="utf-8")
+    audit_text = json.dumps(audit, indent=2)
+    (OUT / "legacy_player_gamelog_audit.json").write_text(audit_text, encoding="utf-8")
+    (RAW_OUT / "legacy_player_gamelog_audit.json").write_text(audit_text, encoding="utf-8")
 
 
 if __name__ == "__main__":
