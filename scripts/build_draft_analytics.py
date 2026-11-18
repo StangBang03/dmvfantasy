@@ -410,7 +410,7 @@ fd, temp_name = tempfile.mkstemp(
 try:
     with os.fdopen(fd, "w", encoding="utf-8") as f:
         json.dump(output, f, indent=2, ensure_ascii=False)
-        f.write("\\n")
+        f.write("\n")
         f.flush()
         os.fsync(f.fileno())
     os.replace(temp_name, out)
