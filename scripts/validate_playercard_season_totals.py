@@ -1,7 +1,7 @@
 import gzip
 import json
 import os
-from collections import Counter, defaultdict
+from collections import Counter
 from pathlib import Path
 
 import requests
@@ -35,7 +35,6 @@ def calculate(record,items):
     stats=record.get("season_stats") or {}
     is_dst=int(record.get("position_id") or 0)==16
     total=0.0
-    missing=[]
     details=[]
     for item in items:
         try: stat_id=int(item["statId"])
@@ -67,7 +66,9 @@ def main():
             items=scoring.get("scoringItems") or []
             mismatches=[]
             missing_totals=[]
+            weekly_mismatches=[]
             matched=0
+            weekly_matched=0
             position_counts=Counter()
             for player in archive.get("players") or []:
                 position=int(player.get("position_id") or 0)
@@ -89,16 +90,32 @@ def main():
                         "difference":round(float(expected)-calculated,4),
                         "nonzero_scoring_items":details,
                     })
+                weeks=player.get("weeks") or {}
+                if weeks:
+                    weekly_sum=sum(float((week or {}).get("fantasy_points") or 0) for week in weeks.values())
+                    if abs(weekly_sum-float(expected))<=0.02:
+                        weekly_matched+=1
+                    else:
+                        weekly_mismatches.append({
+                            "player_id":player.get("player_id"),
+                            "name":player.get("player_name"),
+                            "season_total":expected,
+                            "weekly_sum":round(weekly_sum,4),
+                            "difference":round(float(expected)-weekly_sum,4),
+                        })
             report["seasons"][str(year)]={
                 "player_count":len(archive.get("players") or []),
                 "scoring_items":len(items),
                 "matched_totals":matched,
                 "mismatch_count":len(mismatches),
+                "weekly_sum_matches":weekly_matched,
+                "weekly_sum_mismatch_count":len(weekly_mismatches),
+                "weekly_sum_mismatch_sample":weekly_mismatches[:30],
                 "missing_season_totals":missing_totals,
                 "position_counts":dict(position_counts),
                 "mismatch_sample":mismatches[:30],
             }
-            print(f"{year}: players={len(archive.get('players') or [])}; scoring items={len(items)}; matched={matched}; mismatches={len(mismatches)}; missing totals={len(missing_totals)}")
+            print(f"{year}: players={len(archive.get('players') or [])}; scoring items={len(items)}; matched={matched}; mismatches={len(mismatches)}; weekly matches={weekly_matched}; weekly mismatches={len(weekly_mismatches)}; missing totals={len(missing_totals)}")
         except Exception as exc:
             report["errors"].append({"season":year,"error":f"{type(exc).__name__}: {exc}"})
             print(f"{year}: ERROR {type(exc).__name__}: {exc}")
