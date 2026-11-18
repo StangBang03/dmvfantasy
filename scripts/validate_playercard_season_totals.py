@@ -105,6 +105,8 @@ def main():
                         })
             report["seasons"][str(year)]={
                 "player_count":len(archive.get("players") or []),
+                "roster_history_rows":len(archive.get("roster_history") or []),
+                "players_with_weekly_stats":sum(1 for p in archive.get("players") or [] if p.get("weeks")),
                 "scoring_items":len(items),
                 "matched_totals":matched,
                 "mismatch_count":len(mismatches),
