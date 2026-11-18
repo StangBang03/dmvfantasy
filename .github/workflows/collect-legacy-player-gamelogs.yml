@@ -1,0 +1,43 @@
+name: Collect Legacy ESPN Player Gamelogs
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - audit/historical-player-data
+    paths:
+      - data/raw/playercard_history/**
+      - scripts/collect_legacy_player_gamelogs.py
+      - .github/workflows/collect-legacy-player-gamelogs.yml
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: collect-legacy-player-gamelogs
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --upgrade pip requests
+      - name: Collect historical player game logs
+        env:
+          ESPN_S2: ${{ secrets.ESPN_S2 }}
+          ESPN_SWID: ${{ secrets.ESPN_SWID }}
+        run: python scripts/collect_legacy_player_gamelogs.py
+      - name: Upload legacy player gamelog audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: legacy-player-gamelogs
+          path: artifacts/legacy_player_gamelogs/
+          if-no-files-found: warn
+          retention-days: 30
