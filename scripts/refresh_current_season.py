@@ -7,6 +7,8 @@ from pathlib import Path
 
 import requests
 
+from owner_identity import load_owner_map
+
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 PROCESSED = DATA / "processed"
@@ -55,38 +57,10 @@ def fetch_view(view):
 def norm_id(value):
     return str(value).strip() if value is not None else None
 
-def load_owner_map(people):
-    """Load the private ESPN-member-ID -> canonical-person mapping."""
-    raw = os.getenv("ESPN_OWNER_MAP_JSON")
-    if not raw:
-        raise RuntimeError("Missing ESPN_OWNER_MAP_JSON GitHub Actions secret.")
-    try:
-        payload = json.loads(raw)
-    except json.JSONDecodeError as exc:
-        raise RuntimeError("ESPN_OWNER_MAP_JSON is not valid JSON.") from exc
-    if not isinstance(payload, dict) or not payload:
-        raise RuntimeError("ESPN_OWNER_MAP_JSON must be a non-empty JSON object.")
-    known_people = {person["person_id"] for person in people}
-    owner_to_person = {}
-    for espn_id, person_id in payload.items():
-        key = norm_id(espn_id)
-        if not key or not isinstance(person_id, str) or person_id not in known_people:
-            raise RuntimeError("ESPN_OWNER_MAP_JSON contains an invalid owner mapping.")
-        key = key.upper()
-        if key in owner_to_person and owner_to_person[key] != person_id:
-            raise RuntimeError("ESPN_OWNER_MAP_JSON contains conflicting owner mappings.")
-        owner_to_person[key] = person_id
-    unmapped_people = known_people - set(owner_to_person.values())
-    if unmapped_people:
-        raise RuntimeError(
-            f"{len(unmapped_people)} canonical owner(s) have no private ESPN identity mapping."
-        )
-    return owner_to_person
-
 def main():
     PROCESSED.mkdir(parents=True, exist_ok=True)
     people = read_json(PROCESSED / "people.json")
-    owner_to_person = load_owner_map(people)
+    owner_to_person = load_owner_map(people, os.getenv("ESPN_OWNER_MAP_JSON"))
     teams_all = read_json(PROCESSED / "teams.json")
     matchups_all = read_json(PROCESSED / "matchups.json")
     standings_all = read_json(PROCESSED / "standings.json")
