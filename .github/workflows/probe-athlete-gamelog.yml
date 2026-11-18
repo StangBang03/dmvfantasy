@@ -26,8 +26,11 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
-      - run: python -m pip install --upgrade pip requests
-      - name: Probe NFL athlete gamelogs
+      - run: python -m pip install --upgrade pip requests python-dotenv
+      - name: Probe NFL athlete gamelogs and league settings
+        env:
+          ESPN_S2: ${{ secrets.ESPN_S2 }}
+          ESPN_SWID: ${{ secrets.ESPN_SWID }}
         run: python scripts/probe_athlete_gamelog.py
       - name: Upload athlete gamelog probe
         if: always()
