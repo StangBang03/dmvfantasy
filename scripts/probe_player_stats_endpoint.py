@@ -31,17 +31,20 @@ session.headers.update({
 
 
 def unwrap(value):
-    if isinstance(value, list):
-        return value[0] if value and isinstance(value[0], dict) else {}
+    if isinstance(value, list) and len(value) == 1 and isinstance(value[0], dict) and "players" in value[0]:
+        return value[0]
     return value if isinstance(value, dict) else {}
 
 
-def inspect_players(payload):
+def inspect_players(payload, target_week):
     data = unwrap(payload)
-    players = data.get("players") or []
+    if isinstance(payload, list) and payload and not (len(payload) == 1 and isinstance(payload[0], dict) and "players" in payload[0]):
+        players = payload
+    else:
+        players = data.get("players") or []
     out = []
     periods = Counter()
-    for item in players[:30]:
+    for item in players[:100]:
         if not isinstance(item, dict):
             continue
         player = item.get("player") or item
@@ -57,6 +60,7 @@ def inspect_players(payload):
                     "appliedTotal": stat.get("appliedTotal"),
                     "statSourceId": stat.get("statSourceId"),
                     "statSplitTypeId": stat.get("statSplitTypeId"),
+                    "stats": stat.get("stats") or {},
                 })
         out.append({
             "pool_entry_id": item.get("id"),
@@ -70,11 +74,13 @@ def inspect_players(payload):
             "top_keys": list(item.keys())[:20],
             "player_keys": list(player.keys())[:20],
         })
+    target_count = sum(1 for row in out for stat in row["weekly_actual"] if stat["scoringPeriodId"] == target_week)
     return {
-        "top_keys": list(data.keys())[:40],
-        "players_count": len(players),
+        "top_keys": list(data.keys())[:40] if isinstance(data, dict) else [],
+        "players_count": len(players) if isinstance(players, list) else None,
         "weekly_actual_period_counts": dict(periods),
-        "samples": out[:5],
+        "target_week_sample_count": target_count,
+        "samples": out[:10],
     }
 
 
@@ -82,7 +88,7 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     results = []
     for year, target_week in CASES:
-        query_period = target_week + 1
+        query_period = target_week
         tests = [
             ("players_wl_subpath", f"{BASE}/seasons/{year}/players", [("view", "players_wl"), ("scoringPeriodId", str(query_period))]),
             ("kona_players_subpath", f"{BASE}/seasons/{year}/players", [("view", "kona_player_info"), ("scoringPeriodId", str(query_period))]),
@@ -102,7 +108,7 @@ def main():
             }
             if response.status_code == 200:
                 try:
-                    result.update(inspect_players(response.json()))
+                    result.update(inspect_players(response.json(), target_week))
                 except Exception as exc:
                     result["parse_error"] = f"{type(exc).__name__}: {exc}"
                     result["body_sample"] = response.text[:500]
@@ -110,7 +116,7 @@ def main():
                 result["body_sample"] = response.text[:500]
             results.append(result)
             print(
-                f"{year} target week {target_week} {label}: HTTP {response.status_code}; "
+                f"{year} SP{target_week} {label}: HTTP {response.status_code}; "
                 f"bytes={result['response_bytes']}; players={result.get('players_count')}; "
                 f"weekly_actual={result.get('weekly_actual_period_counts')}"
             )
