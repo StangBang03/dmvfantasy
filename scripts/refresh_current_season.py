@@ -2,7 +2,6 @@
 """Refresh the current ESPN fantasy football season without touching history."""
 import json
 import os
-import re
 import time
 from pathlib import Path
 
@@ -56,6 +55,29 @@ def fetch_view(view):
 def norm_id(value):
     return str(value).strip() if value is not None else None
 
+def load_owner_map(people):
+    """Load the private ESPN-member-ID -> canonical-person mapping."""
+    raw = os.getenv("ESPN_OWNER_MAP_JSON")
+    if not raw:
+        raise RuntimeError("Missing ESPN_OWNER_MAP_JSON GitHub Actions secret.")
+    try:
+        payload = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise RuntimeError("ESPN_OWNER_MAP_JSON is not valid JSON.") from exc
+    if not isinstance(payload, dict) or not payload:
+        raise RuntimeError("ESPN_OWNER_MAP_JSON must be a non-empty JSON object.")
+    known_people = {person["person_id"] for person in people}
+    owner_to_person = {}
+    for espn_id, person_id in payload.items():
+        key = norm_id(espn_id)
+        if not key or not isinstance(person_id, str) or person_id not in known_people:
+            raise RuntimeError("ESPN_OWNER_MAP_JSON contains an invalid owner mapping.")
+        key = key.upper()
+        if key in owner_to_person and owner_to_person[key] != person_id:
+            raise RuntimeError("ESPN_OWNER_MAP_JSON contains conflicting owner mappings.")
+        owner_to_person[key] = person_id
+    return owner_to_person
+
 def main():
     PROCESSED.mkdir(parents=True, exist_ok=True)
     people = read_json(PROCESSED / "people.json")
@@ -71,30 +93,18 @@ def main():
     matchup_view = fetch_view("mMatchupScore")
     draft_view = fetch_view("mDraftDetail")
 
-    owner_to_person = {}
-    for person in people:
-        for espn_id in person.get("espn_ids", []):
-            owner_to_person[norm_id(espn_id).upper()] = person["person_id"]
-
-    used_person_ids = {p["person_id"] for p in people}
-    for member in team_view.get("members", []):
-        owner_id = norm_id(member.get("id"))
-        if not owner_id:
-            continue
-        key = owner_id.upper()
-        if key not in owner_to_person:
-            compact = re.sub(r"[^a-fA-F0-9]", "", owner_id).lower()
-            person_id = f"espn_{compact}"
-            if person_id in used_person_ids:
-                person_id = f"espn_{compact}_{len(used_person_ids)}"
-            people.append({
-                "person_id": person_id,
-                "name": member.get("displayName") or member.get("firstName") or owner_id,
-                "espn_ids": [owner_id],
-                "notes": "Added automatically from current-season ESPN data."
-            })
-            used_person_ids.add(person_id)
-            owner_to_person[key] = person_id
+    owner_to_person = load_owner_map(people)
+    known_member_ids = {
+        norm_id(member.get("id")).upper()
+        for member in team_view.get("members", [])
+        if norm_id(member.get("id"))
+    }
+    missing_mappings = known_member_ids - set(owner_to_person)
+    if missing_mappings:
+        raise RuntimeError(
+            f"{len(missing_mappings)} ESPN owner(s) are missing private canonical mappings. "
+            "Update ESPN_OWNER_MAP_JSON and retry; no owner records were changed."
+        )
 
     current_teams = []
     for team in team_view.get("teams", []):
@@ -106,7 +116,6 @@ def main():
             "team_id": team.get("id"),
             "team_name": team.get("name") or team.get("location") or f"Team {team.get('id')}",
             "abbrev": team.get("abbrev"),
-            "espn_owner_id": owner_id,
             "person_id": owner_to_person.get(owner_id.upper()) if owner_id else None,
             "division_id": team.get("divisionId"),
             "draft_day": team.get("draftDay"),
@@ -177,7 +186,6 @@ def main():
             "round_pick": pick.get("roundPickNumber"),
             "keeper": pick.get("keeper"),
             "owning_team_ids": pick.get("owningTeamIds", []),
-            "member_id": pick.get("memberId"),
         })
 
     if not current_matchups:
