@@ -1,0 +1,42 @@
+name: Probe Legacy ESPN Transaction History
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - audit/historical-player-data
+    paths:
+      - scripts/probe_old_transactions.py
+      - .github/workflows/probe-old-transactions.yml
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: probe-old-transactions
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --upgrade pip requests
+      - name: Probe old league transaction views
+        env:
+          ESPN_S2: ${{ secrets.ESPN_S2 }}
+          ESPN_SWID: ${{ secrets.ESPN_SWID }}
+        run: python scripts/probe_old_transactions.py
+      - name: Upload legacy transaction probe
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: espn-old-transactions-probe
+          path: artifacts/old_transactions/
+          if-no-files-found: warn
+          retention-days: 30
