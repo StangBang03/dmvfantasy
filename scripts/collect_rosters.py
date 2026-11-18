@@ -1,6 +1,7 @@
 import json
 import os
 import sys
+import tempfile
 import time
 from pathlib import Path
 
@@ -117,16 +118,25 @@ def main():
 
             output_file = output_dir / "mRoster.json"
 
-            with output_file.open(
-                "w",
-                encoding="utf-8",
-            ) as f:
-                json.dump(
-                    raw,
-                    f,
-                    indent=2,
-                    ensure_ascii=False,
-                )
+            temp_path = None
+            try:
+                with tempfile.NamedTemporaryFile(
+                    mode="w",
+                    encoding="utf-8",
+                    dir=output_dir,
+                    prefix=".mRoster.",
+                    suffix=".tmp",
+                    delete=False,
+                ) as handle:
+                    temp_path = Path(handle.name)
+                    json.dump(raw, handle, indent=2, ensure_ascii=False)
+                    handle.write("\\n")
+                    handle.flush()
+                    os.fsync(handle.fileno())
+                os.replace(temp_path, output_file)
+            finally:
+                if temp_path and temp_path.exists():
+                    temp_path.unlink()
 
             roster_entries = 0
 
@@ -172,16 +182,20 @@ def main():
     print(f"Failed:     {failures}")
 
     if failures:
-        print()
-        print(
-            "Some seasons failed. Do not build analytics yet; "
-            "paste the failed-season output."
+        raise SystemExit(
+            f"Roster collection incomplete: {failures} season(s) failed. "
+            "Refusing to build analytics or deploy."
         )
-    else:
-        print()
-        print(
-            "All seasons collected successfully."
+
+    expected = END_YEAR - START_YEAR + 1
+    if successes != expected:
+        raise SystemExit(
+            f"Roster collection count mismatch: expected {expected}, "
+            f"received {successes}."
         )
+
+    print()
+    print("PASS: all requested season rosters were collected.")
 
 
 if __name__ == "__main__":
