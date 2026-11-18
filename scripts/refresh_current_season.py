@@ -12,9 +12,10 @@ from owner_identity import load_owner_map
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 PROCESSED = DATA / "processed"
-RAW = DATA / "raw" / "2026"
 LEAGUE_ID = 112536
 YEAR = int(os.getenv("FFL_SEASON", "2026"))
+RAW = DATA / "raw" / str(YEAR)
+RAW_PAYLOADS = {}
 BASE = "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl"
 
 S2 = os.getenv("ESPN_S2")
@@ -30,11 +31,30 @@ def read_json(path):
     with path.open("r", encoding="utf-8") as f:
         return json.load(f)
 
-def write_json(path, value):
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8") as f:
-        json.dump(value, f, indent=2, ensure_ascii=False)
-        f.write("\n")
+def write_json_batch(outputs):
+    """Serialize all outputs to temporary files before replacing destinations."""
+    import tempfile
+
+    staged = []
+    try:
+        for path, value in outputs.items():
+            path.parent.mkdir(parents=True, exist_ok=True)
+            fd, temp_name = tempfile.mkstemp(
+                prefix=f".{path.name}.", suffix=".tmp", dir=path.parent
+            )
+            temp_path = Path(temp_name)
+            with os.fdopen(fd, "w", encoding="utf-8") as handle:
+                json.dump(value, handle, indent=2, ensure_ascii=False)
+                handle.write("\\n")
+                handle.flush()
+                os.fsync(handle.fileno())
+            staged.append((temp_path, path))
+        for temp_path, destination in staged:
+            os.replace(temp_path, destination)
+    except Exception:
+        for temp_path, _ in staged:
+            temp_path.unlink(missing_ok=True)
+        raise
 
 def unwrap(value):
     if isinstance(value, list) and len(value) == 1 and isinstance(value[0], dict):
@@ -49,7 +69,7 @@ def fetch_view(view):
     data = unwrap(raw)
     if not data:
         raise RuntimeError(f"ESPN returned an empty/unusable response for {view}")
-    write_json(RAW / f"{view}.json", raw)
+    RAW_PAYLOADS[view] = raw
     print(f"Fetched {view}: HTTP {response.status_code}, {len(response.content):,} bytes")
     time.sleep(0.25)
     return data
@@ -190,12 +210,23 @@ def main():
     if unmapped:
         raise RuntimeError(f"Unmapped current-season owners: {[t['team_id'] for t in unmapped]}")
 
-    write_json(PROCESSED / "people.json", people)
-    write_json(PROCESSED / "seasons.json", sorted(seasons_all, key=lambda x: x["season"]))
-    write_json(PROCESSED / "teams.json", sorted(teams_all, key=lambda x: (x["season"], x["team_id"] or 0)))
-    write_json(PROCESSED / "matchups.json", sorted(matchups_all, key=lambda x: (x["season"], x.get("matchup_period_id") or 0, x.get("matchup_id") or 0)))
-    write_json(PROCESSED / "standings.json", sorted(standings_all, key=lambda x: (x["season"], x["team_id"] or 0)))
-    write_json(PROCESSED / "draft_picks.json", sorted(drafts_all, key=lambda x: (x["season"], x.get("overall_pick") or 0)))
+    if len({t["team_id"] for t in current_teams}) != len(current_teams):
+        raise RuntimeError("Duplicate team IDs in current-season response.")
+    if any(m.get("home_team_id") not in team_person or m.get("away_team_id") not in team_person
+           for m in current_matchups if m.get("home_team_id") is not None and m.get("away_team_id") is not None):
+        raise RuntimeError("A matchup references a team absent from the current team view.")
+    if any(d.get("team_id") not in team_person or not d.get("person_id") for d in current_drafts):
+        raise RuntimeError("A draft pick has an unresolved current-season team/owner reference.")
+
+    outputs = {
+        PROCESSED / "seasons.json": sorted(seasons_all, key=lambda x: x["season"]),
+        PROCESSED / "teams.json": sorted(teams_all, key=lambda x: (x["season"], x["team_id"] or 0)),
+        PROCESSED / "matchups.json": sorted(matchups_all, key=lambda x: (x["season"], x.get("matchup_period_id") or 0, x.get("matchup_id") or 0)),
+        PROCESSED / "standings.json": sorted(standings_all, key=lambda x: (x["season"], x["team_id"] or 0)),
+        PROCESSED / "draft_picks.json": sorted(drafts_all, key=lambda x: (x["season"], x.get("overall_pick") or 0)),
+    }
+    outputs.update({RAW / f"{view}.json": payload for view, payload in RAW_PAYLOADS.items()})
+    write_json_batch(outputs)
 
     print(f"Updated season {YEAR}: {len(current_teams)} teams, {len(current_matchups)} schedule rows, {len(current_standings)} standings rows, {len(current_drafts)} draft picks.")
     print("Historical seasons were preserved.")
