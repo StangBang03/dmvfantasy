@@ -8,7 +8,7 @@ from pathlib import Path
 
 import requests
 
-SOURCE_CSV=Path("artifacts/player_card_history_source/player_card_season_totals.csv")
+ARCHIVE_DIR=Path("data/raw/playercard_history")
 GAMELOG_DIR=Path("artifacts/legacy_player_gamelogs")
 OUT=Path("artifacts/legacy_gamelog_reconciliation")
 BASE="https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl"
@@ -123,23 +123,24 @@ def main():
     OUT.mkdir(parents=True,exist_ok=True)
     report={"seasons":{},"errors":[]}
     for year in range(2011,2018):
+        archive_path=ARCHIVE_DIR/f"playercard_{year}.json.gz"
         gamelog_path=GAMELOG_DIR/f"legacy_player_gamelogs_{year}.json.gz"
-        if not SOURCE_CSV.exists() or not gamelog_path.exists():
-            report["errors"].append({"season":year,"error":"Missing player-card CSV or gamelog archive"})
+        if not archive_path.exists() or not gamelog_path.exists():
+            report["errors"].append({"season":year,"error":"Missing player-card archive or gamelog archive"})
             continue
-        with SOURCE_CSV.open(newline="",encoding="utf-8") as f:
-            source_rows=[r for r in csv.DictReader(f) if int(r["season"])==year and int(r["player_id"])>0]
+        with gzip.open(archive_path,"rt",encoding="utf-8") as f: archive=json.load(f)
         with gzip.open(gamelog_path,"rt",encoding="utf-8") as f: gamelog=json.load(f)
         items=get_scoring_items(year)
         players={
             int(p["player_id"]):{
                 "player_id":int(p["player_id"]),
                 "player_name":p.get("player_name"),
-                "season_total":float(p["season_total"]) if p.get("season_total") else 0.0,
-                "season_stats":json.loads(p.get("season_stats_json") or "{}"),
-                "position_id":0,
+                "season_total":num(p.get("season_total")),
+                "season_stats":p.get("season_stats") or {},
+                "position_id":int(p.get("position_id") or 0),
             }
-            for p in source_rows
+            for p in archive.get("players") or []
+            if int(p.get("player_id",0))>0 and p.get("season_total") is not None
         }
         logs={int(p["player_id"]):p for p in gamelog.get("players") or []}
         mismatches=[]
