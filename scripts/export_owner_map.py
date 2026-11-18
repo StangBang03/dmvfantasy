@@ -2,7 +2,7 @@
 """Export the private ESPN owner map from the pre-migration people.json.
 
 Run locally before merging:
-    python scripts/export_owner_map.py > espn-owner-map.json
+    python scripts/export_owner_map.py --output espn-owner-map.json
 
 Add the JSON output as the GitHub Actions secret ESPN_OWNER_MAP_JSON.
 Keep the generated file private and delete it after creating the secret.
