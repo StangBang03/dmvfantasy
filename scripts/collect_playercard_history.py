@@ -386,6 +386,7 @@ def main():
                 "player_count": len(archive_players),
             },
             "players": archive_players,
+            "roster_history": [row for row in roster_rows if int(row["season"]) == year],
         }
         raw_archive_dir = Path("data/raw/playercard_history")
         raw_archive_dir.mkdir(parents=True, exist_ok=True)
