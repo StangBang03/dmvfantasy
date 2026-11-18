@@ -11,6 +11,9 @@ TESTS = [
     ("team_schedule", "https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/33/schedule", {"season":2014}),
     ("team_statistics", "https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/33/statistics", {"season":2014}),
     ("game_summary", "https://site.api.espn.com/apis/site/v2/sports/football/nfl/summary", {"event":400554445}),
+    ("game_summary_playbyplay", "https://site.api.espn.com/apis/site/v2/sports/football/nfl/summary", {"event":400554445,"playbyplay":1}),
+    ("scoreboard_week16_2014", "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard", {"season":2014,"seasontype":2,"week":16}),
+    ("scoreboard_week17_2017", "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard", {"season":2017,"seasontype":2,"week":17}),
 ]
 session = requests.Session()
 session.headers.update({"Accept":"application/json","User-Agent":"Mozilla/5.0","Referer":"https://www.espn.com/"})
@@ -18,12 +21,14 @@ session.headers.update({"Accept":"application/json","User-Agent":"Mozilla/5.0","
 
 def brief(data):
     result = {"top_keys": list(data.keys())[:50]}
-    for key in ("events","schedule","boxscore","teams","statistics","header"):
+    for key in ("events","schedule","boxscore","teams","statistics","header","plays","scoringPlays"):
         value = data.get(key)
         if isinstance(value, dict):
             result[key] = {"keys":list(value.keys())[:50]}
         elif isinstance(value, list):
             result[key] = {"count":len(value),"sample":value[:2]}
+        elif value is not None:
+            result[key] = value
     if isinstance(data.get("boxscore"),dict):
         bx=data["boxscore"]
         result["boxscore_teams"]=bx.get("teams")
