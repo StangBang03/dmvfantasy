@@ -9,6 +9,7 @@ Keep the generated file private and delete it after creating the secret.
 This uses the exact pre-migration commit and maps people to opaque IDs in
 the same order preserved by the identity migration.
 """
+import argparse
 import json
 import subprocess
 import sys
@@ -18,6 +19,10 @@ SOURCE_PATH = "data/processed/people.json"
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output", help="Write the private map to this local file instead of stdout.")
+    args = parser.parse_args()
+
     result = subprocess.run(
         ["git", "show", f"{SOURCE_COMMIT}:{SOURCE_PATH}"],
         check=True,
@@ -38,8 +43,14 @@ def main():
             mapping[key] = canonical_id
     if len(mapping) < len(people):
         raise SystemExit("Source people.json did not produce a complete owner map.")
-    json.dump(mapping, sys.stdout, indent=2, ensure_ascii=False)
-    sys.stdout.write("\n")
+    if args.output:
+        with open(args.output, "w", encoding="utf-8") as output:
+            json.dump(mapping, output, indent=2, ensure_ascii=False)
+            output.write("\n")
+        print(f"Wrote private owner map to {args.output}")
+    else:
+        json.dump(mapping, sys.stdout, indent=2, ensure_ascii=False)
+        sys.stdout.write("\n")
 
 
 if __name__ == "__main__":
