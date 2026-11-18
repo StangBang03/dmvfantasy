@@ -353,6 +353,9 @@ def main():
             for pid,vals in player_extra.items():
                 for sid,value in vals.items(): player_week_values[(pid,week)][sid]+=value
             for tid,vals in dst_extra.items():
+                if tid not in dst_player_by_team:
+                    unmatched.append({"event_id":event.get("event_id"),"team_id":tid,"reason":"scoring play team has no fantasy DST player-season record"})
+                    continue
                 for sid,value in vals.items(): dst_week_values[(dst_player_by_team[tid],week)][sid]+=value
             # Team defense stats and points/yards allowed.
             for tid,vals in dst_values_for_event(event,dst_team_ids,extra_defense).items():
