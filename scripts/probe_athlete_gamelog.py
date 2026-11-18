@@ -11,12 +11,17 @@ PLAYER_CASES = [
     (2014, 1428, "Peyton Manning"),
     (2014, 5941, "Wes Welker"),
     (2014, 8444, "Heath Miller"),
+    (2014, 15683, "Justin Tucker"),
+    (2014, 9704, "Stephen Gostkowski"),
+    (2017, 15683, "Justin Tucker"),
+    (2017, 14993, "Greg Zuerlein"),
     (2017, 2576434, "Melvin Gordon"),
     (2017, 5526, "Eli Manning"),
     (2018, 3116406, "Tyreek Hill"),
     (2025, 4362628, "Ja'Marr Chase"),
 ]
 TEAM_CASES = [(2014, 33, "Baltimore Ravens"), (2014, 17, "New England Patriots"), (2017, 29, "Carolina Panthers")]
+SETTINGS_YEARS = list(range(2011, 2018)) + [2018, 2025]
 GAMEL0G_BASE = "https://site.web.api.espn.com/apis/common/v3/sports/football/nfl"
 LEAGUE_BASE = "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl"
 load_dotenv()
@@ -56,7 +61,7 @@ def summarize_gamelog(data):
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     results = []
-    for year in sorted({x[0] for x in PLAYER_CASES}):
+    for year in SETTINGS_YEARS:
         params = [("view", "mSettings"), ("seasonId", str(year))]
         url = f"{LEAGUE_BASE}/leagueHistory/112536"
         response = session.get(url, params=params, timeout=60)
