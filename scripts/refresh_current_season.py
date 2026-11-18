@@ -81,6 +81,7 @@ def load_owner_map(people):
 def main():
     PROCESSED.mkdir(parents=True, exist_ok=True)
     people = read_json(PROCESSED / "people.json")
+    owner_to_person = load_owner_map(people)
     teams_all = read_json(PROCESSED / "teams.json")
     matchups_all = read_json(PROCESSED / "matchups.json")
     standings_all = read_json(PROCESSED / "standings.json")
@@ -93,7 +94,6 @@ def main():
     matchup_view = fetch_view("mMatchupScore")
     draft_view = fetch_view("mDraftDetail")
 
-    owner_to_person = load_owner_map(people)
     known_member_ids = {
         norm_id(member.get("id")).upper()
         for member in team_view.get("members", [])
