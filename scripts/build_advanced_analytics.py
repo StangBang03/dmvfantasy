@@ -26,12 +26,12 @@ def save_many(outputs):
                 prefix=f".{name}.", suffix=".tmp", dir=ANALYTICS
             )
             temp_path = Path(temp_name)
+            staged.append((temp_path, ANALYTICS / name))
             with os.fdopen(fd, "w", encoding="utf-8") as handle:
                 json.dump(obj, handle, indent=2, ensure_ascii=False)
                 handle.write("\n")
                 handle.flush()
                 os.fsync(handle.fileno())
-            staged.append((temp_path, ANALYTICS / name))
         for temp_path, destination in staged:
             os.replace(temp_path, destination)
     except Exception:
