@@ -1,0 +1,38 @@
+name: Audit Player Coverage Across League Sources
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - audit/historical-player-data
+    paths:
+      - scripts/audit_player_coverage.py
+      - .github/workflows/audit-player-coverage.yml
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: audit-player-coverage
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Audit all known player ID sources
+        run: python scripts/audit_player_coverage.py
+      - name: Upload player coverage audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: player-coverage-audit
+          path: artifacts/player_coverage/
+          if-no-files-found: warn
+          retention-days: 30
