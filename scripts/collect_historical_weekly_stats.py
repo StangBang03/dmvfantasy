@@ -1,5 +1,6 @@
 import json
 import os
+import tempfile
 import time
 from pathlib import Path
 
@@ -93,17 +94,54 @@ def main():
             url, params = request_details(year, week)
             output_file = year_dir / f"week-{week:02d}.json"
             try:
-                response = session.get(url, params=params, timeout=60)
-                response.raise_for_status()
-                payload = response.json()
+                payload = None
+                last_error = None
+                for attempt in range(1, 4):
+                    try:
+                        response = session.get(url, params=params, timeout=60)
+                        response.raise_for_status()
+                        payload = response.json()
+                        break
+                    except (requests.RequestException, ValueError) as exc:
+                        last_error = exc
+                        if attempt < 3:
+                            delay = attempt * 2
+                            print(
+                                f"{year} week {week:02d}: attempt "
+                                f"{attempt}/3 failed; retrying in {delay}s"
+                            )
+                            time.sleep(delay)
+                if payload is None:
+                    raise RuntimeError(
+                        f"Request failed after 3 attempts "
+                        f"({type(last_error).__name__})."
+                    ) from last_error
+
                 data = unwrap(payload)
                 if not data or not data.get("teams"):
                     raise RuntimeError("Response contains no league teams")
                 players = extract_player_points(payload)
                 if not players:
                     raise RuntimeError("No player appliedStatTotal values found")
-                with output_file.open("w", encoding="utf-8") as f:
-                    json.dump(payload, f, ensure_ascii=False)
+                temp_path = None
+                try:
+                    with tempfile.NamedTemporaryFile(
+                        mode="w",
+                        encoding="utf-8",
+                        dir=year_dir,
+                        prefix=f".{output_file.name}.",
+                        suffix=".tmp",
+                        delete=False,
+                    ) as handle:
+                        temp_path = Path(handle.name)
+                        json.dump(payload, handle, ensure_ascii=False)
+                        handle.write("\\n")
+                        handle.flush()
+                        os.fsync(handle.fileno())
+                    os.replace(temp_path, output_file)
+                finally:
+                    if temp_path and temp_path.exists():
+                        temp_path.unlink()
                 season_rows += len(players)
                 total_rows += len(players)
                 print(f"{year} week {week:02d}: {len(players)} players with points")
