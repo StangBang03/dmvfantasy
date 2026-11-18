@@ -130,7 +130,12 @@ def main():
     current_teams = []
     for team in team_view.get("teams", []):
         owners = team.get("owners") or []
-        owner_id = norm_id(owners[0]) if owners else None
+        if len(owners) != 1:
+            raise RuntimeError(
+                f"Team {team.get('id')} has {len(owners)} ESPN owner entries; "
+                "the public data model requires exactly one canonical owner per team."
+            )
+        owner_id = norm_id(owners[0])
         record = team.get("record", {}).get("overall", {})
         current_teams.append({
             "season": YEAR,
