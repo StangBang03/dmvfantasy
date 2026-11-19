@@ -551,12 +551,18 @@ def main():
             stat_sums = defaultdict(float)
             for week in range(1, 18):
                 values = dict(week_values.get((player_id, week), {}))
-                points = calculate_points(values, items, is_dst=is_dst)
+                reconstructed_points = calculate_points(values, items, is_dst=is_dst)
+                direct_values = direct_week_points.get((player_id, week), [])
+                direct_unique = sorted(set(round(value, 4) for value in direct_values))
+                points = direct_unique[0] if len(direct_unique) == 1 else reconstructed_points
+                points_source = "ESPN mBoxscore appliedStatTotal" if len(direct_unique) == 1 else "ESPN game-summary reconstruction"
                 for stat_id, value in values.items():
                     stat_sums[int(stat_id)] += n(value)
                 weeks[str(week)] = {
                     "week": week,
                     "fantasy_points": points,
+                    "reconstructed_fantasy_points": reconstructed_points,
+                    "points_source": points_source,
                     "stats": {str(key): value for key, value in sorted(values.items()) if value},
                 }
                 total_week_rows += 1
