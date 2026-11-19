@@ -727,7 +727,7 @@ def main():
             f"VALIDATION FAIL: source errors={len(audit['errors'])}; "
             f"season mismatches={total_mismatches}; scored stat gaps={total_gaps}; "
             f"multiweek matchup mismatches={total_multiweek_mismatches}; "
-            f"single-week source conflicts={total_multiweek_conflicts}. "
+            f"single-week source conflicts={total_single_week_conflicts}. "
             "Do not promote legacy weekly data."
         )
     print("VALIDATION PASS: player-season totals, scored stat categories, and playoff matchup totals reconcile.")
