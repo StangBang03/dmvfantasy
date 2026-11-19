@@ -32,8 +32,18 @@ jobs:
           python-version: "3.12"
       - name: Install collection dependencies
         run: python -m pip install --upgrade pip requests
-      - name: Compile audit and collection scripts
-        run: python -m compileall -q scripts
+      - name: Compile the scripts used by this pipeline
+        run: |
+          python -m py_compile \
+            scripts/collect_playercard_history.py \
+            scripts/collect_legacy_player_gamelogs.py \
+            scripts/collect_legacy_game_summaries.py \
+            scripts/collect_legacy_defensive_player_gamelogs.py \
+            scripts/validate_playercard_season_totals.py \
+            scripts/reconstruct_legacy_player_weeks.py \
+            scripts/audit_player_coverage.py \
+            scripts/build_player_performance_candidate.py \
+            scripts/check_player_performance_candidate.py
 
       - name: Collect expanded player-card history and legacy weekly lineups
         id: playercard
