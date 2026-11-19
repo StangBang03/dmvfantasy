@@ -452,6 +452,7 @@ def main():
             continue
 
         pc = read_gzip(pc_path)
+        boxscore_rows = pc.get("boxscore_weekly_points") or []
         gamelog = read_gzip(gl_path)
         summaries = read_gzip(sm_path)
         defensive = read_gzip(def_path)
@@ -518,8 +519,27 @@ def main():
         for player_week, kicking_values in kicking_week_values.items():
             player_week_values[player_week].update(kicking_values)
 
+        direct_week_points = defaultdict(list)
+        multiweek_matchup_points = defaultdict(list)
+        unknown_boxscore_rows = 0
+        for row in boxscore_rows:
+            try:
+                pid = int(row["player_id"])
+            except (KeyError, TypeError, ValueError):
+                continue
+            points = n(row.get("matchup_points"))
+            if row.get("points_type") == "single_scoring_period" and row.get("scoring_period") is not None:
+                direct_week_points[(pid, int(row["scoring_period"]))].append(points)
+            elif row.get("points_type") == "multi_scoring_period_matchup_total":
+                periods = tuple(sorted(int(x) for x in row.get("matchup_scoring_periods") or []))
+                if periods:
+                    multiweek_matchup_points[(pid, periods)].append(points)
+            else:
+                unknown_boxscore_rows += 1
+
         season_records = []
         mismatch_count = 0
+        multiweek_matchup_audit = []
         stat_gap_counts = Counter()
         mismatch_sample = []
         missing_season_totals = []
