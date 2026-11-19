@@ -145,10 +145,10 @@ def get_boxscore_roster_snapshot(year, scoring_period):
                 int(key) for key in (team.get("pointsByScoringPeriod") or {}).keys()
                 if str(key).isdigit()
             )
-            is_single_week = scoring_period in period_keys
+            is_single_week = len(period_keys) == 1
             if is_single_week:
-                single_week_periods.add(scoring_period)
-            elif len(period_keys) > 1:
+                single_week_periods.add(period_keys[0])
+            elif period_keys:
                 multiweek_periods.add(int(matchup_period) if matchup_period is not None else -1)
             for entry in entries:
                 pool = entry.get("playerPoolEntry") or {}
@@ -159,10 +159,10 @@ def get_boxscore_roster_snapshot(year, scoring_period):
                 rows.append({
                     "season": year,
                     "requested_scoring_period": scoring_period,
-                    "scoring_period": scoring_period if is_single_week else None,
+                    "scoring_period": period_keys[0] if is_single_week else None,
                     "matchup_period": matchup_period,
                     "matchup_scoring_periods": period_keys,
-                    "points_type": "single_scoring_period" if is_single_week else "unknown",
+                    "points_type": "single_scoring_period" if is_single_week else "multi_scoring_period_matchup_total" if period_keys else "unknown",
                     "player_id": int(pid),
                     "player_name": player.get("fullName") or player.get("full") or player.get("last"),
                     "team_id": team.get("teamId"),
@@ -330,7 +330,7 @@ def main():
     # Deduplicate the matchup-level roster rows while preserving the full scoring-period span.
     unique_boxscore_rows = {}
     for row in boxscore_rows:
-        key = (int(row["season"]), int(row.get("requested_scoring_period") or 0), row.get("team_id"), int(row["player_id"]))
+        key = (int(row["season"]), row.get("matchup_period"), row.get("team_id"), int(row["player_id"]))
         unique_boxscore_rows[key] = row
     boxscore_rows = list(unique_boxscore_rows.values())
 
