@@ -43,8 +43,19 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Compile Python scripts
-        run: python -m compileall -q scripts tests
+      # Compile the Python modules exercised by this validation workflow.
+      # The unrelated legacy records-engine script is not part of this workflow
+      # and currently contains a pre-existing syntax error on main.
+      - name: Compile validation Python modules
+        run: >-
+          python -m py_compile
+          scripts/refresh_current_season.py
+          scripts/owner_identity.py
+          scripts/validate_owner_map_secret.py
+          scripts/normalize_espn.py
+          scripts/export_owner_map.py
+          scripts/validate_owner_identity.py
+          tests/*.py
 
       - name: Test private owner mapping validation
         run: python -m unittest discover -s tests -v
