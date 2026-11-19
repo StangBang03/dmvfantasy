@@ -118,6 +118,65 @@ def get_roster_snapshot(year, scoring_period):
     return rows
 
 
+
+def get_boxscore_roster_snapshot(year, scoring_period):
+    """Return historical matchup lineup entries and distinguish weekly from multiweek totals."""
+    url, base_params = endpoint(year, "mBoxscore")
+    params = base_params + [
+        ("scoringPeriodId", str(scoring_period)),
+        ("matchupPeriodId", str(scoring_period)),
+    ]
+    response = session.get(url, params=params, timeout=90)
+    response.raise_for_status()
+    data = unwrap(response.json())
+    rows = []
+    matchup_count = 0
+    single_week_periods = set()
+    multiweek_periods = set()
+    for matchup in data.get("schedule") or []:
+        matchup_period = matchup.get("matchupPeriodId")
+        for side in ("home", "away"):
+            team = matchup.get(side) or {}
+            entries = (team.get("rosterForMatchupPeriod") or {}).get("entries") or []
+            if not entries:
+                continue
+            matchup_count += 1
+            period_keys = sorted(
+                int(key) for key in (team.get("pointsByScoringPeriod") or {}).keys()
+                if str(key).isdigit()
+            )
+            is_single_week = len(period_keys) == 1
+            if is_single_week:
+                single_week_periods.add(period_keys[0])
+            elif period_keys:
+                multiweek_periods.add(int(matchup_period) if matchup_period is not None else -1)
+            for entry in entries:
+                pool = entry.get("playerPoolEntry") or {}
+                player = pool.get("player") or {}
+                pid = player.get("id") or entry.get("playerId")
+                if pid is None:
+                    continue
+                rows.append({
+                    "season": year,
+                    "requested_scoring_period": scoring_period,
+                    "scoring_period": period_keys[0] if is_single_week else None,
+                    "matchup_period": matchup_period,
+                    "matchup_scoring_periods": period_keys,
+                    "points_type": "single_scoring_period" if is_single_week else "multi_scoring_period_matchup_total" if period_keys else "unknown",
+                    "player_id": int(pid),
+                    "player_name": player.get("fullName") or player.get("full") or player.get("last"),
+                    "team_id": team.get("teamId"),
+                    "pro_team_id": player.get("proTeamId"),
+                    "position_id": player.get("defaultPositionId"),
+                    "lineup_slot_id": entry.get("lineupSlotId"),
+                    "matchup_points": pool.get("appliedStatTotal"),
+                })
+    return rows, {
+        "matchup_team_rows": matchup_count,
+        "single_week_scoring_periods": sorted(single_week_periods),
+        "multiweek_matchup_periods": sorted(multiweek_periods),
+    }
+
 def parse_entry(item, year, max_week=None):
     player = item.get("player") or item
     stats = player.get("stats") or item.get("stats") or []
@@ -194,6 +253,7 @@ def main():
     add_ids(ids_by_year, sources_by_year, None, supplemental, "supplemental_trade_events")
 
     roster_rows = []
+    boxscore_rows = []
     roster_audit = {}
     for year in sorted(set(ids_by_year)):
         if year < 2018:
@@ -208,6 +268,11 @@ def main():
             max_week = window["max_completed_week"]
             periods = [p for p in periods if p <= max_week]
         snapshot_counts = {}
+        boxscore_counts = {}
+        boxscore_matchup_rows = 0
+        boxscore_single_week_periods = set()
+        boxscore_multiweek_periods = set()
+        boxscore_periods = range(1, 18) if year < 2018 else []
         for period in periods:
             try:
                 rows = get_roster_snapshot(year, period)
@@ -223,11 +288,36 @@ def main():
                     "error": f"{type(exc).__name__}: {exc}",
                 })
             time.sleep(0.1)
+        for period in boxscore_periods:
+            try:
+                rows, detail = get_boxscore_roster_snapshot(year, period)
+                boxscore_rows.extend(rows)
+                boxscore_counts[str(period)] = len(rows)
+                boxscore_matchup_rows += detail["matchup_team_rows"]
+                boxscore_single_week_periods.update(detail["single_week_scoring_periods"])
+                boxscore_multiweek_periods.update(detail["multiweek_matchup_periods"])
+                for row in rows:
+                    pid = row["player_id"]
+                    ids_by_year[year].add(pid)
+                    sources_by_year[year][pid].add("mBoxscore_weekly_roster")
+            except Exception as exc:
+                roster_audit.setdefault(str(year), {}).setdefault("boxscore_errors", []).append({
+                    "scoring_period": period,
+                    "error": f"{type(exc).__name__}: {exc}",
+                })
+            time.sleep(0.1)
+
         roster_audit[str(year)] = {
             **roster_audit.get(str(year), {}),
             "periods_queried": periods,
             "snapshot_entry_counts": snapshot_counts,
             "snapshot_unique_players": len({r["player_id"] for r in roster_rows if r["season"] == year}),
+            "boxscore_periods_queried": list(boxscore_periods),
+            "boxscore_entry_counts": boxscore_counts,
+            "boxscore_matchup_team_rows": boxscore_matchup_rows,
+            "boxscore_unique_players": len({r["player_id"] for r in boxscore_rows if r["season"] == year}),
+            "boxscore_single_week_periods": sorted(boxscore_single_week_periods),
+            "boxscore_multiweek_matchup_periods": sorted(boxscore_multiweek_periods),
             "season_window": window,
         }
         print(
@@ -387,6 +477,7 @@ def main():
             },
             "players": archive_players,
             "roster_history": [row for row in roster_rows if int(row["season"]) == year],
+            "boxscore_weekly_points": [row for row in boxscore_rows if int(row["season"]) == year],
         }
         raw_archive_dir = Path("data/raw/playercard_history")
         raw_archive_dir.mkdir(parents=True, exist_ok=True)
@@ -398,7 +489,7 @@ def main():
             "expanded_requested_player_ids": len(ids),
             "id_source_counts": {
                 source: sum(1 for pid in ids if source in sources_by_year[year].get(pid, set()))
-                for source in ("player_performance", "ownership_ledger", "transaction_events", "draft_picks", "supplemental_trade_events", "mRoster_snapshot")
+                for source in ("player_performance", "ownership_ledger", "transaction_events", "draft_picks", "supplemental_trade_events", "mRoster_snapshot", "mBoxscore_weekly_roster")
             },
             "requested_batches": requested_batches,
             "returned_player_ids": len(returned),
