@@ -315,7 +315,7 @@ def apply_scoring_plays(event, player_week_values, dst_week_values, dst_player_b
                     if target is not None:
                         add_value(target, 206)
 
-                conversion_match = re.search(r"\((.*?)\)\s*$", text)
+        conversion_match = re.search(r"\((.*?)\)\s*$", text)
         conversion = conversion_match.group(1) if conversion_match else ""
         conversion_low = conversion.lower()
         if "two-point conversion" in conversion_low and "failed" not in conversion_low:
