@@ -130,20 +130,20 @@ def extract_player_values(groups):
     values[18] = 1 if passing_yards >= 400 else 0
     values[20] = n(passing.get("interceptions"))
     values[25] = n(rushing.get("rushingTouchdowns"))
-    values[28] = int(rushing_yards / 10)
+    values[28] = max(0, int(rushing_yards / 10))
     values[37] = 1 if 100 <= rushing_yards < 200 else 0
     values[38] = 1 if rushing_yards >= 200 else 0
     values[41] = receptions
     values[43] = n(receiving.get("receivingTouchdowns"))
-    values[48] = int(receiving_yards / 10)
+    values[48] = max(0, int(receiving_yards / 10))
     values[53] = receptions
     values[56] = 1 if 100 <= receiving_yards < 200 else 0
     values[57] = 1 if receiving_yards >= 200 else 0
     values[72] = n(fumbles.get("fumblesLost"))
     values[101] = n(kick_returns.get("kickReturnTouchdowns"))
     values[102] = n(punt_returns.get("puntReturnTouchdowns"))
-    values[117] = int(n(kick_returns.get("kickReturnYards")) / 25)
-    values[119] = int(n(punt_returns.get("puntReturnYards")) / 25)
+    values[117] = max(0, int(n(kick_returns.get("kickReturnYards")) / 25))
+    values[119] = max(0, int(n(punt_returns.get("puntReturnYards")) / 25))
     return values
 
 
