@@ -102,6 +102,11 @@ def compact_summary(year,event_id,meta):
                     "type":(play.get("type") or {}).get("text"),
                     "text":play.get("text"),
                     "score_value":play.get("scoreValue"),
+                    "home_score":play.get("homeScore"),
+                    "away_score":play.get("awayScore"),
+                    "period":play.get("period"),
+                    "clock":play.get("clock"),
+                    "scoring_team":scoring_team,
                     "scoring_type":play.get("scoringType"),
                 })
             return {
