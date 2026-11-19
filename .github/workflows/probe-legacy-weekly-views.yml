@@ -1,0 +1,36 @@
+name: Probe ESPN Legacy Weekly Data Views
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [audit/historical-player-data]
+    paths:
+      - scripts/probe_legacy_weekly_views.py
+      - .github/workflows/probe-legacy-weekly-views.yml
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --upgrade pip requests
+      - name: Probe alternate legacy fantasy views
+        env:
+          ESPN_S2: ${{ secrets.ESPN_S2 }}
+          ESPN_SWID: ${{ secrets.ESPN_SWID }}
+        run: python scripts/probe_legacy_weekly_views.py
+      - name: Upload legacy view probe
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: legacy-weekly-view-probe
+          path: artifacts/legacy_view_probe/
+          if-no-files-found: warn
+          retention-days: 30
