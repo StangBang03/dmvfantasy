@@ -2,17 +2,6 @@ name: Reconstruct Legacy ESPN Weekly Player Points
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - audit/historical-player-data
-    paths:
-      - data/raw/playercard_history/**
-      - data/raw/legacy_player_gamelogs/**
-      - data/raw/legacy_game_summaries/**
-      - data/raw/legacy_defensive_gamelogs/**
-      - data/raw/legacy_defensive_gamelogs/**
-      - scripts/reconstruct_legacy_player_weeks.py
-      - .github/workflows/reconstruct-legacy-player-weeks.yml
 
 permissions:
   contents: read
