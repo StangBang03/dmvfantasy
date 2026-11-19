@@ -211,6 +211,8 @@ def apply_scoring_plays(event, player_week_values, dst_week_values, dst_player_b
             break
     previous_home_score = 0.0
     previous_away_score = 0.0
+    previous_scoring_team_id = None
+    previous_score_delta = None
 
     for play in event.get("scoring_plays") or []:
         team_id = play.get("team_id")
@@ -287,8 +289,22 @@ def apply_scoring_plays(event, player_week_values, dst_week_values, dst_player_b
 
         # Older ESPN summaries expose successful 2-point plays as separate scoring events.
         if low_type in ("two point pass", "two point rush", "two point return"):
-            successful = (score_delta is not None and score_delta >= 2) or (
-                score_delta is None and "is good" in low_text and "no good" not in low_text
+            text_confirms_success = (
+                "is good" in low_text
+                and "no good" not in low_text
+                and "failed" not in low_text
+            )
+            preceding_td_confirms_success = (
+                score_delta is not None
+                and abs(score_delta) <= 0.01
+                and previous_scoring_team_id == team_id
+                and previous_score_delta is not None
+                and previous_score_delta >= 8
+            )
+            successful = (
+                (score_delta is not None and score_delta >= 2)
+                or text_confirms_success
+                or preceding_td_confirms_success
             )
             if successful:
                 if low_type == "two point pass":
@@ -346,6 +362,9 @@ def apply_scoring_plays(event, player_week_values, dst_week_values, dst_player_b
                     add_value(target, 209)
                 else:
                     add_value(target, 98)
+
+        previous_scoring_team_id = team_id
+        previous_score_delta = score_delta
 
 def dst_values_for_event(event, dst_team_ids, extra_defense):
     result = {}
