@@ -720,13 +720,17 @@ def main():
 
     total_mismatches = sum(v.get("season_total_mismatches", 0) for v in audit["seasons"].values())
     total_gaps = sum(sum(v.get("stat_gap_counts", {}).values()) for v in audit["seasons"].values())
-    if audit["errors"] or total_mismatches or total_gaps:
+    total_multiweek_mismatches = sum(v.get("boxscore_multiweek_mismatches", 0) for v in audit["seasons"].values())
+    total_multiweek_conflicts = sum(len(v.get("boxscore_single_week_conflicts", [])) for v in audit["seasons"].values())
+    if audit["errors"] or total_mismatches or total_gaps or total_multiweek_mismatches or total_multiweek_conflicts:
         raise SystemExit(
             f"VALIDATION FAIL: source errors={len(audit['errors'])}; "
-            f"season mismatches={total_mismatches}; scored stat gaps={total_gaps}. "
+            f"season mismatches={total_mismatches}; scored stat gaps={total_gaps}; "
+            f"multiweek matchup mismatches={total_multiweek_mismatches}; "
+            f"single-week source conflicts={total_multiweek_conflicts}. "
             "Do not promote legacy weekly data."
         )
-    print("VALIDATION PASS: all player-season totals and scored stat categories reconcile.")
+    print("VALIDATION PASS: player-season totals, scored stat categories, and playoff matchup totals reconcile.")
 
 
 if __name__ == "__main__":
