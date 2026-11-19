@@ -16,7 +16,7 @@
       "person_id": "person_009",
       "owner_name": "Charlie Marks",
       "waiver_adds": 30,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -27,7 +27,7 @@
       "person_id": "person_007",
       "owner_name": "Nicholas Christodoulou",
       "waiver_adds": 32,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -38,7 +38,7 @@
       "person_id": "person_004",
       "owner_name": "Chris Smith",
       "waiver_adds": 6,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -49,7 +49,7 @@
       "person_id": "person_005",
       "owner_name": "Zach Davis",
       "waiver_adds": 20,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -60,7 +60,7 @@
       "person_id": "person_002",
       "owner_name": "David Yates",
       "waiver_adds": 26,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -71,7 +71,7 @@
       "person_id": "person_008",
       "owner_name": "Andreas Moshogianis",
       "waiver_adds": 4,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -82,7 +82,7 @@
       "person_id": "person_003",
       "owner_name": "Brian Oliver",
       "waiver_adds": 12,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -93,7 +93,7 @@
       "person_id": "person_010",
       "owner_name": "Dex Doyle",
       "waiver_adds": 24,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -104,7 +104,7 @@
       "person_id": "person_006",
       "owner_name": "Alex Christodoulou",
       "waiver_adds": 9,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -115,7 +115,7 @@
       "person_id": "person_011",
       "owner_name": "George Moshogianis",
       "waiver_adds": 1,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -126,7 +126,7 @@
       "person_id": "person_009",
       "owner_name": "Charlie Marks",
       "waiver_adds": 40,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -137,7 +137,7 @@
       "person_id": "person_003",
       "owner_name": "Brian Oliver",
       "waiver_adds": 10,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -148,7 +148,7 @@
       "person_id": "person_001",
       "owner_name": "Chris Jackson",
       "waiver_adds": 40,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -159,7 +159,7 @@
       "person_id": "person_007",
       "owner_name": "Nicholas Christodoulou",
       "waiver_adds": 22,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -170,7 +170,7 @@
       "person_id": "person_012",
       "owner_name": "Brandon Spaeth",
       "waiver_adds": 19,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -181,7 +181,7 @@
       "person_id": "person_006",
       "owner_name": "Alex Christodoulou",
       "waiver_adds": 5,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -192,7 +192,7 @@
       "person_id": "person_002",
       "owner_name": "David Yates",
       "waiver_adds": 23,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -203,7 +203,7 @@
       "person_id": "person_014",
       "owner_name": "Jason Weisberg",
       "waiver_adds": 14,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -214,7 +214,7 @@
       "person_id": "person_004",
       "owner_name": "Chris Smith",
       "waiver_adds": 12,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -225,7 +225,7 @@
       "person_id": "person_013",
       "owner_name": "Robbie Law",
       "waiver_adds": 2,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -236,7 +236,7 @@
       "person_id": "person_001",
       "owner_name": "Chris Jackson",
       "waiver_adds": 14,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -247,7 +247,7 @@
       "person_id": "person_007",
       "owner_name": "Nicholas Christodoulou",
       "waiver_adds": 29,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -258,7 +258,7 @@
       "person_id": "person_002",
       "owner_name": "David Yates",
       "waiver_adds": 28,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -269,7 +269,7 @@
       "person_id": "person_003",
       "owner_name": "Brian Oliver",
       "waiver_adds": 43,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -280,7 +280,7 @@
       "person_id": "person_014",
       "owner_name": "Jason Weisberg",
       "waiver_adds": 19,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -291,7 +291,7 @@
       "person_id": "person_009",
       "owner_name": "Charlie Marks",
       "waiver_adds": 18,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -302,7 +302,7 @@
       "person_id": "person_006",
       "owner_name": "Alex Christodoulou",
       "waiver_adds": 11,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -313,7 +313,7 @@
       "person_id": "person_004",
       "owner_name": "Chris Smith",
       "waiver_adds": 12,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -324,7 +324,7 @@
       "person_id": "person_015",
       "owner_name": "Ryan Cassidy",
       "waiver_adds": 10,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -335,7 +335,7 @@
       "person_id": "person_007",
       "owner_name": "Nicholas Christodoulou",
       "waiver_adds": 21,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -346,7 +346,7 @@
       "person_id": "person_004",
       "owner_name": "Chris Smith",
       "waiver_adds": 11,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -357,7 +357,7 @@
       "person_id": "person_009",
       "owner_name": "Charlie Marks",
       "waiver_adds": 83,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -368,7 +368,7 @@
       "person_id": "person_001",
       "owner_name": "Chris Jackson",
       "waiver_adds": 13,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -379,7 +379,7 @@
       "person_id": "person_003",
       "owner_name": "Brian Oliver",
       "waiver_adds": 27,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -390,7 +390,7 @@
       "person_id": "person_002",
       "owner_name": "David Yates",
       "waiver_adds": 26,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -401,7 +401,7 @@
       "person_id": "person_006",
       "owner_name": "Alex Christodoulou",
       "waiver_adds": 9,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -412,7 +412,7 @@
       "person_id": "person_014",
       "owner_name": "Jason Weisberg",
       "waiver_adds": 25,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -423,7 +423,7 @@
       "person_id": "person_016",
       "owner_name": "Jeremy Ramlagan",
       "waiver_adds": 4,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -434,7 +434,7 @@
       "person_id": "person_009",
       "owner_name": "Charlie Marks",
       "waiver_adds": 37,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -445,7 +445,7 @@
       "person_id": "person_006",
       "owner_name": "Alex Christodoulou",
       "waiver_adds": 12,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -456,7 +456,7 @@
       "person_id": "person_001",
       "owner_name": "Chris Jackson",
       "waiver_adds": 39,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -467,7 +467,7 @@
       "person_id": "person_014",
       "owner_name": "Jason Weisberg",
       "waiver_adds": 10,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -478,7 +478,7 @@
       "person_id": "person_004",
       "owner_name": "Chris Smith",
       "waiver_adds": 16,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -489,7 +489,7 @@
       "person_id": "person_015",
       "owner_name": "Ryan Cassidy",
       "waiver_adds": 9,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -500,7 +500,7 @@
       "person_id": "person_007",
       "owner_name": "Nicholas Christodoulou",
       "waiver_adds": 28,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot; owner identity confirmed by user",
       "classification": "waiver_adds_from_espn_moves_column"
@@ -511,7 +511,7 @@
       "person_id": "person_002",
       "owner_name": "David Yates",
       "waiver_adds": 25,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -522,7 +522,7 @@
       "person_id": "person_003",
       "owner_name": "Brian Oliver",
       "waiver_adds": 40,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -533,7 +533,7 @@
       "person_id": "person_016",
       "owner_name": "Jeremy Ramlagan",
       "waiver_adds": 1,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -544,7 +544,7 @@
       "person_id": "person_006",
       "owner_name": "Alex Christodoulou",
       "waiver_adds": 11,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -555,7 +555,7 @@
       "person_id": "person_007",
       "owner_name": "Nicholas Christodoulou",
       "waiver_adds": 16,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -566,7 +566,7 @@
       "person_id": "person_002",
       "owner_name": "David Yates",
       "waiver_adds": 18,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -577,7 +577,7 @@
       "person_id": "person_018",
       "owner_name": "Alex Boeckler",
       "waiver_adds": 16,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -588,7 +588,7 @@
       "person_id": "person_020",
       "owner_name": "Brittany Chairs",
       "waiver_adds": 8,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -599,7 +599,7 @@
       "person_id": "person_019",
       "owner_name": "Jacob Hiner",
       "waiver_adds": 15,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -610,7 +610,7 @@
       "person_id": "person_001",
       "owner_name": "Chris Jackson",
       "waiver_adds": 28,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -621,7 +621,7 @@
       "person_id": "person_009",
       "owner_name": "Charlie Marks",
       "waiver_adds": 41,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -632,7 +632,7 @@
       "person_id": "person_017",
       "owner_name": "Max Spitalny",
       "waiver_adds": 7,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -643,7 +643,7 @@
       "person_id": "person_015",
       "owner_name": "Ryan Cassidy",
       "waiver_adds": 15,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -654,7 +654,7 @@
       "person_id": "person_014",
       "owner_name": "Jason Weisberg",
       "waiver_adds": 10,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -665,7 +665,7 @@
       "person_id": "person_004",
       "owner_name": "Chris Smith",
       "waiver_adds": 28,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -676,7 +676,7 @@
       "person_id": "person_004",
       "owner_name": "Chris Smith",
       "waiver_adds": 15,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -687,7 +687,7 @@
       "person_id": "person_001",
       "owner_name": "Chris Jackson",
       "waiver_adds": 26,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -698,7 +698,7 @@
       "person_id": "person_015",
       "owner_name": "Ryan Cassidy",
       "waiver_adds": 10,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -709,7 +709,7 @@
       "person_id": "person_009",
       "owner_name": "Charlie Marks",
       "waiver_adds": 53,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -720,7 +720,7 @@
       "person_id": "person_006",
       "owner_name": "Alex Christodoulou",
       "waiver_adds": 8,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -731,7 +731,7 @@
       "person_id": "person_002",
       "owner_name": "David Yates",
       "waiver_adds": 25,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -742,7 +742,7 @@
       "person_id": "person_018",
       "owner_name": "Alex Boeckler",
       "waiver_adds": 23,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -753,7 +753,7 @@
       "person_id": "person_007",
       "owner_name": "Nicholas Christodoulou",
       "waiver_adds": 21,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -764,7 +764,7 @@
       "person_id": "person_020",
       "owner_name": "Brittany Chairs",
       "waiver_adds": 17,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
@@ -775,7 +775,7 @@
       "person_id": "person_019",
       "owner_name": "Jacob Hiner",
       "waiver_adds": 9,
-      "source": "espn_final_standings_moves",
+      "source": "final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
       "source_type": "owner-provided screenshot",
       "classification": "waiver_adds_assumed_from_moves"
