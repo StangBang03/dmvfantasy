@@ -497,13 +497,13 @@
     {
       "season": 2015,
       "team_id": 6,
-      "person_id": "person_017",
-      "owner_name": "Max Spitalny",
+      "person_id": "person_007",
+      "owner_name": "Nicholas Christodoulou",
       "waiver_adds": 28,
       "source": "espn_final_standings_moves",
       "source_label": "ESPN Final Standings — MOVES column",
-      "source_type": "owner-provided screenshot",
-      "classification": "waiver_adds_assumed_from_moves"
+      "source_type": "owner-provided screenshot; owner identity confirmed by user",
+      "classification": "waiver_adds_from_espn_moves_column"
     },
     {
       "season": 2015,
