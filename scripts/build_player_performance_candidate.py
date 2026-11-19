@@ -134,19 +134,28 @@ def build():
                 elif season_total not in (None, 0, 0.0):
                     missing_weekly_players.append(pid)
             else:
-                for week in player.get("weeks") or []:
+                weekly_data = player.get("weeks") or {}
+                if isinstance(weekly_data, dict):
+                    iterable = weekly_data.items()
+                elif isinstance(weekly_data, list):
+                    iterable = [(week.get("scoring_period"), week) for week in weekly_data]
+                else:
+                    iterable = []
+                for week_key, week in iterable:
                     try:
-                        scoring_period = int(week["scoring_period"])
-                    except (KeyError, TypeError, ValueError):
+                        scoring_period = int(week.get("scoring_period", week_key))
+                    except (AttributeError, TypeError, ValueError):
                         continue
                     weeks[str(scoring_period)] = {
                         "scoring_period": scoring_period,
-                        "fantasy_points": week.get("points"),
+                        "fantasy_points": week.get("fantasy_points", week.get("points")),
                         "stats": week.get("stats") or {},
                         "points_source": "ESPN kona_playercard",
                         "stat_id": week.get("stat_id"),
                         "season_id": week.get("season_id"),
                     }
+                if not weeks and season_total not in (None, 0, 0.0):
+                    missing_weekly_players.append(pid)
 
             for key, week in weeks.items():
                 if week.get("fantasy_points") is None:
@@ -236,15 +245,20 @@ def build():
 
     legacy_years = [str(y) for y in range(2011, 2018)]
     modern_years = [str(y) for y in range(2018, 2027)]
-    legacy_ready = all(
+    legacy_audit_seasons = legacy_audit.get("seasons") or {}
+    scoring_audit_seasons = scoring_audit.get("seasons") or {}
+    legacy_audit_complete = all(y in legacy_audit_seasons for y in legacy_years)
+    scoring_audit_complete = all(y in scoring_audit_seasons for y in modern_years)
+    legacy_ready = legacy_audit_complete and all(
         season_audit.get(y, {}).get("legacy_season_total_mismatches", 999) == 0
         and season_audit.get(y, {}).get("legacy_stat_gap_count", 999) == 0
         and season_audit.get(y, {}).get("legacy_boxscore_multiweek_mismatches", 999) == 0
         for y in legacy_years
     ) and not missing_legacy_weeks
-    modern_ready = all(
+    modern_ready = scoring_audit_complete and all(
         season_audit.get(y, {}).get("modern_scoring_mismatches", 999) == 0
         and season_audit.get(y, {}).get("modern_weekly_sum_mismatches", 999) == 0
+        and season_audit.get(y, {}).get("players_missing_weekly_data", 0) == 0
         for y in modern_years
     )
     coverage_seasons = coverage_audit.get("seasons") or {}
@@ -253,7 +267,12 @@ def build():
         and int(value.get("returned_player_ids", 0)) == int(value.get("expanded_requested_player_ids", 0))
         for value in coverage_seasons.values()
     )
-    coverage_ready = not coverage_audit.get("errors") and not source_errors and coverage_complete
+    coverage_ready = (
+        len(coverage_seasons) == len(YEARS)
+        and not coverage_audit.get("errors")
+        and not source_errors
+        and coverage_complete
+    )
     production_ready = legacy_ready and modern_ready and coverage_ready and not duplicate_player_seasons
 
     candidate = {
