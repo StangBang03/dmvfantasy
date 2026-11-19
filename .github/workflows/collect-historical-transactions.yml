@@ -57,9 +57,18 @@ jobs:
           if git diff --cached --quiet; then
             echo "No transaction data changes to commit."
           else
-            git commit -m "Add historical transaction activity through 2017"
+            git commit -m "Refresh ESPN transaction history (2011-2025)"
             git push
           fi
+
+      - name: Preserve raw ESPN transaction responses for audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: espn-raw-transactions-${{ github.run_id }}
+          path: data/raw/transactions/
+          if-no-files-found: warn
+          retention-days: 90
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
