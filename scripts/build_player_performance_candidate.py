@@ -253,6 +253,7 @@ def build():
         season_audit.get(y, {}).get("legacy_season_total_mismatches", 999) == 0
         and season_audit.get(y, {}).get("legacy_stat_gap_count", 999) == 0
         and season_audit.get(y, {}).get("legacy_boxscore_multiweek_mismatches", 999) == 0
+        and season_audit.get(y, {}).get("players_missing_weekly_data", 999) == 0
         for y in legacy_years
     ) and not missing_legacy_weeks
     modern_ready = scoring_audit_complete and all(
