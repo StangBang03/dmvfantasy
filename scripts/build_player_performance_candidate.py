@@ -217,8 +217,12 @@ def build():
     added_keys = sorted(candidate_keys - existing_keys)
     missing_keys = sorted(existing_keys - candidate_keys)
     season_total_changes = []
+    candidate_map = {
+        (int(row["season"]), int(row["player_id"])): row
+        for row in player_seasons
+    }
     for key in sorted(candidate_keys & existing_keys):
-        new = next(row for row in player_seasons if (int(row["season"]), int(row["player_id"])) == key)
+        new = candidate_map[key]
         old = existing_map[key]
         old_total = old.get("season_fantasy_points")
         new_total = new.get("season_fantasy_points")
@@ -243,7 +247,13 @@ def build():
         and season_audit.get(y, {}).get("modern_weekly_sum_mismatches", 999) == 0
         for y in modern_years
     )
-    coverage_ready = not coverage_audit.get("errors") and not source_errors
+    coverage_seasons = coverage_audit.get("seasons") or {}
+    coverage_complete = all(
+        not (value.get("missing_player_ids") or [])
+        and int(value.get("returned_player_ids", 0)) == int(value.get("expanded_requested_player_ids", 0))
+        for value in coverage_seasons.values()
+    )
+    coverage_ready = not coverage_audit.get("errors") and not source_errors and coverage_complete
     production_ready = legacy_ready and modern_ready and coverage_ready and not duplicate_player_seasons
 
     candidate = {
