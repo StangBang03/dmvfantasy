@@ -540,6 +540,8 @@ def main():
         season_records = []
         mismatch_count = 0
         multiweek_matchup_audit = []
+        direct_week_mismatches = []
+        direct_week_conflicts = []
         stat_gap_counts = Counter()
         mismatch_sample = []
         missing_season_totals = []
@@ -556,6 +558,17 @@ def main():
                 direct_unique = sorted(set(round(value, 4) for value in direct_values))
                 points = direct_unique[0] if len(direct_unique) == 1 else reconstructed_points
                 points_source = "ESPN mBoxscore appliedStatTotal" if len(direct_unique) == 1 else "ESPN game-summary reconstruction"
+                if len(direct_unique) > 1:
+                    direct_week_conflicts.append({"player_id": player_id, "week": week, "actual_values": direct_unique})
+                elif len(direct_unique) == 1 and abs(direct_unique[0] - reconstructed_points) > 0.02:
+                    direct_week_mismatches.append({
+                        "player_id": player_id,
+                        "name": player.get("player_name"),
+                        "week": week,
+                        "mBoxscore_points": direct_unique[0],
+                        "reconstructed_points": reconstructed_points,
+                        "difference": round(direct_unique[0] - reconstructed_points, 4),
+                    })
                 for stat_id, value in values.items():
                     stat_sums[int(stat_id)] += n(value)
                 weeks[str(week)] = {
@@ -609,6 +622,33 @@ def main():
                 if len(mismatch_sample) < 100:
                     mismatch_sample.append(mismatch)
 
+            for (pid, periods), actual_values in multiweek_matchup_points.items():
+                if pid != player_id:
+                    continue
+                actual_unique = sorted(set(round(value, 4) for value in actual_values))
+                if len(actual_unique) != 1:
+                    multiweek_matchup_audit.append({
+                        "player_id": pid,
+                        "periods": list(periods),
+                        "actual_values": actual_unique,
+                        "status": "conflicting_source_rows",
+                        "matches": False,
+                    })
+                    continue
+                reconstructed_sum = round(sum(
+                    n((weeks.get(str(period)) or {}).get("reconstructed_fantasy_points"))
+                    for period in periods if 1 <= period <= 17
+                ), 4)
+                actual_sum = actual_unique[0]
+                multiweek_matchup_audit.append({
+                    "player_id": pid,
+                    "periods": list(periods),
+                    "actual_matchup_points": actual_sum,
+                    "reconstructed_weekly_sum": reconstructed_sum,
+                    "difference": round(actual_sum - reconstructed_sum, 4),
+                    "matches": abs(actual_sum - reconstructed_sum) <= 0.02,
+                })
+
             season_records.append({
                 "season": year,
                 "player_id": player_id,
@@ -657,6 +697,15 @@ def main():
             "failed_summary_events": failed_events,
             "missing_player_logs": missing_player_logs,
             "missing_season_totals": missing_season_totals,
+            "boxscore_single_week_rows": sum(len(values) for values in direct_week_points.values()),
+            "boxscore_single_week_player_weeks": len(direct_week_points),
+            "boxscore_single_week_reconstruction_mismatches": len(direct_week_mismatches),
+            "boxscore_single_week_mismatch_sample": direct_week_mismatches[:50],
+            "boxscore_single_week_conflicts": direct_week_conflicts,
+            "boxscore_multiweek_rows": sum(len(values) for values in multiweek_matchup_points.values()),
+            "boxscore_multiweek_matchup_checks": len(multiweek_matchup_audit),
+            "boxscore_multiweek_mismatches": sum(1 for row in multiweek_matchup_audit if not row.get("matches", False)),
+            "boxscore_multiweek_mismatch_sample": [row for row in multiweek_matchup_audit if not row.get("matches", False)][:50],
             "mismatch_sample": mismatch_sample,
         }
         print(
