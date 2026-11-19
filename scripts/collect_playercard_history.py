@@ -326,6 +326,14 @@ def main():
             f"expanded IDs={len(ids_by_year[year])}"
         )
 
+    # The same multi-scoring-period matchup can be returned for each scoring period in it.
+    # Deduplicate the matchup-level roster rows while preserving the full scoring-period span.
+    unique_boxscore_rows = {}
+    for row in boxscore_rows:
+        key = (int(row["season"]), row.get("matchup_period"), row.get("team_id"), int(row["player_id"]))
+        unique_boxscore_rows[key] = row
+    boxscore_rows = list(unique_boxscore_rows.values())
+
     season_totals = []
     weekly_rows = []
     audit = {
