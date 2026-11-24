@@ -1,301 +1,30 @@
 [
   {
-    "person_id": "person_011",
-    "regular_season_longest_win_streak": 1,
-    "regular_season_longest_loss_streak": 10,
-    "regular_season_longest_tie_streak": 1,
-    "regular_season_current_streak": {
-      "result": "L",
-      "length": 10
-    },
-    "longest_streak_details": {
-      "W": {
-        "length": 1,
-        "start_season": 2011,
-        "start_period": 1,
-        "end_season": 2011,
-        "end_period": 1
-      },
-      "L": {
-        "length": 10,
-        "start_season": 2011,
-        "start_period": 4,
-        "end_season": 2011,
-        "end_period": 13
-      },
-      "T": {
-        "length": 1,
-        "start_season": 2011,
-        "start_period": 3,
-        "end_season": 2011,
-        "end_period": 3
-      }
-    },
-    "person_name": "George Moshogianis"
-  },
-  {
-    "person_id": "person_006",
-    "regular_season_longest_win_streak": 4,
+    "person_id": "person_001",
+    "regular_season_longest_win_streak": 7,
     "regular_season_longest_loss_streak": 6,
-    "regular_season_longest_tie_streak": 1,
-    "regular_season_current_streak": {
-      "result": "L",
-      "length": 2
-    },
-    "longest_streak_details": {
-      "L": {
-        "length": 6,
-        "start_season": 2013,
-        "start_period": 5,
-        "end_season": 2013,
-        "end_period": 10
-      },
-      "W": {
-        "length": 4,
-        "start_season": 2019,
-        "start_period": 13,
-        "end_season": 2020,
-        "end_period": 3
-      },
-      "T": {
-        "length": 1,
-        "start_season": 2017,
-        "start_period": 2,
-        "end_season": 2017,
-        "end_period": 2
-      }
-    },
-    "person_name": "Alex Christodoulou"
-  },
-  {
-    "person_id": "person_022",
-    "regular_season_longest_win_streak": 3,
-    "regular_season_longest_loss_streak": 7,
     "regular_season_longest_tie_streak": 0,
     "regular_season_current_streak": {
-      "result": "W",
-      "length": 2
+      "result": "L",
+      "length": 1
     },
     "longest_streak_details": {
       "W": {
-        "length": 3,
-        "start_season": 2019,
-        "start_period": 4,
-        "end_season": 2019,
-        "end_period": 6
-      },
-      "L": {
         "length": 7,
-        "start_season": 2018,
-        "start_period": 5,
-        "end_season": 2018,
-        "end_period": 11
-      }
-    },
-    "person_name": "Bryan Goldman"
-  },
-  {
-    "person_id": "person_009",
-    "regular_season_longest_win_streak": 5,
-    "regular_season_longest_loss_streak": 5,
-    "regular_season_longest_tie_streak": 1,
-    "regular_season_current_streak": {
-      "result": "W",
-      "length": 4
-    },
-    "longest_streak_details": {
-      "W": {
-        "length": 5,
-        "start_season": 2015,
-        "start_period": 2,
-        "end_season": 2015,
-        "end_period": 6
-      },
-      "L": {
-        "length": 5,
-        "start_season": 2016,
-        "start_period": 10,
-        "end_season": 2017,
-        "end_period": 1
-      },
-      "T": {
-        "length": 1,
         "start_season": 2013,
-        "start_period": 6,
-        "end_season": 2013,
-        "end_period": 6
-      }
-    },
-    "person_name": "Charlie Marks"
-  },
-  {
-    "person_id": "person_021",
-    "regular_season_longest_win_streak": 5,
-    "regular_season_longest_loss_streak": 3,
-    "regular_season_longest_tie_streak": 0,
-    "regular_season_current_streak": {
-      "result": "L",
-      "length": 1
-    },
-    "longest_streak_details": {
-      "L": {
-        "length": 3,
-        "start_season": 2021,
-        "start_period": 1,
-        "end_season": 2021,
-        "end_period": 3
-      },
-      "W": {
-        "length": 5,
-        "start_season": 2020,
-        "start_period": 1,
-        "end_season": 2020,
-        "end_period": 5
-      }
-    },
-    "person_name": "Andrew Carlson"
-  },
-  {
-    "person_id": "person_008",
-    "regular_season_longest_win_streak": 3,
-    "regular_season_longest_loss_streak": 3,
-    "regular_season_longest_tie_streak": 0,
-    "regular_season_current_streak": {
-      "result": "W",
-      "length": 1
-    },
-    "longest_streak_details": {
-      "L": {
-        "length": 3,
-        "start_season": 2011,
-        "start_period": 6,
-        "end_season": 2011,
-        "end_period": 8
-      },
-      "W": {
-        "length": 3,
-        "start_season": 2011,
-        "start_period": 9,
-        "end_season": 2011,
-        "end_period": 11
-      }
-    },
-    "person_name": "Andreas Moshogianis"
-  },
-  {
-    "person_id": "person_024",
-    "regular_season_longest_win_streak": 6,
-    "regular_season_longest_loss_streak": 5,
-    "regular_season_longest_tie_streak": 0,
-    "regular_season_current_streak": {
-      "result": "L",
-      "length": 3
-    },
-    "longest_streak_details": {
-      "W": {
-        "length": 6,
-        "start_season": 2022,
-        "start_period": 8,
-        "end_season": 2022,
-        "end_period": 13
-      },
-      "L": {
-        "length": 5,
-        "start_season": 2025,
-        "start_period": 1,
-        "end_season": 2025,
-        "end_period": 5
-      }
-    },
-    "person_name": "Joe Klass"
-  },
-  {
-    "person_id": "person_019",
-    "regular_season_longest_win_streak": 8,
-    "regular_season_longest_loss_streak": 7,
-    "regular_season_longest_tie_streak": 1,
-    "regular_season_current_streak": {
-      "result": "L",
-      "length": 1
-    },
-    "longest_streak_details": {
-      "L": {
-        "length": 7,
-        "start_season": 2017,
-        "start_period": 9,
-        "end_season": 2018,
-        "end_period": 2
-      },
-      "W": {
-        "length": 8,
-        "start_season": 2025,
         "start_period": 3,
-        "end_season": 2025,
-        "end_period": 10
-      },
-      "T": {
-        "length": 1,
-        "start_season": 2017,
-        "start_period": 2,
-        "end_season": 2017,
-        "end_period": 2
-      }
-    },
-    "person_name": "Jacob Hiner"
-  },
-  {
-    "person_id": "person_003",
-    "regular_season_longest_win_streak": 5,
-    "regular_season_longest_loss_streak": 4,
-    "regular_season_longest_tie_streak": 0,
-    "regular_season_current_streak": {
-      "result": "L",
-      "length": 1
-    },
-    "longest_streak_details": {
-      "W": {
-        "length": 5,
-        "start_season": 2012,
-        "start_period": 1,
-        "end_season": 2012,
-        "end_period": 5
-      },
-      "L": {
-        "length": 4,
-        "start_season": 2014,
-        "start_period": 6,
-        "end_season": 2014,
-        "end_period": 9
-      }
-    },
-    "person_name": "Brian Oliver"
-  },
-  {
-    "person_id": "person_012",
-    "regular_season_longest_win_streak": 4,
-    "regular_season_longest_loss_streak": 4,
-    "regular_season_longest_tie_streak": 0,
-    "regular_season_current_streak": {
-      "result": "L",
-      "length": 2
-    },
-    "longest_streak_details": {
-      "W": {
-        "length": 4,
-        "start_season": 2012,
-        "start_period": 6,
-        "end_season": 2012,
+        "end_season": 2013,
         "end_period": 9
       },
       "L": {
-        "length": 4,
-        "start_season": 2012,
-        "start_period": 2,
-        "end_season": 2012,
-        "end_period": 5
+        "length": 6,
+        "start_season": 2024,
+        "start_period": 8,
+        "end_season": 2024,
+        "end_period": 13
       }
     },
-    "person_name": "Brandon Spaeth"
+    "person_name": "Chris Jackson"
   },
   {
     "person_id": "person_002",
@@ -332,31 +61,31 @@
     "person_name": "David Yates"
   },
   {
-    "person_id": "person_010",
-    "regular_season_longest_win_streak": 2,
+    "person_id": "person_003",
+    "regular_season_longest_win_streak": 5,
     "regular_season_longest_loss_streak": 4,
     "regular_season_longest_tie_streak": 0,
     "regular_season_current_streak": {
-      "result": "W",
+      "result": "L",
       "length": 1
     },
     "longest_streak_details": {
+      "W": {
+        "length": 5,
+        "start_season": 2012,
+        "start_period": 1,
+        "end_season": 2012,
+        "end_period": 5
+      },
       "L": {
         "length": 4,
-        "start_season": 2011,
+        "start_season": 2014,
         "start_period": 6,
-        "end_season": 2011,
+        "end_season": 2014,
         "end_period": 9
-      },
-      "W": {
-        "length": 2,
-        "start_season": 2011,
-        "start_period": 2,
-        "end_season": 2011,
-        "end_period": 3
       }
     },
-    "person_name": "Dex Doyle"
+    "person_name": "Brian Oliver"
   },
   {
     "person_id": "person_004",
@@ -393,114 +122,6 @@
     "person_name": "Chris Smith"
   },
   {
-    "person_id": "person_025",
-    "regular_season_longest_win_streak": 5,
-    "regular_season_longest_loss_streak": 7,
-    "regular_season_longest_tie_streak": 0,
-    "regular_season_current_streak": {
-      "result": "W",
-      "length": 5
-    },
-    "longest_streak_details": {
-      "L": {
-        "length": 7,
-        "start_season": 2024,
-        "start_period": 3,
-        "end_season": 2024,
-        "end_period": 9
-      },
-      "W": {
-        "length": 5,
-        "start_season": 2024,
-        "start_period": 14,
-        "end_season": 2025,
-        "end_period": 4
-      }
-    },
-    "person_name": "Oscar Canales"
-  },
-  {
-    "person_id": "person_023",
-    "regular_season_longest_win_streak": 7,
-    "regular_season_longest_loss_streak": 6,
-    "regular_season_longest_tie_streak": 0,
-    "regular_season_current_streak": {
-      "result": "L",
-      "length": 1
-    },
-    "longest_streak_details": {
-      "L": {
-        "length": 6,
-        "start_season": 2020,
-        "start_period": 13,
-        "end_season": 2021,
-        "end_period": 5
-      },
-      "W": {
-        "length": 7,
-        "start_season": 2022,
-        "start_period": 1,
-        "end_season": 2022,
-        "end_period": 7
-      }
-    },
-    "person_name": "Nicole Carlson"
-  },
-  {
-    "person_id": "person_013",
-    "regular_season_longest_win_streak": 1,
-    "regular_season_longest_loss_streak": 7,
-    "regular_season_longest_tie_streak": 0,
-    "regular_season_current_streak": {
-      "result": "L",
-      "length": 7
-    },
-    "longest_streak_details": {
-      "L": {
-        "length": 7,
-        "start_season": 2012,
-        "start_period": 7,
-        "end_season": 2012,
-        "end_period": 13
-      },
-      "W": {
-        "length": 1,
-        "start_season": 2012,
-        "start_period": 6,
-        "end_season": 2012,
-        "end_period": 6
-      }
-    },
-    "person_name": "Robbie Law"
-  },
-  {
-    "person_id": "person_027",
-    "regular_season_longest_win_streak": 4,
-    "regular_season_longest_loss_streak": 4,
-    "regular_season_longest_tie_streak": 0,
-    "regular_season_current_streak": {
-      "result": "W",
-      "length": 1
-    },
-    "longest_streak_details": {
-      "L": {
-        "length": 4,
-        "start_season": 2023,
-        "start_period": 8,
-        "end_season": 2023,
-        "end_period": 11
-      },
-      "W": {
-        "length": 4,
-        "start_season": 2024,
-        "start_period": 10,
-        "end_season": 2024,
-        "end_period": 13
-      }
-    },
-    "person_name": "Gregory Trakas"
-  },
-  {
     "person_id": "person_005",
     "regular_season_longest_win_streak": 2,
     "regular_season_longest_loss_streak": 1,
@@ -528,200 +149,38 @@
     "person_name": "Zach Davis"
   },
   {
-    "person_id": "person_026",
-    "regular_season_longest_win_streak": 5,
-    "regular_season_longest_loss_streak": 4,
-    "regular_season_longest_tie_streak": 0,
-    "regular_season_current_streak": {
-      "result": "L",
-      "length": 2
-    },
-    "longest_streak_details": {
-      "W": {
-        "length": 5,
-        "start_season": 2023,
-        "start_period": 6,
-        "end_season": 2023,
-        "end_period": 10
-      },
-      "L": {
-        "length": 4,
-        "start_season": 2023,
-        "start_period": 2,
-        "end_season": 2023,
-        "end_period": 5
-      }
-    },
-    "person_name": "Luke Duncan"
-  },
-  {
-    "person_id": "person_018",
-    "regular_season_longest_win_streak": 5,
+    "person_id": "person_006",
+    "regular_season_longest_win_streak": 4,
     "regular_season_longest_loss_streak": 6,
-    "regular_season_longest_tie_streak": 0,
-    "regular_season_current_streak": {
-      "result": "W",
-      "length": 4
-    },
-    "longest_streak_details": {
-      "W": {
-        "length": 5,
-        "start_season": 2016,
-        "start_period": 1,
-        "end_season": 2016,
-        "end_period": 5
-      },
-      "L": {
-        "length": 6,
-        "start_season": 2018,
-        "start_period": 5,
-        "end_season": 2018,
-        "end_period": 10
-      }
-    },
-    "person_name": "Alex Boeckler"
-  },
-  {
-    "person_id": "person_016",
-    "regular_season_longest_win_streak": 2,
-    "regular_season_longest_loss_streak": 7,
-    "regular_season_longest_tie_streak": 0,
-    "regular_season_current_streak": {
-      "result": "L",
-      "length": 3
-    },
-    "longest_streak_details": {
-      "L": {
-        "length": 7,
-        "start_season": 2015,
-        "start_period": 3,
-        "end_season": 2015,
-        "end_period": 9
-      },
-      "W": {
-        "length": 2,
-        "start_season": 2014,
-        "start_period": 7,
-        "end_season": 2014,
-        "end_period": 8
-      }
-    },
-    "person_name": "Jeremy Ramlagan"
-  },
-  {
-    "person_id": "person_015",
-    "regular_season_longest_win_streak": 9,
-    "regular_season_longest_loss_streak": 6,
-    "regular_season_longest_tie_streak": 0,
-    "regular_season_current_streak": {
-      "result": "W",
-      "length": 1
-    },
-    "longest_streak_details": {
-      "L": {
-        "length": 6,
-        "start_season": 2023,
-        "start_period": 9,
-        "end_season": 2023,
-        "end_period": 14
-      },
-      "W": {
-        "length": 9,
-        "start_season": 2022,
-        "start_period": 12,
-        "end_season": 2023,
-        "end_period": 6
-      }
-    },
-    "person_name": "Ryan Cassidy"
-  },
-  {
-    "person_id": "person_020",
-    "regular_season_longest_win_streak": 5,
-    "regular_season_longest_loss_streak": 6,
-    "regular_season_longest_tie_streak": 0,
-    "regular_season_current_streak": {
-      "result": "L",
-      "length": 2
-    },
-    "longest_streak_details": {
-      "L": {
-        "length": 6,
-        "start_season": 2022,
-        "start_period": 2,
-        "end_season": 2022,
-        "end_period": 7
-      },
-      "W": {
-        "length": 5,
-        "start_season": 2023,
-        "start_period": 6,
-        "end_season": 2023,
-        "end_period": 10
-      }
-    },
-    "person_name": "Brittany Chairs"
-  },
-  {
-    "person_id": "person_014",
-    "regular_season_longest_win_streak": 5,
-    "regular_season_longest_loss_streak": 10,
     "regular_season_longest_tie_streak": 1,
     "regular_season_current_streak": {
-      "result": "W",
+      "result": "L",
       "length": 2
     },
     "longest_streak_details": {
-      "W": {
-        "length": 5,
-        "start_season": 2012,
-        "start_period": 1,
-        "end_season": 2012,
-        "end_period": 5
-      },
       "L": {
-        "length": 10,
+        "length": 6,
         "start_season": 2013,
+        "start_period": 5,
+        "end_season": 2013,
+        "end_period": 10
+      },
+      "W": {
+        "length": 4,
+        "start_season": 2019,
         "start_period": 13,
-        "end_season": 2014,
-        "end_period": 9
+        "end_season": 2020,
+        "end_period": 3
       },
       "T": {
         "length": 1,
-        "start_season": 2013,
+        "start_season": 2017,
         "start_period": 2,
-        "end_season": 2013,
+        "end_season": 2017,
         "end_period": 2
       }
     },
-    "person_name": "Jason Weisberg"
-  },
-  {
-    "person_id": "person_017",
-    "regular_season_longest_win_streak": 2,
-    "regular_season_longest_loss_streak": 5,
-    "regular_season_longest_tie_streak": 0,
-    "regular_season_current_streak": {
-      "result": "L",
-      "length": 1
-    },
-    "longest_streak_details": {
-      "L": {
-        "length": 5,
-        "start_season": 2016,
-        "start_period": 4,
-        "end_season": 2016,
-        "end_period": 8
-      },
-      "W": {
-        "length": 2,
-        "start_season": 2016,
-        "start_period": 2,
-        "end_season": 2016,
-        "end_period": 3
-      }
-    },
-    "person_name": "Max Spitalny"
+    "person_name": "Alex Christodoulou"
   },
   {
     "person_id": "person_007",
@@ -758,7 +217,440 @@
     "person_name": "Nicholas Christodoulou"
   },
   {
-    "person_id": "person_001",
+    "person_id": "person_008",
+    "regular_season_longest_win_streak": 3,
+    "regular_season_longest_loss_streak": 3,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "W",
+      "length": 1
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 3,
+        "start_season": 2011,
+        "start_period": 6,
+        "end_season": 2011,
+        "end_period": 8
+      },
+      "W": {
+        "length": 3,
+        "start_season": 2011,
+        "start_period": 9,
+        "end_season": 2011,
+        "end_period": 11
+      }
+    },
+    "person_name": "Andreas Moshogianis"
+  },
+  {
+    "person_id": "person_009",
+    "regular_season_longest_win_streak": 5,
+    "regular_season_longest_loss_streak": 5,
+    "regular_season_longest_tie_streak": 1,
+    "regular_season_current_streak": {
+      "result": "W",
+      "length": 4
+    },
+    "longest_streak_details": {
+      "W": {
+        "length": 5,
+        "start_season": 2015,
+        "start_period": 2,
+        "end_season": 2015,
+        "end_period": 6
+      },
+      "L": {
+        "length": 5,
+        "start_season": 2016,
+        "start_period": 10,
+        "end_season": 2017,
+        "end_period": 1
+      },
+      "T": {
+        "length": 1,
+        "start_season": 2013,
+        "start_period": 6,
+        "end_season": 2013,
+        "end_period": 6
+      }
+    },
+    "person_name": "Charlie Marks"
+  },
+  {
+    "person_id": "person_010",
+    "regular_season_longest_win_streak": 2,
+    "regular_season_longest_loss_streak": 4,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "W",
+      "length": 1
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 4,
+        "start_season": 2011,
+        "start_period": 6,
+        "end_season": 2011,
+        "end_period": 9
+      },
+      "W": {
+        "length": 2,
+        "start_season": 2011,
+        "start_period": 2,
+        "end_season": 2011,
+        "end_period": 3
+      }
+    },
+    "person_name": "Dex Doyle"
+  },
+  {
+    "person_id": "person_011",
+    "regular_season_longest_win_streak": 1,
+    "regular_season_longest_loss_streak": 10,
+    "regular_season_longest_tie_streak": 1,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 10
+    },
+    "longest_streak_details": {
+      "W": {
+        "length": 1,
+        "start_season": 2011,
+        "start_period": 1,
+        "end_season": 2011,
+        "end_period": 1
+      },
+      "L": {
+        "length": 10,
+        "start_season": 2011,
+        "start_period": 4,
+        "end_season": 2011,
+        "end_period": 13
+      },
+      "T": {
+        "length": 1,
+        "start_season": 2011,
+        "start_period": 3,
+        "end_season": 2011,
+        "end_period": 3
+      }
+    },
+    "person_name": "George Moshogianis"
+  },
+  {
+    "person_id": "person_012",
+    "regular_season_longest_win_streak": 4,
+    "regular_season_longest_loss_streak": 4,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 2
+    },
+    "longest_streak_details": {
+      "W": {
+        "length": 4,
+        "start_season": 2012,
+        "start_period": 6,
+        "end_season": 2012,
+        "end_period": 9
+      },
+      "L": {
+        "length": 4,
+        "start_season": 2012,
+        "start_period": 2,
+        "end_season": 2012,
+        "end_period": 5
+      }
+    },
+    "person_name": "Brandon Spaeth"
+  },
+  {
+    "person_id": "person_013",
+    "regular_season_longest_win_streak": 1,
+    "regular_season_longest_loss_streak": 7,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 7
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 7,
+        "start_season": 2012,
+        "start_period": 7,
+        "end_season": 2012,
+        "end_period": 13
+      },
+      "W": {
+        "length": 1,
+        "start_season": 2012,
+        "start_period": 6,
+        "end_season": 2012,
+        "end_period": 6
+      }
+    },
+    "person_name": "Robbie Law"
+  },
+  {
+    "person_id": "person_014",
+    "regular_season_longest_win_streak": 5,
+    "regular_season_longest_loss_streak": 10,
+    "regular_season_longest_tie_streak": 1,
+    "regular_season_current_streak": {
+      "result": "W",
+      "length": 2
+    },
+    "longest_streak_details": {
+      "W": {
+        "length": 5,
+        "start_season": 2012,
+        "start_period": 1,
+        "end_season": 2012,
+        "end_period": 5
+      },
+      "L": {
+        "length": 10,
+        "start_season": 2013,
+        "start_period": 13,
+        "end_season": 2014,
+        "end_period": 9
+      },
+      "T": {
+        "length": 1,
+        "start_season": 2013,
+        "start_period": 2,
+        "end_season": 2013,
+        "end_period": 2
+      }
+    },
+    "person_name": "Jason Weisberg"
+  },
+  {
+    "person_id": "person_015",
+    "regular_season_longest_win_streak": 9,
+    "regular_season_longest_loss_streak": 6,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "W",
+      "length": 1
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 6,
+        "start_season": 2023,
+        "start_period": 9,
+        "end_season": 2023,
+        "end_period": 14
+      },
+      "W": {
+        "length": 9,
+        "start_season": 2022,
+        "start_period": 12,
+        "end_season": 2023,
+        "end_period": 6
+      }
+    },
+    "person_name": "Ryan Cassidy"
+  },
+  {
+    "person_id": "person_016",
+    "regular_season_longest_win_streak": 2,
+    "regular_season_longest_loss_streak": 7,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 3
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 7,
+        "start_season": 2015,
+        "start_period": 3,
+        "end_season": 2015,
+        "end_period": 9
+      },
+      "W": {
+        "length": 2,
+        "start_season": 2014,
+        "start_period": 7,
+        "end_season": 2014,
+        "end_period": 8
+      }
+    },
+    "person_name": "Jeremy Ramlagan"
+  },
+  {
+    "person_id": "person_017",
+    "regular_season_longest_win_streak": 2,
+    "regular_season_longest_loss_streak": 5,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 1
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 5,
+        "start_season": 2016,
+        "start_period": 4,
+        "end_season": 2016,
+        "end_period": 8
+      },
+      "W": {
+        "length": 2,
+        "start_season": 2016,
+        "start_period": 2,
+        "end_season": 2016,
+        "end_period": 3
+      }
+    },
+    "person_name": "Max Spitalny"
+  },
+  {
+    "person_id": "person_018",
+    "regular_season_longest_win_streak": 5,
+    "regular_season_longest_loss_streak": 6,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "W",
+      "length": 4
+    },
+    "longest_streak_details": {
+      "W": {
+        "length": 5,
+        "start_season": 2016,
+        "start_period": 1,
+        "end_season": 2016,
+        "end_period": 5
+      },
+      "L": {
+        "length": 6,
+        "start_season": 2018,
+        "start_period": 5,
+        "end_season": 2018,
+        "end_period": 10
+      }
+    },
+    "person_name": "Alex Boeckler"
+  },
+  {
+    "person_id": "person_019",
+    "regular_season_longest_win_streak": 8,
+    "regular_season_longest_loss_streak": 7,
+    "regular_season_longest_tie_streak": 1,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 1
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 7,
+        "start_season": 2017,
+        "start_period": 9,
+        "end_season": 2018,
+        "end_period": 2
+      },
+      "W": {
+        "length": 8,
+        "start_season": 2025,
+        "start_period": 3,
+        "end_season": 2025,
+        "end_period": 10
+      },
+      "T": {
+        "length": 1,
+        "start_season": 2017,
+        "start_period": 2,
+        "end_season": 2017,
+        "end_period": 2
+      }
+    },
+    "person_name": "Jacob Hiner"
+  },
+  {
+    "person_id": "person_020",
+    "regular_season_longest_win_streak": 5,
+    "regular_season_longest_loss_streak": 6,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 2
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 6,
+        "start_season": 2022,
+        "start_period": 2,
+        "end_season": 2022,
+        "end_period": 7
+      },
+      "W": {
+        "length": 5,
+        "start_season": 2023,
+        "start_period": 6,
+        "end_season": 2023,
+        "end_period": 10
+      }
+    },
+    "person_name": "Brittany Chairs"
+  },
+  {
+    "person_id": "person_021",
+    "regular_season_longest_win_streak": 5,
+    "regular_season_longest_loss_streak": 3,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 1
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 3,
+        "start_season": 2021,
+        "start_period": 1,
+        "end_season": 2021,
+        "end_period": 3
+      },
+      "W": {
+        "length": 5,
+        "start_season": 2020,
+        "start_period": 1,
+        "end_season": 2020,
+        "end_period": 5
+      }
+    },
+    "person_name": "Andrew Carlson"
+  },
+  {
+    "person_id": "person_022",
+    "regular_season_longest_win_streak": 3,
+    "regular_season_longest_loss_streak": 7,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "W",
+      "length": 2
+    },
+    "longest_streak_details": {
+      "W": {
+        "length": 3,
+        "start_season": 2019,
+        "start_period": 4,
+        "end_season": 2019,
+        "end_period": 6
+      },
+      "L": {
+        "length": 7,
+        "start_season": 2018,
+        "start_period": 5,
+        "end_season": 2018,
+        "end_period": 11
+      }
+    },
+    "person_name": "Bryan Goldman"
+  },
+  {
+    "person_id": "person_023",
     "regular_season_longest_win_streak": 7,
     "regular_season_longest_loss_streak": 6,
     "regular_season_longest_tie_streak": 0,
@@ -767,21 +659,129 @@
       "length": 1
     },
     "longest_streak_details": {
-      "W": {
-        "length": 7,
-        "start_season": 2013,
-        "start_period": 3,
-        "end_season": 2013,
-        "end_period": 9
-      },
       "L": {
         "length": 6,
-        "start_season": 2024,
+        "start_season": 2020,
+        "start_period": 13,
+        "end_season": 2021,
+        "end_period": 5
+      },
+      "W": {
+        "length": 7,
+        "start_season": 2022,
+        "start_period": 1,
+        "end_season": 2022,
+        "end_period": 7
+      }
+    },
+    "person_name": "Nicole Carlson"
+  },
+  {
+    "person_id": "person_024",
+    "regular_season_longest_win_streak": 6,
+    "regular_season_longest_loss_streak": 5,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 3
+    },
+    "longest_streak_details": {
+      "W": {
+        "length": 6,
+        "start_season": 2022,
         "start_period": 8,
+        "end_season": 2022,
+        "end_period": 13
+      },
+      "L": {
+        "length": 5,
+        "start_season": 2025,
+        "start_period": 1,
+        "end_season": 2025,
+        "end_period": 5
+      }
+    },
+    "person_name": "Joe Klass"
+  },
+  {
+    "person_id": "person_025",
+    "regular_season_longest_win_streak": 5,
+    "regular_season_longest_loss_streak": 7,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "W",
+      "length": 5
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 7,
+        "start_season": 2024,
+        "start_period": 3,
+        "end_season": 2024,
+        "end_period": 9
+      },
+      "W": {
+        "length": 5,
+        "start_season": 2024,
+        "start_period": 14,
+        "end_season": 2025,
+        "end_period": 4
+      }
+    },
+    "person_name": "Oscar Canales"
+  },
+  {
+    "person_id": "person_026",
+    "regular_season_longest_win_streak": 5,
+    "regular_season_longest_loss_streak": 4,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "L",
+      "length": 2
+    },
+    "longest_streak_details": {
+      "W": {
+        "length": 5,
+        "start_season": 2023,
+        "start_period": 6,
+        "end_season": 2023,
+        "end_period": 10
+      },
+      "L": {
+        "length": 4,
+        "start_season": 2023,
+        "start_period": 2,
+        "end_season": 2023,
+        "end_period": 5
+      }
+    },
+    "person_name": "Luke Duncan"
+  },
+  {
+    "person_id": "person_027",
+    "regular_season_longest_win_streak": 4,
+    "regular_season_longest_loss_streak": 4,
+    "regular_season_longest_tie_streak": 0,
+    "regular_season_current_streak": {
+      "result": "W",
+      "length": 1
+    },
+    "longest_streak_details": {
+      "L": {
+        "length": 4,
+        "start_season": 2023,
+        "start_period": 8,
+        "end_season": 2023,
+        "end_period": 11
+      },
+      "W": {
+        "length": 4,
+        "start_season": 2024,
+        "start_period": 10,
         "end_season": 2024,
         "end_period": 13
       }
     },
-    "person_name": "Chris Jackson"
+    "person_name": "Gregory Trakas"
   }
 ]

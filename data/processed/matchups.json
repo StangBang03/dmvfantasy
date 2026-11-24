@@ -20066,7 +20066,7 @@
     "away_team_id": 3,
     "home_person_id": "person_027",
     "away_person_id": "person_004",
-    "home_score": 98,
+    "home_score": 98.0,
     "away_score": 98.82
   },
   {
@@ -20111,7 +20111,7 @@
     "away_team_id": 6,
     "home_person_id": "person_002",
     "away_person_id": "person_007",
-    "home_score": 125,
+    "home_score": 125.0,
     "away_score": 112.98
   },
   {
@@ -20351,7 +20351,7 @@
     "away_team_id": 8,
     "home_person_id": "person_019",
     "away_person_id": "person_009",
-    "home_score": 120,
+    "home_score": 120.0,
     "away_score": 100.06
   },
   {
@@ -20915,14 +20915,14 @@
     "matchup_period_id": 11,
     "scoring_period_id": null,
     "playoff_tier_type": "NONE",
-    "winner": "UNDECIDED",
-    "winner_team_id": null,
+    "winner": "AWAY",
+    "winner_team_id": 1,
     "home_team_id": 8,
     "away_team_id": 1,
     "home_person_id": "person_009",
     "away_person_id": "person_002",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 101.54,
+    "away_score": 135.06
   },
   {
     "season": 2026,
@@ -20930,14 +20930,14 @@
     "matchup_period_id": 11,
     "scoring_period_id": null,
     "playoff_tier_type": "NONE",
-    "winner": "UNDECIDED",
-    "winner_team_id": null,
+    "winner": "HOME",
+    "winner_team_id": 19,
     "home_team_id": 19,
     "away_team_id": 17,
     "home_person_id": "person_024",
     "away_person_id": "person_026",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 113.88,
+    "away_score": 85.04
   },
   {
     "season": 2026,
@@ -20945,14 +20945,14 @@
     "matchup_period_id": 11,
     "scoring_period_id": null,
     "playoff_tier_type": "NONE",
-    "winner": "UNDECIDED",
-    "winner_team_id": null,
+    "winner": "AWAY",
+    "winner_team_id": 6,
     "home_team_id": 18,
     "away_team_id": 6,
     "home_person_id": "person_027",
     "away_person_id": "person_007",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 102.04,
+    "away_score": 124.46
   },
   {
     "season": 2026,
@@ -20960,14 +20960,14 @@
     "matchup_period_id": 11,
     "scoring_period_id": null,
     "playoff_tier_type": "NONE",
-    "winner": "UNDECIDED",
-    "winner_team_id": null,
+    "winner": "AWAY",
+    "winner_team_id": 15,
     "home_team_id": 14,
     "away_team_id": 15,
     "home_person_id": "person_019",
     "away_person_id": "person_001",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 129.2,
+    "away_score": 140.6
   },
   {
     "season": 2026,
@@ -20975,14 +20975,14 @@
     "matchup_period_id": 11,
     "scoring_period_id": null,
     "playoff_tier_type": "NONE",
-    "winner": "UNDECIDED",
-    "winner_team_id": null,
+    "winner": "AWAY",
+    "winner_team_id": 3,
     "home_team_id": 11,
     "away_team_id": 3,
     "home_person_id": "person_015",
     "away_person_id": "person_004",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 115.86,
+    "away_score": 126.16
   },
   {
     "season": 2026,
@@ -20990,14 +20990,14 @@
     "matchup_period_id": 11,
     "scoring_period_id": null,
     "playoff_tier_type": "NONE",
-    "winner": "UNDECIDED",
-    "winner_team_id": null,
+    "winner": "HOME",
+    "winner_team_id": 16,
     "home_team_id": 16,
     "away_team_id": 20,
     "home_person_id": "person_021",
     "away_person_id": "person_025",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 130.3,
+    "away_score": 89.86
   },
   {
     "season": 2026,
@@ -21011,8 +21011,8 @@
     "away_team_id": 17,
     "home_person_id": "person_002",
     "away_person_id": "person_026",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 0.0,
+    "away_score": 0.0
   },
   {
     "season": 2026,
@@ -21026,8 +21026,8 @@
     "away_team_id": 8,
     "home_person_id": "person_007",
     "away_person_id": "person_009",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 0.0,
+    "away_score": 0.0
   },
   {
     "season": 2026,
@@ -21041,8 +21041,8 @@
     "away_team_id": 19,
     "home_person_id": "person_001",
     "away_person_id": "person_024",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 0.0,
+    "away_score": 0.0
   },
   {
     "season": 2026,
@@ -21056,8 +21056,8 @@
     "away_team_id": 18,
     "home_person_id": "person_004",
     "away_person_id": "person_027",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 0.0,
+    "away_score": 0.0
   },
   {
     "season": 2026,
@@ -21071,8 +21071,8 @@
     "away_team_id": 14,
     "home_person_id": "person_025",
     "away_person_id": "person_019",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 0.0,
+    "away_score": 0.0
   },
   {
     "season": 2026,
@@ -21086,8 +21086,8 @@
     "away_team_id": 11,
     "home_person_id": "person_021",
     "away_person_id": "person_015",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 0.0,
+    "away_score": 0.0
   },
   {
     "season": 2026,
@@ -21101,8 +21101,8 @@
     "away_team_id": 1,
     "home_person_id": "person_007",
     "away_person_id": "person_002",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 0.0,
+    "away_score": 0.0
   },
   {
     "season": 2026,
@@ -21116,8 +21116,8 @@
     "away_team_id": 15,
     "home_person_id": "person_026",
     "away_person_id": "person_001",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 0.0,
+    "away_score": 0.0
   },
   {
     "season": 2026,
@@ -21131,8 +21131,8 @@
     "away_team_id": 3,
     "home_person_id": "person_009",
     "away_person_id": "person_004",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 0.0,
+    "away_score": 0.0
   },
   {
     "season": 2026,
@@ -21146,8 +21146,8 @@
     "away_team_id": 20,
     "home_person_id": "person_024",
     "away_person_id": "person_025",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 0.0,
+    "away_score": 0.0
   },
   {
     "season": 2026,
@@ -21161,8 +21161,8 @@
     "away_team_id": 16,
     "home_person_id": "person_027",
     "away_person_id": "person_021",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 0.0,
+    "away_score": 0.0
   },
   {
     "season": 2026,
@@ -21176,8 +21176,8 @@
     "away_team_id": 11,
     "home_person_id": "person_019",
     "away_person_id": "person_015",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 0.0,
+    "away_score": 0.0
   },
   {
     "season": 2026,
@@ -21191,8 +21191,8 @@
     "away_team_id": 15,
     "home_person_id": "person_002",
     "away_person_id": "person_001",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 0.0,
+    "away_score": 0.0
   },
   {
     "season": 2026,
@@ -21206,8 +21206,8 @@
     "away_team_id": 6,
     "home_person_id": "person_004",
     "away_person_id": "person_007",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 0.0,
+    "away_score": 0.0
   },
   {
     "season": 2026,
@@ -21221,8 +21221,8 @@
     "away_team_id": 17,
     "home_person_id": "person_025",
     "away_person_id": "person_026",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 0.0,
+    "away_score": 0.0
   },
   {
     "season": 2026,
@@ -21236,8 +21236,8 @@
     "away_team_id": 8,
     "home_person_id": "person_021",
     "away_person_id": "person_009",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 0.0,
+    "away_score": 0.0
   },
   {
     "season": 2026,
@@ -21251,8 +21251,8 @@
     "away_team_id": 19,
     "home_person_id": "person_015",
     "away_person_id": "person_024",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 0.0,
+    "away_score": 0.0
   },
   {
     "season": 2026,
@@ -21266,7 +21266,7 @@
     "away_team_id": 18,
     "home_person_id": "person_019",
     "away_person_id": "person_027",
-    "home_score": 0,
-    "away_score": 0
+    "home_score": 0.0,
+    "away_score": 0.0
   }
 ]
