@@ -81,6 +81,11 @@ jobs:
         with:
           path: _site
 
+      # The Pages artifact can take a moment to become visible to the deployment API.
+      # Avoid racing artifact upload finalization against deploy-pages metadata lookup.
+      - name: Wait for Pages artifact metadata
+        run: sleep 15
+
       - name: Deploy site
         id: deployment
         uses: actions/deploy-pages@v4
